@@ -11,16 +11,25 @@ class Automatones(Aplicacion.Aplicacion):
 	
 		self.mapaReglas = {}
 		self.grilla =[[]]
-		self.grillaOpciones = {"medio":self.iniciarGrillaMedio,"vacia":self.iniciarGrillaVacia,"llena":self.iniciarGrillaLlena,"random":self.iniciarGrillaRandom}
+		self.grillaOpciones = {"medio":self.iniciarGrillaMedio,
+								"vacia":self.iniciarGrillaVacia,
+								"llena":self.iniciarGrillaLlena,
+								"random":self.iniciarGrillaRandom,
+								"principio":self.iniciarGrillaPrincipio,
+								"final":self.inciarGrillaFinal}
 		
 		self.vars["charset"] = Variable([".","#"],self.modifCharSet) 
 		self.vars["tamano"] = Variable(11,self.modifTamano,minimo=2) 
 		self.vars["iteraciones"] = Variable(10,self.modifGenerico,minimo=1) 
 		self.vars["regla"] = Variable(110,self.modifRegla,minimo=0,maximo=255) # 01101110 bin = 110 dec
-		self.vars["funcioniniciadora"] = Variable("random",self.modifFuncionGeneradora)
+		self.vars["grillaInicial"] = Variable("medio",self.modifFuncionGeneradora)
 
 		leaf1 = Leaf("Generar","Escribe el archivo de salida con el automata configurado",self.generar)
+		leaf2 = Leaf("pasar a decimal","pasar un numero binario a decimal",self.pasarADecimal)
+		leaf3 = Leaf("pasar a binario","pasar un numero decimal a binario",self.pasarABinario)
 		self.agregarMenu(0,leaf1)
+		self.agregarMenu(-2,leaf2)
+		self.agregarMenu(-2,leaf3)
 		
 		self.agregarPostFunciones(self.generar)
 		
@@ -29,21 +38,31 @@ class Automatones(Aplicacion.Aplicacion):
 
 	def iniciarGrilla(self):
 		self.grilla = [[]]	
-		clave = self.vars["funcioniniciadora"].valor
+		clave = self.vars["grillaInicial"].valor
 		self.grillaOpciones[clave]()
 	
 	def inciarGrillaFinal(self):
-		pass
+		self.grilla = [[]]
+		for i in range(0,self.vars["tamano"].valor):
+			if(i == self.vars["tamano"].valor - 1):
+				self.grilla[0].append("1")
+			else:
+				self.grilla[0].append("0")
 		
 	def iniciarGrillaPrincipio(self):
-		pass
+		self.grilla = [[]]
+		for i in range(0,self.vars["tamano"].valor):
+			if(i == 0):
+				self.grilla[0].append("1")
+			else:
+				self.grilla[0].append("0")
 		
 	def iniciarGrillaMedio(self):
 		self.grilla = [[]]
-		mitad = math.ceil(self.vars["tamano"].valor/2.0)		
+		mitad =self.vars["tamano"].valor/2
 		espar = not(self.vars["tamano"].valor%2)
 		for i in range(0,self.vars["tamano"].valor):
-			if(i == mitad or (espar and i == mitad+1)):
+			if(i == mitad or (espar and i == mitad-1)):
 				self.grilla[0].append("1")
 			else:
 				self.grilla[0].append("0")
@@ -79,7 +98,7 @@ class Automatones(Aplicacion.Aplicacion):
 		self.vars["charset"].valor[1] = validador.ingresar(str)
 
 	def modifRegla(self,key):
-		regla = validador.ingresar(str,validador.entre,self.vars["regla"].minimo,self.vars["regla"].maximo)
+		regla = validador.ingresar(int,validador.entre,self.vars["regla"].minimo,self.vars["regla"].maximo)
 		
 		self.vars["regla"].valor = regla
 		
@@ -92,8 +111,7 @@ class Automatones(Aplicacion.Aplicacion):
 		self.mapaReglas["010"] = regla[5]
 		self.mapaReglas["001"] = regla[6]
 		self.mapaReglas["000"] = regla[7]	
-		
-		
+			
 	def modifGrilla(self,key):
 		pass
 	
@@ -102,7 +120,7 @@ class Automatones(Aplicacion.Aplicacion):
 			print str(i+1) + ") " + clave
 		
 		key = validador.seleccionar(self.grillaOpciones.keys())
-		self.vars["funcioniniciadora"].valor = key
+		self.vars["grillaInicial"].valor = key
 		self.iniciarGrilla()
 
 	def modifTamano(self,key):
@@ -146,7 +164,16 @@ class Automatones(Aplicacion.Aplicacion):
 				archivo.write(char)
 			archivo.write("\n")
 		archivo.close()
-
+	
+	def pasarABinario(self):
+		print bin(validador.ingresar(int))[2:]
+		
+	def pasarADecimal(self):
+		try:
+			print int("0b" + str(int(validador.ingresar(str))),2)
+		except(ValueError):
+			print "mandaste Fruta wacho, solo 1 y 0" 		
+	
 	def toBin(self,decimal,longitud):
 		return bin(decimal)[2:].zfill(longitud)
 	
