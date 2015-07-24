@@ -15,7 +15,7 @@ from Funcionesfractales import *
 class Fractales(Aplicacion.Aplicacion):
 	def iniciar(self,**args):	
 		# pygame.init()
-		self.listaFunciones= Funcion.listado # listado de funciones.
+		self.listaFunciones= Funcion.listado # Diccionario con el listado de funciones.
 		
 		# variables de programa
 		#self.ancho = 0  # ancho = ratio[0]*factorRatio
@@ -42,10 +42,10 @@ class Fractales(Aplicacion.Aplicacion):
 		self.vars["norma"] = Variable(args["norma"],self.modifGenerico,minimo=0.0,flags={"iterable":True})
 		self.vars["exponente"] = Variable(args["exponente"],self.modifGenerico,flags={"iterable":True})
 		self.vars["parametro"] = Variable(args["parametro"],self.modifGenerico,flags={"iterable":True})
-		self.vars["funcion"] = Variable(self.listaFunciones[args["funcion"]],self.modifFuncion,flags={"iterable":False})
-		self.vars["colorFondo"] = Variable(args["colorFondo"],self.modifColor,minimo=[0,0,0],maximo=[255,255,255],flags={"iterable":False})
-		self.vars["listaColores"] = Variable(args["listaColores"],self.modifListaColor,flags={"iterable":False}) #[[self.vars["colorFondo"].valor,[255,0,255],self.vars["resolucion"].valor]]		
-		self.vars["extension"] = Variable(args["extension"],self.modifValoresPosibles,valoresPosibles=self.formatos,flags={"iterable":False})
+		self.vars["funcion"] = Variable(self.listaFunciones[args["funcion"]],self.modifFuncion)
+		self.vars["colorFondo"] = Variable(args["colorFondo"],self.modifColor,minimo=[0,0,0],maximo=[255,255,255])
+		self.vars["listaColores"] = Variable(args["listaColores"],self.modifListaColor)		
+		self.vars["extension"] = Variable(args["extension"],self.modifValoresPosibles,valoresPosibles=self.formatos)
 		
 		self.paleta = Paleta(self.vars["listaColores"].valor,self.vars["resolucion"].valor) #Paleta de colores para manejar el pintado de las funciones.
 		
@@ -140,7 +140,7 @@ class Fractales(Aplicacion.Aplicacion):
 		
 		caracteres = [".",".",".",".",".",".",".",".",".",".",".",".",".",".",".","#"]
 		
-		archivo =  open(self.vars["filesPath"].valor + "\\" + self.vars["asciiFile"].valor,"w")
+		archivo =  open(self.vars["filesPath"].valor + "\\" + self.vars["outFile"].valor,"w")
 		
 		variables = str(self.vars)
 		timestamp = str(datetime.now().strftime('%Y-%m-%d %H:%M:%S')) 
@@ -171,7 +171,10 @@ class Fractales(Aplicacion.Aplicacion):
 		
 	def foto(self):
 		panta = pantall = self.screen.copy()
-		nombre = self.vars["filesPath"].valor + "\\pruebas"+self.vars["extension"].valor
+		
+		params = str(self.vars["funcion"].valor) + "-p" + str(self.vars["parametro"].valor) +"-e" + str(self.vars["exponente"].valor) +"-n" + str(self.vars["norma"].valor) +"-dx" + str(self.vars["deltax"].valor) +"-dy" + str(self.vars["deltay"].valor) +"-z" + str(self.vars["zoom"].valor) +"-r" + str(self.vars["resolucion"].valor)
+				
+		nombre = os.getcwd() +"\\"+ params + self.vars["extension"].valor
 		pygame.image.save(panta, nombre)
 		self.log("foto Tomada",nombre,str(self.vars))
 		print "**Cachssggg**"
@@ -189,8 +192,12 @@ class Fractales(Aplicacion.Aplicacion):
 		
 		while (seguir):
 			print "variable a iterar?"
-			print disponibles
-			variable = validador.ingresar(str,validador.igual,disponibles)
+			self.enumerarLista(disponibles)
+			
+			variable = validador.seleccionar(disponibles)
+			
+			print "valor actual:"
+			print str(self.vars[variable].valor) + "\n"
 			
 			print "desde:"
 			desde = validador.ingresar(type(self.vars[variable].valor),validador.entre,self.vars[variable].minimo,self.vars[variable].maximo)
@@ -212,33 +219,29 @@ class Fractales(Aplicacion.Aplicacion):
 			else:
 				print "otra variable?"
 				seguir = validador.ingresarSINO()
+
+		nombreCarpeta = self.vars["filesPath"].valor + "\\Sesion"
+		for item in listado:
+			# item[1] + item[2] * (pasos-1) = HASTA!
+			nombreCarpeta += "_" + str(item[0]) + str(item[1]) + "-" + str(item[1] + item[2] * (pasos-1))
+	
+		
+		if not os.path.isdir(nombreCarpeta):
+			os.mkdir(nombreCarpeta)
+		os.chdir(nombreCarpeta)	
 	
 		for i in range(0,pasos):
 			for key in listado:
 				var = key[0]
 				desdeaux = key[1]
 				saltoaux = key[2]
-				self.vars[var].valor = desdeaux + (saltoaux * pasos)
+				self.vars[var].valor = desdeaux + (saltoaux * i)
 			
-			self.graficar()
-			self.foto()
-			      
-	# def modificar(self):
-	# # Si uso el metodo modificar; para que el usuario ingrese valores, params estara vacio.
-	# # Si por el contrario llamo directamente a la funcion modificadora (por ej modifZoom) hay que pasarle el valor nuevo. el dato key en ese caso no cumple funcion.
-		# print "variable a modificar:"
-		# for (i,clave) in enumerate(self.vars.keys()):
-			# print str(i+1) + ") " + clave, ":",self.vars[clave].valor 
-
-		# # key = validador.ingresar(str,validador.igual,self.vars.keys())
-		# key = validador.seleccionar(self.vars.keys())
+				self.graficar()
+				self.foto()
 		
-		# print key
-		# print "valor actual: ", self.vars[key].valor
-		# self.vars[key].modificador(key)
-		# self.recalcular()
-		# self.graficar()
-		
+		os.chdir(self.vars["filesPath"].valor)
+			
 	def modifZoom(self,key,*params):
 		if(len(params) == 0):			
 			self.vars["zoom"].valor = validador.ingresar(float,validador.mayor,self.vars["zoom"].minimo)
@@ -317,7 +320,6 @@ class Fractales(Aplicacion.Aplicacion):
 	
 	def modifResolucion(self,key,*params):
 		if(len(params) == 0):
-			print "Resolucion: ",self.vars["resolucion"].valor
 			self.vars["resolucion"].valor = validador.ingresar(int,validador.mayor,self.vars["resolucion"].minimo)
 		else:
 			self.vars["resolucion"].valor = params[0]
@@ -350,8 +352,10 @@ class Fractales(Aplicacion.Aplicacion):
 	
 	def modifFuncion(self,key,*params):
 		if(len(params) == 0):
-			print self.listaFunciones.keys()
-			clave = validador.ingresar(str,validador.igual,self.listaFunciones.keys())
+			for (i,clave) in enumerate(self.listaFunciones.keys()):
+				print str(i+1) + ") " + clave
+
+			clave = validador.seleccionar(self.listaFunciones.keys())
 		else:
 			clave = params[0]
 			
