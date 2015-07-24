@@ -183,18 +183,23 @@ class Aplicacion:
 	def modificar(self):
 	# Si uso el metodo modificar; para que el usuario ingrese valores, params estara vacio.
 	# Si por el contrario llamo directamente a la funcion modificadora (por ej modifZoom) hay que pasarle el valor nuevo. el dato key en ese caso no cumple funcion.
-		print "variable a modificar:"
-		for (i,clave) in enumerate(self.vars.keys()):
-			print str(i+1) + ") " + clave, ":",self.vars[clave].valor 
-
-		# key = validador.ingresar(str,validador.igual,self.vars.keys())
-		key = validador.seleccionar(self.vars.keys())
-		
-		print key
-		print "valor actual: ", self.vars[key].valor
-		self.vars[key].modificador(key)
-		
-		self.ejecutarPostFunciones()
+	
+		salir = False
+		while(not salir):
+			print "variable a modificar:\n"
+			for (i,clave) in enumerate(self.vars.keys()):
+				print str(i+1) + ") " + clave, ":",self.vars[clave].valor 
+			print str(i+2) + ") Volver" 
+			# key = validador.ingresar(str,validador.igual,self.vars.keys())
+			key = validador.seleccionar(self.vars.keys()+["Volver"])
+			if(key == "Volver"):
+				salir = True
+			else:
+				print key
+				print "valor actual: ", self.vars[key].valor
+				self.vars[key].modificador(key)
+				self.ejecutarPostFunciones()
+			
 
 	def modifGenerico(self,key):
 		tipo = type(self.vars[key].valor)
@@ -232,6 +237,10 @@ class Aplicacion:
 			os.startfile(fname)
 		else:
 			print "Archivo no encontrado"
+	
+	def enumerarLista(self,lista):
+		for i in range(0,len(lista)):
+			print str(i+1) + ") " + lista[i]
 	
 	def salir(self):
 		self.log("cerrando" + self.appNombre)
