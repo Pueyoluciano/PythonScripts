@@ -28,6 +28,7 @@ class Variable:
 	def __init__(self,valor, modificador, **parametros):
 		self.valor = valor
 		self.modificador = modificador
+		self.orden = parametros["orden"] if "orden" in parametros.keys() else -1
 		self.minimo = parametros["minimo"] if "minimo" in parametros.keys() else None
 		self.maximo = parametros["maximo"] if "maximo" in parametros.keys() else None
 		self.valoresPosibles = parametros["valoresPosibles"] if "valoresPosibles" in parametros.keys() else []
