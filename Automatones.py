@@ -5,7 +5,15 @@ import random
 from datetime import datetime
 from Menu import *
 from Variable import *
+#------------------------------------------------
+#--------------- TODO ---------------------------
+#------------------------------------------------
+# 1) SESION DE AUTOMATAS
+# 2) INTERFAZ GRAFICA
 
+#------------------------------------------------
+#------------------------------------------------
+#------------------------------------------------
 class Automatones(Aplicacion.Aplicacion):
 	def iniciar(self,**args):
 	
@@ -113,7 +121,14 @@ class Automatones(Aplicacion.Aplicacion):
 		self.mapaReglas["000"] = regla[7]	
 			
 	def modifGrilla(self,key):
-		pass
+		exponente = 2**self.vars["iteraciones"].valor
+	
+		grilla = validador.ingresar(int,validador.entre,0,exponente)
+		print self.toBin(grilla,exponente)
+
+		#self.grilla[0] = self.toBin(grilla,exponente)
+		
+		
 	
 	def modifFuncionGeneradora(self,key):
 		for (i,clave) in enumerate(self.grillaOpciones.keys()):
