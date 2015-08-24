@@ -2,6 +2,60 @@ def sincomparar(valoringresado,valoracomprar):
 	return True
 
 class validador:
+	"""
+		Clase para ingresar datos por teclado de forma consistente.
+		metodos:
+		
+		-ingresar(tipo,funcionComparadora,*valoresAComparar)
+		-permite ingresar(valga la redundancia) valores y realizarle una comparacion logica.
+		-- tipo: es el type del dato a ingresar.
+		
+		-- funcionComparadora: (por defecto esta en modo sinComparar).
+		   este campo es un modo( detallado abajo) que especifica el tipo de comparasaion de los datos.
+		   
+		-- *valoresAComparar: valores usados para las evaluaciones logicas, dependiendo de la funcion comparadora
+		    estos valores pueden variar.
+			
+		-ingresarBoolean(tipo,funcioncomparadora=sincomparar,*valoresacomparar)
+		-- Este metodo responde True o False a la pregunta: el valor ingresado, del tipo especificado, cumple con las validaciones especificadas?
+		-- tipo: es el type del dato a ingresar.
+		
+		-- funcionComparadora: (por defecto esta en modo sinComparar).
+		   este campo es un modo( detallado abajo) que especifica el tipo de comparasaion de los datos.
+		   
+		-- *valoresAComparar: valores usados para las evaluaciones logicas, dependiendo de la funcion comparadora
+		    estos valores pueden variar.
+		
+		-ingresarSINO()
+		-Este  metodo permite ingresar respuestas del tipo si o no.
+		
+		-seleccionar(valores)
+		- este metodo permite seleccionar un item de entre una lista de items, por su numero de orden.
+		
+		modos:
+		-los modos son los que se indican en el campo funcionComparadora.
+		
+		-menor: valoringresado < valoresacomprar[0]
+		
+		-menorigual: valoringresado <= valoresacomprar[0]
+		
+		-mayor: valoringresado > valoresacomprar[0]
+		
+		-mayorigual: valoringresado >= valoresacomprar[0]
+		
+		-entre: valoresacomparar[0] <= valoringresado <= valoresacomprar[1]
+		
+		-noentre: valoresacomparar[0] > valoringresado > valoresacomprar[1]
+		
+		-igual: valoresacomparar[0] = valoringresado
+				si valoresacomprar[0] es una lista:
+				valoringresado in valoresacomparar[0]
+				
+		-distinto: valoresacomparar[0] != valoringresado
+				si valoresacomprar[0] es una lista:
+				valoringresado not in valoresacomparar[0]
+	
+	"""
 	#Clase estatica para realizar validaciones.
 	#ejemplos de invocacion:
 	# ingresar(int, validador.menor, 3)
