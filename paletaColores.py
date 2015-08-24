@@ -60,9 +60,9 @@ class Paleta:
 		hasta = 0
 		for l in listaColores:
 			hasta = l[2]
-			self.grilla[desde:hasta] = self.interpolarRGB(l[0],l[1],desde,hasta)[:]
+			self.grilla[desde:hasta+1] = self.interpolarRGB(l[0],l[1],desde,hasta)[:]
 			desde = hasta + 1
-	
+			
 	def mostrar(self):
 		for i in range(0,len(self.grilla)):
 			print i+1, ":", self.grilla[i], ''
@@ -70,14 +70,14 @@ class Paleta:
 	def interpolarRGB(self,colorDesde,colorHasta,desde,hasta):
 		#interpolacion lineal para colores, dados los puntos de inicio y fin y los colores en esos puntos, se calculan todos los intermedios(de manera lineal).
 		grillaTemporal = []
-		delta = hasta - desde
+		delta = hasta - desde - 1
 		pasoRojo = float(colorHasta[0] - colorDesde[0])/delta
 		pasoVerde= float(colorHasta[1] - colorDesde[1])/delta
 		pasoAzul = float(colorHasta[2] - colorDesde[2])/delta
 
-		grillaTemporal.append(colorDesde)
+		#grillaTemporal.append(colorDesde)
 		
-		for i in range(1, delta + 1): 
+		for i in range(0, delta+1): 
 			rojo  = int(round(colorDesde[0] + (pasoRojo * i)))
 			verde = int(round(colorDesde[1] + (pasoVerde * i)))	
 			azul  = int(round(colorDesde[2] + (pasoAzul * i)))
