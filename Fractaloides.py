@@ -1,8 +1,9 @@
 import os
+import time
 import pygame
 import Aplicacion
 import flagsFactory
-import threading as thr
+import multiprocessing as mp
 from fractions import gcd
 from datetime import datetime
 from paletaColores import Paleta	
@@ -10,76 +11,91 @@ from Menu import *
 from Variable import *
 from validador import *
 from Funcionesfractales import *
+#------------------------------------------------
+#--------------- TODO ---------------------------
+#------------------------------------------------
+# 1) EJECUCION EN PARARELO
 
+# 2) LOGEAR TIEMPOS DE EJECUCION:
+# 2.1) CADA CIERTA CANTIDAD DE TIEMPO MOSTRAR EL PROGRESO.
+# 2.2) CADA UN 25% LOGUEAR PROGRESO LOGRADO.
+
+# 3) TESTER DE VEOLICDAD
+# 3.1) CREAR UNA FUNCION QUE DEVUELVA SIEMPRE MAXIMAS ITERACIONES- PARA UN SET FIJO DE VARIABLES TOMAR TIEMPO.
+# 3.2) IDEM 3.1) PERO CON FUNCION QUE DEVUELVA MINIMAS ITERACIONES.
+
+# 4) SCHEDULER - PARA CREAR LISTAS DE EJECUCION.
+
+#------------------------------------------------
+#------------------------------------------------
+#------------------------------------------------
+
+def graficarPorcion(self,funcion,desdex,hastax,alto,planoComplejo,grilla,params):
+	pixelArrayTemporal = []
+	for x in range(desdex,hastax):
+		pixelArrayTemporal.append([])
+		for y in range(0,alto):
+			# valor = funcion.calcular(planoComplejo[x][y],params)
+			# pixelArrayTemporal[x-desdex].append(grilla[valor-1])
+			print "asd"
+
+	return pixelArrayTemporal
+		
 
 class Fractales(Aplicacion.Aplicacion):
 	def iniciar(self,**args):	
-		# pygame.init()
-		self.listaFunciones= Funcion.listado # Diccionario con el listado de funciones.
+		# self.listaFunciones= Funcion.listado # Diccionario con el listado de funciones.
+		self.listaFunciones = Funciones()
 		
 		# variables de programa
-		#self.ancho = 0  # ancho = ratio[0]*factorRatio
-		#self.alto = 0   # alto = ratio[1]*factorRatio
 		self.xmin = 0.0 # minimo valor del plano complejo, en el eje x
 		self.xmax = 0.0 # maximo valor del plano complejo, en el eje x
 		self.ymin = 0j  # minimo valor del plano complejo, en el eje y
 		self.ymax = 0j  # maximo valor del plano complejo, en el eje y 
+		self.planoComplejo = [] # matriz donde se guardan todos los puntos del plano complejo.
 		self.sesionPasosMaximos = 256 # variable para definir el maximo nivel de iteraciones en la funcion sesion.
 		self.formatos = [".jpg",".bmp",".png"] # Formatos disponibles para imagenes.
-		self.pixeles = [] # pixelArray
+		self.elapsedTime = 0.0
 		
 		#variables de usuario	
-		#self.vars["ratio"]  = Variable(args["ratio"],self.modifTamano,minimo=[1,1],flags={"iterable":False})
-		#self.vars["factorRatio"] = Variable(args["factorRatio"],self.modifTamano,minimo=2,flags={"iterable":False})
-		self.vars["ratio"].valor = args["ratio"]
-		self.vars["factorRatio"].valor = args["factorRatio"]
+		# self.vars["ratio"].valor = args["ratio"]
+		# self.vars["factorRatio"].valor = args["factorRatio"]
 		
-		self.vars["asciiFile"] = Variable("asciiOut.txt",self.modifGenerico)
-		self.vars["zoom"] = Variable(args["zoom"],self.modifZoom,minimo=0,flags={"iterable":True})
-		self.vars["deltax"] = Variable(args["deltax"],self.modifEje,flags={"iterable":True})
-		self.vars["deltay"] = Variable(args["deltay"],self.modifEje,flags={"iterable":True})
-		self.vars["resolucion"] = Variable(args["resolucion"],self.modifResolucion,minimo=1,flags={"iterable":True})
-		self.vars["norma"] = Variable(args["norma"],self.modifGenerico,minimo=0.0,flags={"iterable":True})
-		self.vars["exponente"] = Variable(args["exponente"],self.modifGenerico,flags={"iterable":True})
-		self.vars["parametro"] = Variable(args["parametro"],self.modifGenerico,flags={"iterable":True})
-		self.vars["funcion"] = Variable(self.listaFunciones[args["funcion"]],self.modifFuncion)
-		self.vars["colorFondo"] = Variable(args["colorFondo"],self.modifColor,minimo=[0,0,0],maximo=[255,255,255])
-		self.vars["listaColores"] = Variable(args["listaColores"],self.modifListaColor)		
-		self.vars["extension"] = Variable(args["extension"],self.modifValoresPosibles,valoresPosibles=self.formatos)
+		self.vars["funcion"] = Variable(self.listaFunciones.obtenerFuncion(args["funcion"]),self.modifFuncion,orden=0)
+		self.vars["parametro"] = Variable(args["parametro"],self.modifGenerico,flags={"iterable":True},orden=1)
+		self.vars["norma"] = Variable(args["norma"],self.modifGenerico,minimo=0.0,flags={"iterable":True},orden=2)
+		self.vars["exponente"] = Variable(args["exponente"],self.modifGenerico,flags={"iterable":True},orden=3)
+		self.vars["resolucion"] = Variable(args["resolucion"],self.modifResolucion,minimo=1,flags={"iterable":True},orden=4)
+		self.vars["listaColores"] = Variable(args["listaColores"],self.modifListaColor,orden=5)		
+		self.vars["zoom"] = Variable(args["zoom"],self.modifZoom,minimo=0,flags={"iterable":True},orden=6)
+		self.vars["deltax"] = Variable(args["deltax"],self.modifEje,flags={"iterable":True},orden=7)
+		self.vars["deltay"] = Variable(args["deltay"],self.modifEje,flags={"iterable":True},orden=8)
+		self.vars["extension"] = Variable(args["extension"],self.modifValoresPosibles,valoresPosibles=self.formatos,orden=9)
+		self.vars["asciiFile"] = Variable("asciiOut.txt",self.modifGenerico,orden=10)
+		# self.vars["colorFondo"] = Variable(args["colorFondo"],self.modifColor,minimo=[0,0,0],maximo=[255,255,255],orden=)
 		
+		#Paleta de colores
 		self.paleta = Paleta(self.vars["listaColores"].valor,self.vars["resolucion"].valor) #Paleta de colores para manejar el pintado de las funciones.
 		
+		#Items del Menu
 		self.agregarMenu(0,Leaf("graficar","genera la salida en la pantalla",self.graficar))
 		self.agregarMenu(1,Leaf("toAscii","",self.ascii))
-		self.agregarMenu(2,Leaf("Foto","Tomar una foto",self.foto))
+		self.agregarMenu(2,Leaf("Foto","Foto Tomada",self.foto))
 		self.agregarMenu(3,Leaf("Sesion","Secuencia de fotos iterando algunas variables",self.sesion))
-
+		self.agregarMenu(4,Leaf("tiempos de ejecucion","Mediciones de tiempo de la ultima ejecucion",self.tiempos))
+		
 		#Funciones que se ejecutan luego de llamar a Modificar.
-		self.agregarPostFunciones(self.recalcular,self.graficar)
+		self.agregarPostFunciones(self.recalcular,self.graficar,self.foto)
 		
-		self.recalcular()
-				
-		# self.screen = screen = pygame.display.set_mode((self.ancho,self.alto))
-		# self.screen = pygame.display.set_mode((50,50))
-		# pygame.display.set_caption("titulo")
-		# self.pixelArray = pygame.PixelArray(self.screen)
-		
-		# self.pixelArray = pygame.Surface(self.ancho,self.alto)
-		
-		# self.clock = pygame.time.Clock()
-		# self.tick = self.clock.tick(20)
-		
+		self.actualizarTamanoPantalla()
+		self.recalcular()	
 		self.graficar()
 
 	def recalcular(self):
 		# self.calcularAnchoAlto()
 		self.calcularBounds()
-		self.temporal()
+		#self.temporal()
 		
-	# def calcularAnchoAlto(self):
-		# self.ancho = self.vars["ratio"].valor[0] * self.vars["factorRatio"].valor 
-		# self.alto  = self.vars["ratio"].valor[1] * self.vars["factorRatio"].valor
-	
 	def calcularBounds(self):
 		# Este es el mapeo de pixeles al plano complejo. 
 		# por ej: X/[0,199] -> [-4,4]
@@ -97,16 +113,46 @@ class Fractales(Aplicacion.Aplicacion):
 		self.ymin   = (-(self.alto/mcd))*self.vars["zoom"].valor + self.vars["deltay"].valor
 		self.ymax   = (self.alto/mcd)*self.vars["zoom"].valor + self.vars["deltay"].valor 
 
-	def temporal(self): # carga el pixelArray, con pygame andando esto se va
-		self.pixeles = []
-		for x in range(0,self.ancho):
-			self.pixeles.append([])
+		deltax = abs(self.xmin - self.xmax) / (float(self.ancho) - 1)
+		deltay = abs(self.ymin - self.ymax) / (float(self.alto) - 1)
+		
+		self.planoComplejo = []
+		for x in range(0,self.ancho):	
+			self.planoComplejo.append([])
 			for y in range(0,self.alto):
-				self.pixeles[x].append(self.vars["colorFondo"].valor)
-	
-	def convertirPC(self,x,y): # convertir de pixel a complejo
-		equis = self.xmin + (x * (abs(self.xmin - self.xmax) / (float(self.ancho) - 1)))
-		ygrie = self.ymin + (y * (abs(self.ymin - self.ymax) / (float(self.alto) - 1)))
+				self.planoComplejo[x].append(self.convertirPC(x,y,deltax,deltay))
+		
+	# def temporal(self): # carga el pixelArray, con pygame andando esto se va
+		# self.pixeles = []
+		# for x in range(0,self.ancho):
+			# self.pixeles.append([])
+			# for y in range(0,self.alto):
+				# self.pixeles[x].append(self.vars["colorFondo"].valor)
+		
+	# def cargarPixel(self,pixel,color):
+		# #funcion que va a cambiar segun que se use para graficar, pygame,tkinter, etc.
+		# self.pixeles[pixel[0]][pixel[1]] = color
+
+	def tiempos(self):
+		print "-----------------------------------------------------------------"
+		print "Tiempo Total: " + str(self.elapsedTime)[:12]
+		print "Funcion: " + str(self.vars["funcion"].valor)
+		print "dimensiones: " + str(self.vars["ratio"].valor[0]*self.vars["factorRatio"].valor) + "x" + str(self.vars["ratio"].valor[1]*self.vars["factorRatio"].valor)
+		print "resolucion: " + str(self.vars["resolucion"].valor)
+		print "-----------------------------------------------------------------"
+		self.log("-----------------------------------------------------------------")
+		self.log("Tiempo Total: " + str(self.elapsedTime)[:12])
+		self.log("Funcion: " + str(self.vars["funcion"].valor))
+		self.log("dimensiones: " + str(self.vars["ratio"].valor[0]*self.vars["factorRatio"].valor) + "x" + str(self.vars["ratio"].valor[1]*self.vars["factorRatio"].valor))
+		self.log("resolucion: " + str(self.vars["resolucion"].valor))
+		self.log("-----------------------------------------------------------------")
+
+	def convertirPC(self,x,y,deltax,deltay): # convertir de pixel a complejo
+	# def convertirPC(self,x,y):# convertir de pixel a complejo
+		# equis = self.xmin + (x * (abs(self.xmin - self.xmax) / (float(self.ancho) - 1)))
+		# ygrie = self.ymin + (y * (abs(self.ymin - self.ymax) / (float(self.alto) - 1)))
+		equis = self.xmin + (x * deltax)
+		ygrie = self.ymin + (y * deltay)
 		
 		return complex(equis,ygrie)
 			
@@ -118,21 +164,55 @@ class Fractales(Aplicacion.Aplicacion):
 		# el color se obtiene desde la grilla de la paleta de colores.
 		# por ultimo el pixel se acutaliza con el nuevo color.
 		
+		#recojo los parametros para pasarle a la funcion
 		params = []
 		for key in self.vars["funcion"].valor.parametros:
 			params.append(self.vars[key].valor)
 			
-		for x in range(0,self.ancho):
-			for y in range(0,self.alto):
-				complejo = self.convertirPC(x,y)
-				valor = self.vars["funcion"].valor.calcular(complejo,params)
-				# print x,y, complejo, valor
-				color = self.paleta.grilla[valor-1]
-				self.cargarPixel([x,y],color)
-				self.pixelArray[x,y] = color
-
-		self.actualizarPantalla()
+		#medicion de tiempo	
+		startTime = time.time()	
 		
+		#Esto es para hacer el pasaje de pixel a complejo, esta aca para que no se hagan tantas cuentas en el loop.
+		deltax = abs(self.xmin - self.xmax) / (float(self.ancho) - 1)
+		deltay = abs(self.ymin - self.ymax) / (float(self.alto) - 1)
+		
+		# version 1
+		#loop Principal del metodo, barre todo el plano calculando las intensidades
+		# for x in range(0,self.ancho):	
+			# for y in range(0,self.alto):
+				# complejo = self.convertirPC(x,y,deltax,deltay)
+				# # complejo = self.convertirPC(x,y)
+				# valor = self.vars["funcion"].valor.calcular(complejo,params)
+				# self.pixelArray[x,y] = self.paleta.grilla[valor-1]	#en grilla tengo el valor de color para la intensidad=valor-1
+				
+		# version 2
+		# [[self.cargarPixelArray(x,y,self.paleta.grilla[self.vars["funcion"].valor.calcular(self.convertirPC(x,y,deltax,deltay),params) - 1]) for y in rangoy] for x in rangox]
+		
+		# version 3
+		# rangox = range(0,self.ancho)
+		# rangoy = range(0,self.alto)		
+		# [[self.cargarPixelArray(x,y,self.paleta.grilla[self.vars["funcion"].valor.calcular(self.planoComplejo[x][y],params) - 1]) for y in rangoy] for x in rangox]
+		
+		# version 3 con fors por ahora esta es la mas rapida.
+		for x in range(0,self.ancho):	
+			for y in range(0,self.alto):
+				valor = self.vars["funcion"].valor.calcular(self.planoComplejo[x][y],params)
+				self.pixelArray[x,y] = self.paleta.grilla[valor-1]	#en grilla tengo el valor de color para la intensidad=valor-1
+		
+		
+		
+		#medicion de tiempo		
+		endTime = time.time()
+		self.elapsedTime = endTime-startTime
+		
+		self.actualizarPantalla()
+		#self.foto()
+		self.tiempos()
+	
+	
+	def cargarPixelArray(self,x,y,color):
+		self.pixelArray[x,y] = color
+	
 	def ascii(self):
 		#setear resolucion a 16
 		aux = self.vars["resolucion"].valor
@@ -156,32 +236,26 @@ class Fractales(Aplicacion.Aplicacion):
 			for y in range(0,self.alto):
 				complejo = self.convertirPC(y,x)
 				valor = self.vars["funcion"].valor.calcular(complejo,params)
-				# print valor,
-				# print caracteres[valor-1],
 				archivo.write(caracteres[valor-1])
 			archivo.write("\n")
 	
 		self.modifResolucion("resolucion",aux)
 		
 		archivo.close()
-		
-	def cargarPixel(self,pixel,color):
-		#funcion que va a cambiar segun que se use para graficar, pygame,tkinter, etc.
-		self.pixeles[pixel[0]][pixel[1]] = color
-		
+
 	def foto(self):
 		panta = pantall = self.screen.copy()
 		
 		params = str(self.vars["funcion"].valor) + "-p" + str(self.vars["parametro"].valor) +"-e" + str(self.vars["exponente"].valor) +"-n" + str(self.vars["norma"].valor) +"-dx" + str(self.vars["deltax"].valor) +"-dy" + str(self.vars["deltay"].valor) +"-z" + str(self.vars["zoom"].valor) +"-r" + str(self.vars["resolucion"].valor)
 				
-		nombre = os.getcwd() +"\\"+ params + self.vars["extension"].valor
+		nombre = self.generarNombreValido(os.getcwd() +"\\"+ params + self.vars["extension"].valor)
 		pygame.image.save(panta, nombre)
 		self.log("foto Tomada",nombre,str(self.vars))
-		print "**Cachssggg**"
 
 	def sesion(self):
 		print "Sesion de fotos"
 		
+		volver = False
 		seguir = True
 		primera = True
 		listado = [] # en listado me voy a guardar tuplas de 3, donde cada una tiene la key de la variable a iterar, valor incial y el salto que se da.
@@ -189,59 +263,69 @@ class Fractales(Aplicacion.Aplicacion):
 		pasos = 0
 		
 		disponibles = [item for item in self.vars if "iterable" in self.vars[item].flags.keys() and self.vars[item].flags["iterable"]] # lista por comprension de variables iterables
-		
+	
 		while (seguir):
 			print "variable a iterar?"
-			self.enumerarLista(disponibles)
+			self.enumerarLista(disponibles + ["Volver"])
+			variable = validador.seleccionar(disponibles + ["Volver"])
 			
-			variable = validador.seleccionar(disponibles)
-			
-			print "valor actual:"
-			print str(self.vars[variable].valor) + "\n"
-			
-			print "desde:"
-			desde = validador.ingresar(type(self.vars[variable].valor),validador.entre,self.vars[variable].minimo,self.vars[variable].maximo)
-			
-			print "hasta:"
-			hasta = validador.ingresar(type(self.vars[variable].valor),validador.entre,self.vars[variable].minimo,self.vars[variable].maximo)
-				
-			if(primera):
-				print "en cuantos pasos:"
-				pasos = validador.ingresar(int,validador.entre,2,self.sesionPasosMaximos)
-				primera = False
-				
-			salto = (hasta - desde) / (pasos - 1)
-			listado.append([variable, desde, salto])
-			disponibles.remove(variable)
-			
-			if (len(disponibles) == 0):
+			if(variable == "Volver"):
 				seguir = False
+				volver = True
 			else:
-				print "otra variable?"
-				seguir = validador.ingresarSINO()
+			
+				print "valor actual:"
+				print str(self.vars[variable].valor) + "\n"
+				
+				print "desde:"
+				desde = validador.ingresar(type(self.vars[variable].valor),validador.entre,self.vars[variable].minimo,self.vars[variable].maximo)
+				
+				print "hasta:"
+				hasta = validador.ingresar(type(self.vars[variable].valor),validador.entre,self.vars[variable].minimo,self.vars[variable].maximo)
+					
+				if(primera):
+					print "en cuantos pasos:"
+					pasos = validador.ingresar(int,validador.entre,2,self.sesionPasosMaximos)
+					primera = False
+					
+				salto = (hasta - desde) / (pasos - 1)
+				listado.append([variable, desde, salto])
+				disponibles.remove(variable)
+				
+				if (len(disponibles) == 0):
+					seguir = False
+				else:
+					print "otra variable?"
+					seguir = validador.ingresarSINO()
 
-		nombreCarpeta = self.vars["filesPath"].valor + "\\Sesion"
-		for item in listado:
-			# item[1] + item[2] * (pasos-1) = HASTA!
-			nombreCarpeta += "_" + str(item[0]) + str(item[1]) + "-" + str(item[1] + item[2] * (pasos-1))
-	
-		
-		if not os.path.isdir(nombreCarpeta):
-			os.mkdir(nombreCarpeta)
-		os.chdir(nombreCarpeta)	
-	
-		for i in range(0,pasos):
-			for key in listado:
-				var = key[0]
-				desdeaux = key[1]
-				saltoaux = key[2]
-				self.vars[var].valor = desdeaux + (saltoaux * i)
+		if(not volver):
+			# Genero el nombre de la Carpeta
+			nombreCarpeta = self.vars["filesPath"].valor + "\\Sesion-" + str(self.vars["funcion"].valor)
+			for item in listado:
+				# item[1] + item[2] * (pasos-1) = HASTA!
+				nombreCarpeta += "_" + str(item[0]) + str(item[1]) + "-" + str(item[1] + item[2] * (pasos-1))
 			
-				self.graficar()
-				self.foto()
-		
-		os.chdir(self.vars["filesPath"].valor)
+			nombreCarpeta = self.generarNombreValido(nombreCarpeta)
 			
+			if not os.path.isdir(nombreCarpeta):
+				os.mkdir(nombreCarpeta)
+			os.chdir(nombreCarpeta)	
+					
+			#Loop de la sesion
+			for i in range(0,pasos):
+				for key in listado:
+					var = key[0]
+					desdeaux = key[1]
+					saltoaux = key[2]
+					self.vars[var].valor = desdeaux + (saltoaux * i)
+	
+					self.graficar()
+					self.foto()
+					
+				print str(i+1) + "/" + str(pasos)
+
+			os.chdir(self.vars["filesPath"].valor)
+		
 	def modifZoom(self,key,*params):
 		if(len(params) == 0):			
 			self.vars["zoom"].valor = validador.ingresar(float,validador.mayor,self.vars["zoom"].minimo)
@@ -251,8 +335,12 @@ class Fractales(Aplicacion.Aplicacion):
 	
 	def modifEje(self,key,*params):
 		if(len(params) == 0):
-			self.vars["deltax"].valor = validador.ingresar(int,validador.entre,self.vars["deltax"].minimo,self.vars["deltax"].maximo)# obtengo el delta en x
-			self.vars["deltay"].valor = validador.ingresar(int,validador.entre,self.vars["deltay"].minimo,self.vars["deltay"].maximo)# obtengo el delta en y
+			print "valores positivos dezplazan la imagen hacia izquierda/arriba y valores negativos hacia la derecha/abajo"
+			print "corrimiento en x"
+			self.vars["deltax"].valor = validador.ingresar(float)# obtengo el delta en x			
+			print "corrimiento en y"
+			self.vars["deltay"].valor = validador.ingresar(float)# obtengo el delta en y
+			
 		else:
 			self.vars["deltax"].valor = params[0]
 			self.vars["deltay"].valor = params[1]
@@ -352,20 +440,29 @@ class Fractales(Aplicacion.Aplicacion):
 	
 	def modifFuncion(self,key,*params):
 		if(len(params) == 0):
-			for (i,clave) in enumerate(self.listaFunciones.keys()):
-				print str(i+1) + ") " + clave
-
-			clave = validador.seleccionar(self.listaFunciones.keys())
+			self.enumerarLista(self.listaFunciones.nombres+["volver"])
+			funcion = validador.seleccionar(self.listaFunciones.nombres + ["volver"])
+			if(funcion !="volver"):
+				self.vars["funcion"].valor = self.listaFunciones.listado[self.listaFunciones.nombres.index(funcion)]
 		else:
-			clave = params[0]
-			
-		self.vars["funcion"].valor = self.listaFunciones[clave]	
-
+			self.vars["funcion"].valor = self.listaFunciones[self.listaFunciones.nombres.index(params[0])]
+	
+	
+	
+	def ayuda(self):
+		print "-----------------------------------------------------------------"
+		print "PROXIMAMENTE MANUAL DE INSTRUCCIONES E INTRODCCION A GEOMETRIA"
+		print "FRACTAL."	
+		print "-----------------------------------------------------------------"
+		
+		
+	def salirPrint(self):
+		print "--- \\m/ ---"
 	
 if __name__ == '__main__':
 	a = Fractales("Fractaloides","2.0.0",True,
 					ratio=[1,1],
-					factorRatio=50,
+					factorRatio=100,
 					zoom=1.0,
 					deltax=0.0,
 					deltay=0.0,
@@ -375,19 +472,7 @@ if __name__ == '__main__':
 					parametro=0j,
 					funcion="mandelbrot",
 					colorFondo=[0,0,0],
-					listaColores=[[[0,0,0],[0,0,0],3],[[0,0,0],[255,255,255],11],[[255,255,255],[0,0,255],15]],
-					extension=".jpg")
+					listaColores=[[[0,0,0],[0,0,255],15]],
+					extension=".png")
 					
 	a.menuPrincipal()		
-# Constantes divertidas:
-# --- (julia) (1+0j)
-# --- (julia) (0+1j)	
-# --- (julia) (0.5+0.5j) 
-# --- (julia) (-1.3+0.00525j)
-# --- (julia) (-0.72-0.196j)
-# --- (julia) (-0.8-0.2j) !!! 
-# --- (julia) (0.4+0.3j)
-# --- (julia) (0.7+0.5j)
-# --- (juli4) (-0.8-0.2j)
-# --- (julia5) (0.718+0.5j) !!! 
-# --- (julia5) (0.71898+0.5j) !!! 	
