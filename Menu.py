@@ -1,13 +1,16 @@
-# Esta clase sirve para hacer Menus para interaccion con el usuario.
-# es un arbol donde cada Nodo tiene un nombre, un texto y una lista de nodos.
-# el Leaf es un nodo que tiene la accion concreta.
 
-# Expandir muestra todo el arbol.
-# evaluar permite ejecutar la operacion deseada recorriendo el arbol 1 nodo a la vez.
 
 from validador import *
 
 class Nodo:
+	"""
+		Esta clase sirve para hacer Menus para interaccion con el usuario.
+		es un arbol donde cada Nodo tiene un nombre, un texto y una lista de nodos.
+		el Leaf es un nodo que tiene la accion concreta.
+	
+		Expandir muestra todo el arbol.
+		evaluar permite ejecutar la operacion deseada recorriendo el arbol 1 nodo a la vez.
+	"""
 	def __init__(self,nombre,texto,*nodos,**args):
 		if("root" in args.keys()):
 			self.soyRaiz = True # este atributo sirve para indicar que el nodo es el nodo Raiz. si NO es raiz, se muestra el item "volver" en el menu
