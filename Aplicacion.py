@@ -65,6 +65,62 @@ class Aplicacion:
 		   su funcion modificadora, y si corresponde, minimo y/o maximo.
 		- Menu con acciones basicas, como ver y modificar parametros, un texto de ayuda.
 		  A su vez tiene para abrir el archivo de logs y el archivo de salida, si es que tiene.
+		  
+		Para crear una nueva Aplicacion:
+		-1) hay que crear una nueva clase que herede de Aplicacion.
+		-2) el metodo init NO debe ser sobreescrito.
+		-3) agregar el metodo iniciar con la siguiente cabecera:
+		|
+		|-	def iniciar(self,**args):
+		|
+		|-  en este metodo hay que crear las variables de usuario y de programa.
+		|-  las variables de usuario se agregan a self.vars de la siguiente forma:
+		|
+		|--		self.vars["varibleUsuario1"] = Variable("valorDelaVariable",self.modificadorVariable1,flags={"bandera1":true})
+		|--     para detalles sobre Variable.py ver la documentacion.
+		
+		-4) Luego hay que crear los items del menu: 
+		|- se crean los Leaf y Nodos que sean necesarios.
+		|- para agregar items al menu:
+		|
+		|-	self.agregarMenu(0,Leaf("accion1","descripcion de la accion1",self.metodoQueCumpleLaAccion))
+		|-  para detalles sobre Menu.py ver la documentacion.
+		
+		-5) Por ultimo se agregan las PostFunciones, que son las que se ejecutan luego de realizar modificaciones a las variables de usuario.
+		|- para agregar postFunciones:
+		|
+		|-	 self.agregarPostFunciones(self.postFuncion1,self.postFuncion2)
+		
+		-6) Todas las funciones de modificacion deben tener como parametros de entrada una de estas posibilidades:
+		|
+		|-	self.modificador1(self,key,*params):
+		|-	self.modificador2(self,key):
+		
+		-7) Para mostrar un mensaje personalizado al salir hay que sobreescribir el metodo salirPrint.
+		|
+		|-	self.salirPrint(self): print "texto que se muestra al salir"
+
+		-8) Para que la aplicacion pueda ser ejecutada:
+		|
+		|-	if __name__ == '__main__':
+		|-		a = NombreClase("NombreAPP","Version",esAplicacionGrafica?,param1=1,param2=2)
+		|-		a.menuPrincipal()	
+		|
+		|- 	param1 y param2 son los que va a recibir el metodo iniciar detallado arriba,en forma de diccionario.
+		|- esAplicacionGrafica es un Boolean, si esta en True levanta un pygame.
+		
+		-9) Si es una aplicacion Grafica:
+		|- en la instanciacion de la clase hay que indicarselo con un True(Ver item anterior).
+		|- la variable de programa self.pixelArray[x,y] es el mapa de pixeles de la pantalla.
+		|- para actualizar la pantalla se llama al metodo:
+		|
+		|-	self.actualizarPantalla()
+		
+		-El metodo self.enumerarLista(self) sirve mostrar en pantalla los items de una lista con un numero de orden	
+		-El metodo self.log(self,*datos) permite loguear, guardando en el archivo referenciado en self.vars["logFile]
+		-El metodo self.ayuda(self) debe ser sobreescrito para mostrar un manual de usuario o cualquier referencia que se quiera, no es obligatorio
+		-El metodo self.generarNombreValido(self,nombre) sirve para no pisar archivos al crearlos. recibe un nombre y devuelve el nombre con el numero
+		 de repeticion que corresponda, por ejemplo, si tenemos pruebas.txt, devuelve pruebas(1).txt.
 	"""
 	def __init__(self,appnombre,version,aplicacionGrafica=False,**args):
 		#Variables de programa
@@ -74,35 +130,38 @@ class Aplicacion:
 		self.postFunciones = []	
 		self.ancho = 0
 		self.alto = 0
+		self.appGrafica = aplicacionGrafica
 		
 		#Variables de usuario
-		if(aplicacionGrafica):
-			self.vars["ratio"]  = Variable([1,1],self.modifTamano,minimo=[1,1])
-			self.vars["factorRatio"] = Variable(50,self.modifTamano,minimo=2)
-			self.vars["colorFondo"] = Variable([0,0,0],self.modifColor,minimo=[0,0,0],maximo=[255,255,255])
+		if(self.appGrafica):
+			fratio = args["factorRatio"] if "factorRatio" in args.keys() else 50
+			ratio = args["ratio"] if "ratio" in args.keys() else [1,1] 
+			self.vars["ratio"]  = Variable(ratio,self.modifTamano,minimo=[1,1],orden=float("inf"))
+			self.vars["factorRatio"] = Variable(fratio,self.modifTamano,minimo=2,orden=float("inf"))
+			self.vars["colorFondo"] = Variable([0,0,0],self.modifColor,minimo=[0,0,0],maximo=[255,255,255],orden=float("inf"))
 		
-		self.vars["filesPath"] = Variable("C:\\Python27\\" + "ArchivosGenerados" + self.appNombre,self.modifGenerico)
-		self.vars["outFile"] = Variable(self.appNombre + "Out.txt",self.modifGenerico)
-		self.vars["logFile"] = Variable(self.appNombre + "Log.txt",self.modifGenerico)
+		self.vars["filesPath"] = Variable("C:\\Python27\\" + "ArchivosGenerados" + self.appNombre,self.modifGenerico,orden=float("inf"))
+		self.vars["outFile"] = Variable(self.appNombre + "Out.txt",self.modifGenerico,orden=float("inf"))
+		self.vars["logFile"] = Variable(self.appNombre + "Log.txt",self.modifGenerico,orden=float("inf"))
 		
 		#Genero el menu
 		titulo = "--- " +self.appNombre + " " + self.version + " ---"
 		subtitulo = "-" * len(titulo)
 		self.menu = Nodo(titulo,subtitulo,
 					Leaf("Modificar parametros","Parametros modificables por el usuario",self.modificar),
-					Leaf("Ver parametros","", self.variables),
+					Leaf("Ver parametros","Parametros actuales de la aplicacion", self.mostrarVariables),
 					Nodo("Ver Archivos","Archivos generados por " + self.appNombre + ":",
 						Leaf("Archivo de Salida","Archivo generado por el programa",self.verFile),
 						Leaf("Archivo de Logs","Archivo con todos los logs del programa",self.verLog),
 						),
 					Leaf("Que es esto?","",self.ayuda),
-					Leaf("Salir",":D",self.salir)
+					Leaf("Salir","Cerrando " + self.appNombre,self.salir)
 					,root=True
 				)
 		# Crea el directorio de trabajo
 		self.crearFilesPath()
 		
-		if(aplicacionGrafica):
+		if(self.appGrafica):
 			# Calcular ancho y alto en pixeles a partir del ratio y factorRatio
 			self.calcularAnchoAlto()
 			
@@ -150,11 +209,7 @@ class Aplicacion:
 	def agregarPostFunciones(self,*funciones):
 		for funcion in funciones:
 			self.postFunciones.append(funcion)
-	
-	def ejecutarPostFunciones(self):
-		for funcion in self.postFunciones:
-			funcion()
-	
+
 	def agregarMenu(self,posicion,nodo):
 		self.menu.agregar(posicion,nodo)
 	
@@ -174,32 +229,49 @@ class Aplicacion:
 		archivo.write("\n")	
 		archivo.close()
 	
-	def variables(self):
-		keys = self.vars.keys()
-		keys.sort()
-		for key in keys:
-			print "-" + key + ":",self.vars[key].valor
-
+	#Obtener tupla de nombres y valores del diccionario de variables
+	def obtenerNombreValorVariables(self):
+		return sorted(self.vars.items(), key=lambda x: x[1].orden)
+		
+	#Obtener solo el nombre del diccionario de variables en una lista
+	def obtenerNombreVariables(self):
+		return [key[0] for key in self.obtenerNombreValorVariables()]
+	
+	#Obtener solo el valor del diccionario de variables en una lista
+	def obtenerValorVariables(self):
+		return [value[1] for value in self.obtenerNombreValorVariables()]
+		
+	def mostrarVariables(self):
+		print "\n-----------------------------------------------------------------"
+		variables = self.obtenerNombreValorVariables()
+		for i in range(0,len(variables)):
+			print str(i+1) + ") " + str(variables[i][0]) + ":",(variables[i][1])
+		print str(i+2) + ") Volver" 
+		print "-----------------------------------------------------------------"
+	
 	def modificar(self):
 	# Si uso el metodo modificar; para que el usuario ingrese valores, params estara vacio.
 	# Si por el contrario llamo directamente a la funcion modificadora (por ej modifZoom) hay que pasarle el valor nuevo. el dato key en ese caso no cumple funcion.
 	
 		salir = False
 		while(not salir):
-			print "variable a modificar:\n"
-			for (i,clave) in enumerate(self.vars.keys()):
-				print str(i+1) + ") " + clave, ":",self.vars[clave].valor 
-			print str(i+2) + ") Volver" 
+			self.mostrarVariables()
+			# for (i,clave) in enumerate(self.vars.keys()):
+				# print str(i+1) + ") " + clave, ":",self.vars[clave].valor 
+			
 			# key = validador.ingresar(str,validador.igual,self.vars.keys())
-			key = validador.seleccionar(self.vars.keys()+["Volver"])
+			key = validador.seleccionar(self.obtenerNombreVariables()+["Volver"])
 			if(key == "Volver"):
 				salir = True
 			else:
 				print key
 				print "valor actual: ", self.vars[key].valor
 				self.vars[key].modificador(key)
-				self.ejecutarPostFunciones()
-			
+		self.ejecutarPostFunciones()
+
+	def ejecutarPostFunciones(self):
+		for funcion in self.postFunciones:
+			funcion()				
 
 	def modifGenerico(self,key):
 		tipo = type(self.vars[key].valor)
@@ -242,11 +314,34 @@ class Aplicacion:
 		for i in range(0,len(lista)):
 			print str(i+1) + ") " + lista[i]
 	
+	def generarNombreValido(self,nombre):
+		seguir = True
+		contador = 0
+		path,ext = os.path.splitext(nombre)
+		aux = path
+		
+		while(seguir):
+			if not os.path.exists(aux+ext):
+				seguir = False
+			else:
+				contador +=1
+				aux = path + "(" + str(contador) + ")"
+				
+		if(contador != 0):
+			nombre = aux+ext
+			
+		return nombre
+
 	def salir(self):
 		self.log("cerrando" + self.appNombre)
+		self.salirPrint()
+		if(self.appGrafica):
+			pygame.quit()
 		return "SALIR"
 				
-		
+	def salirPrint(self):
+		print "adios"
+	
 if __name__ == '__main__':	
 	a = Aplicacion("App","1.0.0")
 	print "antes de menu principal"
