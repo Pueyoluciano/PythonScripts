@@ -4,9 +4,44 @@
 # la accion es la funcion concreta.
 # para usar la funcion, hay que hacer la invocacion con un primer parametro obligatorio c, que es el punto en el plano complejo(que puede ser utilizado o no)
 # y a continuacion todos los parametros que la funcion espera recibir, en el orden en el que fueron declarados a la hora de instanciar la clase.
-
+# el ultimo parametro accion es la funcion que ejecuta la accion concreta. son las funciones declaradas abajo.
+class Funciones():
+	def __init__(self):
+		self.listado = []		
+		self.listado.append(Funcion("mandelbrot",["resolucion","norma"],mandelbrot))
+		self.listado.append(Funcion("mandelbrotx",["resolucion","norma","exponente"],mandelbrotx))
+		self.listado.append(Funcion("max",["resolucion","norma","exponente","parametro"],maX))
+		self.listado.append(Funcion("julia",["resolucion","norma","parametro"],julia))
+		self.listado.append(Funcion("juliax",["resolucion","norma","exponente","parametro"],juliax))
+		self.listado.append(Funcion("asd",["resolucion","norma","parametro"],asd))
+		self.listado.append(Funcion("asd2",["resolucion","norma","parametro"],asd2))
+		self.listado.append(Funcion("asd3",["resolucion","norma","parametro"],asd3))
+		self.listado.append(Funcion("asd4",["resolucion","norma","parametro"],asd4))
+		self.listado.append(Funcion("asd5",["resolucion","norma","parametro"],asd5))
+		self.listado.append(Funcion("asd6",["resolucion","norma","parametro"],asd6))
+		self.listado.append(Funcion("qwe",["resolucion","norma","parametro"],qwe))
+		self.listado.append(Funcion("qwe2",["resolucion","norma","parametro"],qwe2))
+		self.listado.append(Funcion("qwe3",["resolucion","norma","parametro"],qwe3))
+		self.listado.append(Funcion("qwe4",["resolucion","norma","parametro"],qwe4))
+		self.listado.append(Funcion("qwe5",["resolucion","norma","parametro"],qwe5))
+		self.listado.append(Funcion("qwe6",["resolucion","norma","parametro"],qwe6))
+		self.listado.append(Funcion("zxc",["resolucion","norma","parametro"],zxc))
+		self.listado.append(Funcion("testerMin",[],testerMin))
+		self.listado.append(Funcion("testerMax",["resolucion"],testerMax))
+	
+		self.nombres = [funcion.nombre for funcion in self.listado]
+		
+	def obtenerID(self,nombre):
+		if(nombre in self.nombres):
+			return self.nombres.index(nombre)
+		else:
+			return -1
+	
+	def obtenerFuncion(self,nombre):
+		return self.listado[self.obtenerID(nombre)]
+	
 class Funcion():
-	listado = {}
+	listado = []
 	
 	def __init__(self,nombre,parametros,accion):
 		self.parametros = parametros
@@ -282,7 +317,7 @@ def qwe2(c,params):
 #-------------------------------------------------
 # -------------------  qwe3  ---------------------
 #-------------------------------------------------
-def qwe3(c,prams):
+def qwe3(c,params):
 	z = c
 	diteraciones = params[0]
 	norma = params[1]
@@ -382,22 +417,38 @@ def zxc(c,params):
 				print "DIVISION POR 0"
 				continue
 	return i
+#-------------------------------------------------
+# --------------------  testerMax  ---------------
+#-------------------------------------------------	
+def testerMax(c,params):
+	diteraciones = params[0]
+	for i in range(1,diteraciones+1):
+		a = 1+3+i
+	return i
 
-Funcion.listado["mandelbrot"] = Funcion("mandelbrot",["resolucion","norma"],mandelbrot)
-Funcion.listado["mandelbrotx"] = Funcion("mandelbrotx",["resolucion","norma","exponente"],mandelbrotx)
-Funcion.listado["max"] = Funcion("max",["resolucion","norma","exponente","parametro"],maX)
-Funcion.listado["julia"] = Funcion("julia",["resolucion","norma","parametro"],julia)
-Funcion.listado["juliax"] = Funcion("juliax",["resolucion","norma","exponente","parametro"],juliax)
-Funcion.listado["asd"] = Funcion("asd",["resolucion","norma","parametro"],asd)
-Funcion.listado["asd2"] = Funcion("asd2",["resolucion","norma","parametro"],asd2)
-Funcion.listado["asd3"] = Funcion("asd3",["resolucion","norma","parametro"],asd3)
-Funcion.listado["asd4"] = Funcion("asd4",["resolucion","norma","parametro"],asd4)
-Funcion.listado["asd5"] = Funcion("asd5",["resolucion","norma","parametro"],asd5)
-Funcion.listado["asd6"] = Funcion("asd6",["resolucion","norma","parametro"],asd6)
-Funcion.listado["qwe"] = Funcion("qwe",["resolucion","norma","parametro"],qwe)
-Funcion.listado["qwe2"] = Funcion("qwe2",["resolucion","norma","parametro"],qwe2)
-Funcion.listado["qwe3"] = Funcion("qwe3",["resolucion","norma","parametro"],qwe3)
-Funcion.listado["qwe4"] = Funcion("qwe4",["resolucion","norma","parametro"],qwe4)
-Funcion.listado["qwe5"] = Funcion("qwe5",["resolucion","norma","parametro"],qwe5)
-Funcion.listado["qwe6"] = Funcion("qwe6",["resolucion","norma","parametro"],qwe6)
-Funcion.listado["zxc"] = Funcion("zxc",["resolucion","norma","parametro"],zxc)
+#-------------------------------------------------
+# --------------------  testerMin  ---------------
+#-------------------------------------------------	
+def testerMin(c,params):
+	return 1
+
+# Funcion.listado["mandelbrot"] = Funcion("mandelbrot",["resolucion","norma"],mandelbrot)
+# Funcion.listado["mandelbrotx"] = Funcion("mandelbrotx",["resolucion","norma","exponente"],mandelbrotx)
+# Funcion.listado["max"] = Funcion("max",["resolucion","norma","exponente","parametro"],maX)
+# Funcion.listado["julia"] = Funcion("julia",["resolucion","norma","parametro"],julia)
+# Funcion.listado["juliax"] = Funcion("juliax",["resolucion","norma","exponente","parametro"],juliax)
+# Funcion.listado["asd"] = Funcion("asd",["resolucion","norma","parametro"],asd)
+# Funcion.listado["asd2"] = Funcion("asd2",["resolucion","norma","parametro"],asd2)
+# Funcion.listado["asd3"] = Funcion("asd3",["resolucion","norma","parametro"],asd3)
+# Funcion.listado["asd4"] = Funcion("asd4",["resolucion","norma","parametro"],asd4)
+# Funcion.listado["asd5"] = Funcion("asd5",["resolucion","norma","parametro"],asd5)
+# Funcion.listado["asd6"] = Funcion("asd6",["resolucion","norma","parametro"],asd6)
+# Funcion.listado["qwe"] = Funcion("qwe",["resolucion","norma","parametro"],qwe)
+# Funcion.listado["qwe2"] = Funcion("qwe2",["resolucion","norma","parametro"],qwe2)
+# Funcion.listado["qwe3"] = Funcion("qwe3",["resolucion","norma","parametro"],qwe3)
+# Funcion.listado["qwe4"] = Funcion("qwe4",["resolucion","norma","parametro"],qwe4)
+# Funcion.listado["qwe5"] = Funcion("qwe5",["resolucion","norma","parametro"],qwe5)
+# Funcion.listado["qwe6"] = Funcion("qwe6",["resolucion","norma","parametro"],qwe6)
+# Funcion.listado["zxc"] = Funcion("zxc",["resolucion","norma","parametro"],zxc)
+# Funcion.listado["testerMin"] = Funcion("testerMin",[],testerMin)
+# Funcion.listado["testerMax"] = Funcion("testerMax",["resolucion"],testerMax)
