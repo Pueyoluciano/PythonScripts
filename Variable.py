@@ -3,6 +3,7 @@ class Variable:
 		Clase para generar variables con varios parametros, los datos de entrada valor y modificador son obligatorios.
 		el dato **parametros es un diccionario que contiene todos los parametros que son relevantes para la Variable.
 		
+		parametros:
 		-valor: contiene el valor concreto. puede ser cualquier cosa.
 		
 		-modificador: es la funcion que modifica a Variable. Esta pensada para ser usada con la clase Aplicacion, que tiene
