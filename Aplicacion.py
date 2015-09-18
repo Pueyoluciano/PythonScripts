@@ -34,11 +34,11 @@ class Pantalla(threading.Thread):
 			self.tick = self.clock.tick(5)
 			for event in pygame.event.get():
 				if event.type == pygame.QUIT:
-					salir = True
+					Salir = True
 					
 			polling = self.queue.get()
 			if (polling.accion in self.acciones):
-				self.acciones[polling.accion](polling.parametros)
+				self.acciones[polling.accion](polling.parametros)			
 			
 	def actualizar(self,parametros):
 		if(parametros["refresco"]):
@@ -51,6 +51,7 @@ class Pantalla(threading.Thread):
 	def resize(self,parametros):
 		self.screen = pygame.display.set_mode((parametros["ancho"],parametros["alto"]))
 		self.pixelArray = pygame.PixelArray(self.screen)
+	
 		
 class Aplicacion:
 	"""
@@ -134,15 +135,15 @@ class Aplicacion:
 		
 		#Variables de usuario
 		if(self.appGrafica):
+			self.colorFondo = [0,0,0]
 			fratio = args["factorRatio"] if "factorRatio" in args.keys() else 50
 			ratio = args["ratio"] if "ratio" in args.keys() else [1,1] 
-			self.vars["ratio"]  = Variable(ratio,self.modifTamano,minimo=[1,1],orden=float("inf"))
-			self.vars["factorRatio"] = Variable(fratio,self.modifTamano,minimo=2,orden=float("inf"))
-			self.vars["colorFondo"] = Variable([0,0,0],self.modifColor,minimo=[0,0,0],maximo=[255,255,255],orden=float("inf"))
-		
-		self.vars["filesPath"] = Variable("C:\\Python27\\" + "ArchivosGenerados" + self.appNombre,self.modifGenerico,orden=float("inf"))
-		self.vars["outFile"] = Variable(self.appNombre + "Out.txt",self.modifGenerico,orden=float("inf"))
-		self.vars["logFile"] = Variable(self.appNombre + "Log.txt",self.modifGenerico,orden=float("inf"))
+			self.vars["ratio"]  = Variable(ratio,self.modifTamano,minimo=[1,1],orden=200)
+			self.vars["factorRatio"] = Variable(fratio,self.modifTamano,minimo=2,orden=201)
+
+		self.vars["filesPath"] = Variable(os.getcwd() + "\ArchivosGenerados" + self.appNombre,self.modifGenerico,orden=202)
+		self.vars["outFile"] = Variable(self.appNombre + "Out.txt",self.modifGenerico,orden=203)
+		self.vars["logFile"] = Variable(self.appNombre + "Log.txt",self.modifGenerico,orden=204)
 		
 		#Genero el menu
 		titulo = "--- " +self.appNombre + " " + self.version + " ---"
@@ -173,7 +174,7 @@ class Aplicacion:
 			self.queue = Queue.Queue()		
 
 			#Thread de Pantalla
-			self.pantalla = Pantalla(self.ancho,self.alto,self.appNombre,self.vars["colorFondo"].valor,self.queue)
+			self.pantalla = Pantalla(self.ancho,self.alto,self.appNombre,self.colorFondo,self.queue)
 			self.pantalla.daemon = True
 			self.pantalla.start()
 			self.log("Iniciando Thread Pantalla")
@@ -181,8 +182,7 @@ class Aplicacion:
 			self.agregarPostFunciones(self.calcularAnchoAlto,self.actualizarTamanoPantalla)
 		
 		self.iniciar(**args)
-		
-		
+
 		self.log("Iniciando" + self.appNombre)
 	
 	def iniciar(self,**args):
@@ -242,12 +242,13 @@ class Aplicacion:
 		return [value[1] for value in self.obtenerNombreValorVariables()]
 		
 	def mostrarVariables(self):
-		print "\n-----------------------------------------------------------------"
+		print "\n"
+		self.espaciador()
 		variables = self.obtenerNombreValorVariables()
 		for i in range(0,len(variables)):
 			print str(i+1) + ") " + str(variables[i][0]) + ":",(variables[i][1])
 		print str(i+2) + ") Volver" 
-		print "-----------------------------------------------------------------"
+		self.espaciador()
 	
 	def modificar(self):
 	# Si uso el metodo modificar; para que el usuario ingrese valores, params estara vacio.
@@ -273,15 +274,17 @@ class Aplicacion:
 		for funcion in self.postFunciones:
 			funcion()				
 
-	def modifGenerico(self,key):
-		tipo = type(self.vars[key].valor)
-		self.vars[key].valor = validador.ingresar(tipo,validador.entre,self.vars[key].minimo,self.vars[key].maximo)		
-	
+	def modifGenerico(self,key,*params):
+		if(len(params) == 0):
+			tipo = type(self.vars[key].valor)
+			self.vars[key].valor = validador.ingresar(tipo,validador.entre,self.vars[key].minimo,self.vars[key].maximo)		
+		else:
+			self.vars[key].valor = params[0]
+		
 	def modifValoresPosibles(self,key):
 		print "valores posibles: "
 		for i in range(0,len(self.vars[key].valoresPosibles)):
-			print str(i+1) + ") " + str(self.vars[key].valoresPosibles[i])
-		
+			print str(i+1) + ") " + str(self.vars[key].valoresPosibles[i])	
 		
 		self.vars[key].valor = validador.seleccionar(self.vars[key].valoresPosibles)
 	
@@ -332,18 +335,21 @@ class Aplicacion:
 			
 		return nombre
 
+	def espaciador(self):
+		print "-----------------------------------------------------------------"
+		
 	def salir(self):
 		self.log("cerrando" + self.appNombre)
 		self.salirPrint()
 		if(self.appGrafica):
-			pygame.quit()
+			self.queue.put(Polling("salir"))
 		return "SALIR"
 				
 	def salirPrint(self):
 		print "adios"
 	
+	
 if __name__ == '__main__':	
 	a = Aplicacion("App","1.0.0")
-	print "antes de menu principal"
 	a.menuPrincipal();		
 		
