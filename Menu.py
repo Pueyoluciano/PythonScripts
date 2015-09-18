@@ -1,5 +1,3 @@
-
-
 from validador import *
 
 class Nodo:
