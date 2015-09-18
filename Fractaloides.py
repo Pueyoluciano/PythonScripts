@@ -2,8 +2,6 @@ import os
 import time
 import pygame
 import Aplicacion
-import flagsFactory
-import multiprocessing as mp
 from fractions import gcd
 from datetime import datetime
 from paletaColores import Paleta	
@@ -16,15 +14,17 @@ from Funcionesfractales import *
 #------------------------------------------------
 # 1) EJECUCION EN PARARELO
 
-# 2) LOGEAR TIEMPOS DE EJECUCION:
-# 2.1) CADA CIERTA CANTIDAD DE TIEMPO MOSTRAR EL PROGRESO.
-# 2.2) CADA UN 25% LOGUEAR PROGRESO LOGRADO.
+# 2) IMPLEMENTAR LOGGING
 
-# 3) TESTER DE VEOLICDAD
-# 3.1) CREAR UNA FUNCION QUE DEVUELVA SIEMPRE MAXIMAS ITERACIONES- PARA UN SET FIJO DE VARIABLES TOMAR TIEMPO.
-# 3.2) IDEM 3.1) PERO CON FUNCION QUE DEVUELVA MINIMAS ITERACIONES.
+# 3) MOSTRAR TIEMPOS DE EJECUCION:
+# 3.1) CADA CIERTA CANTIDAD DE TIEMPO MOSTRAR EL PROGRESO.
+# 3.2) CADA UN 25% LOGUEAR PROGRESO LOGRADO.
 
-# 4) SCHEDULER - PARA CREAR LISTAS DE EJECUCION.
+# 4) TESTER DE VEOLICDAD
+# 4.1) CREAR UNA FUNCION QUE DEVUELVA SIEMPRE MAXIMAS ITERACIONES- PARA UN SET FIJO DE VARIABLES TOMAR TIEMPO.
+# 4.2) IDEM 4.1) PERO CON FUNCION QUE DEVUELVA MINIMAS ITERACIONES.
+
+# 5) SCHEDULER - PARA CREAR LISTAS DE EJECUCION.
 
 #------------------------------------------------
 #------------------------------------------------
@@ -46,6 +46,23 @@ class Fractales(Aplicacion.Aplicacion):
 	def iniciar(self,**args):	
 		# self.listaFunciones= Funcion.listado # Diccionario con el listado de funciones.
 		self.listaFunciones = Funciones()
+
+		# Acciones scheduleables.
+		self.scheduleables =[
+		["graficar",self.graficar],
+		["foto",self.foto],
+		["sesion",self.sesion],
+		["ascii",self.ascii],
+		["modificarX",self.modifEjeX],
+		["modificarY",self.modifEjeY],
+		["modificarZoom",self.modifZoom],
+		["modificarParametro",self.modifParametro],
+		["modificarNorma",self.modifNorma],
+		["modificarExponente",self.modifExponente],
+		["modificarColor",self.modifListaColor],
+		["modificarFuncion",self.modifFuncion],
+		["volver"]
+		]
 		
 		# variables de programa
 		self.xmin = 0.0 # minimo valor del plano complejo, en el eje x
@@ -58,21 +75,17 @@ class Fractales(Aplicacion.Aplicacion):
 		self.elapsedTime = 0.0
 		
 		#variables de usuario	
-		# self.vars["ratio"].valor = args["ratio"]
-		# self.vars["factorRatio"].valor = args["factorRatio"]
-		
 		self.vars["funcion"] = Variable(self.listaFunciones.obtenerFuncion(args["funcion"]),self.modifFuncion,orden=0)
 		self.vars["parametro"] = Variable(args["parametro"],self.modifGenerico,flags={"iterable":True},orden=1)
 		self.vars["norma"] = Variable(args["norma"],self.modifGenerico,minimo=0.0,flags={"iterable":True},orden=2)
 		self.vars["exponente"] = Variable(args["exponente"],self.modifGenerico,flags={"iterable":True},orden=3)
-		self.vars["resolucion"] = Variable(args["resolucion"],self.modifResolucion,minimo=1,flags={"iterable":True},orden=4)
+		self.vars["resolucion"] = Variable(args["resolucion"],self.modifResolucion,minimo=2,flags={"iterable":True},orden=4)
 		self.vars["listaColores"] = Variable(args["listaColores"],self.modifListaColor,orden=5)		
 		self.vars["zoom"] = Variable(args["zoom"],self.modifZoom,minimo=0,flags={"iterable":True},orden=6)
-		self.vars["deltax"] = Variable(args["deltax"],self.modifEje,flags={"iterable":True},orden=7)
-		self.vars["deltay"] = Variable(args["deltay"],self.modifEje,flags={"iterable":True},orden=8)
+		self.vars["deltax"] = Variable(args["deltax"],self.modifEjeX,flags={"iterable":True},orden=7)
+		self.vars["deltay"] = Variable(args["deltay"],self.modifEjeY,flags={"iterable":True},orden=8)
 		self.vars["extension"] = Variable(args["extension"],self.modifValoresPosibles,valoresPosibles=self.formatos,orden=9)
 		self.vars["asciiFile"] = Variable("asciiOut.txt",self.modifGenerico,orden=10)
-		# self.vars["colorFondo"] = Variable(args["colorFondo"],self.modifColor,minimo=[0,0,0],maximo=[255,255,255],orden=)
 		
 		#Paleta de colores
 		self.paleta = Paleta(self.vars["listaColores"].valor,self.vars["resolucion"].valor) #Paleta de colores para manejar el pintado de las funciones.
@@ -82,19 +95,15 @@ class Fractales(Aplicacion.Aplicacion):
 		self.agregarMenu(1,Leaf("toAscii","",self.ascii))
 		self.agregarMenu(2,Leaf("Foto","Foto Tomada",self.foto))
 		self.agregarMenu(3,Leaf("Sesion","Secuencia de fotos iterando algunas variables",self.sesion))
-		self.agregarMenu(4,Leaf("tiempos de ejecucion","Mediciones de tiempo de la ultima ejecucion",self.tiempos))
+		self.agregarMenu(4,Nodo("Scheduler","Ejecucion por lotes",Leaf("Ejecutar Scheduler","",self.ejecutarScheduler),Leaf("Cargar Scheduler","",self.cargarScheduler)))
+		self.agregarMenu(5,Leaf("tiempos de ejecucion","Mediciones de tiempo de la ultima ejecucion",self.tiempos))
 		
 		#Funciones que se ejecutan luego de llamar a Modificar.
-		self.agregarPostFunciones(self.recalcular,self.graficar,self.foto)
+		self.agregarPostFunciones(self.calcularBounds,self.graficar,self.foto)
 		
 		self.actualizarTamanoPantalla()
-		self.recalcular()	
+		self.calcularBounds()	
 		self.graficar()
-
-	def recalcular(self):
-		# self.calcularAnchoAlto()
-		self.calcularBounds()
-		#self.temporal()
 		
 	def calcularBounds(self):
 		# Este es el mapeo de pixeles al plano complejo. 
@@ -121,27 +130,30 @@ class Fractales(Aplicacion.Aplicacion):
 			self.planoComplejo.append([])
 			for y in range(0,self.alto):
 				self.planoComplejo[x].append(self.convertirPC(x,y,deltax,deltay))
-		
-	# def temporal(self): # carga el pixelArray, con pygame andando esto se va
-		# self.pixeles = []
-		# for x in range(0,self.ancho):
-			# self.pixeles.append([])
-			# for y in range(0,self.alto):
-				# self.pixeles[x].append(self.vars["colorFondo"].valor)
-		
-	# def cargarPixel(self,pixel,color):
-		# #funcion que va a cambiar segun que se use para graficar, pygame,tkinter, etc.
-		# self.pixeles[pixel[0]][pixel[1]] = color
 
-	def tiempos(self):
+	def cargarScheduler(self):	
+		opciones = [schedule[0] for schedule in self.scheduleables]
+		self.enumerarLista(opciones)
+		
+		eleccion = validador.seleccionar(opciones)
+		if(eleccion != "volver"):
+			print "schedule!"
+		
+	def ejecutarScheduler(self):
+		print "schedule!"		
+		
+	def tiempos(self,*tiempoTotal):
+		if (len(tiempoTotal) == 0):
+			tiempoTotal = [self.elapsedTime]
+			
 		print "-----------------------------------------------------------------"
-		print "Tiempo Total: " + str(self.elapsedTime)[:12]
+		print "Tiempo Total: " + str(tiempoTotal[0])[:12]
 		print "Funcion: " + str(self.vars["funcion"].valor)
 		print "dimensiones: " + str(self.vars["ratio"].valor[0]*self.vars["factorRatio"].valor) + "x" + str(self.vars["ratio"].valor[1]*self.vars["factorRatio"].valor)
 		print "resolucion: " + str(self.vars["resolucion"].valor)
 		print "-----------------------------------------------------------------"
 		self.log("-----------------------------------------------------------------")
-		self.log("Tiempo Total: " + str(self.elapsedTime)[:12])
+		self.log("Tiempo Total: " + str(tiempoTotal[0])[:12])
 		self.log("Funcion: " + str(self.vars["funcion"].valor))
 		self.log("dimensiones: " + str(self.vars["ratio"].valor[0]*self.vars["factorRatio"].valor) + "x" + str(self.vars["ratio"].valor[1]*self.vars["factorRatio"].valor))
 		self.log("resolucion: " + str(self.vars["resolucion"].valor))
@@ -172,6 +184,8 @@ class Fractales(Aplicacion.Aplicacion):
 		#medicion de tiempo	
 		startTime = time.time()	
 		
+		cuarto = self.ancho/4
+		
 		#Esto es para hacer el pasaje de pixel a complejo, esta aca para que no se hagan tantas cuentas en el loop.
 		deltax = abs(self.xmin - self.xmax) / (float(self.ancho) - 1)
 		deltay = abs(self.ymin - self.ymax) / (float(self.alto) - 1)
@@ -197,9 +211,7 @@ class Fractales(Aplicacion.Aplicacion):
 		for x in range(0,self.ancho):	
 			for y in range(0,self.alto):
 				valor = self.vars["funcion"].valor.calcular(self.planoComplejo[x][y],params)
-				self.pixelArray[x,y] = self.paleta.grilla[valor-1]	#en grilla tengo el valor de color para la intensidad=valor-1
-		
-		
+				self.pixelArray[x,y] = self.paleta.grilla[valor-1]	#en grilla tengo el valor de color para la intensidad=valor-1	
 		
 		#medicion de tiempo		
 		endTime = time.time()
@@ -207,9 +219,8 @@ class Fractales(Aplicacion.Aplicacion):
 		
 		self.actualizarPantalla()
 		#self.foto()
-		self.tiempos()
-	
-	
+		self.tiempos(self.elapsedTime)
+
 	def cargarPixelArray(self,x,y,color):
 		self.pixelArray[x,y] = color
 	
@@ -232,13 +243,19 @@ class Fractales(Aplicacion.Aplicacion):
 		for key in self.vars["funcion"].valor.parametros:
 			params.append(self.vars[key].valor)
 		
-		for x in range(0,self.ancho):
+		# for x in range(0,self.ancho):
+			# for y in range(0,self.alto):
+				# complejo = self.convertirPC(y,x)
+				# valor = self.vars["funcion"].valor.calcular(complejo,params)
+				# archivo.write(caracteres[valor-1])
+			# archivo.write("\n")
+	
+		for x in range(0,self.ancho):	
 			for y in range(0,self.alto):
-				complejo = self.convertirPC(y,x)
-				valor = self.vars["funcion"].valor.calcular(complejo,params)
+				valor = self.vars["funcion"].valor.calcular(self.planoComplejo[y][x],params)
 				archivo.write(caracteres[valor-1])
 			archivo.write("\n")
-	
+
 		self.modifResolucion("resolucion",aux)
 		
 		archivo.close()
@@ -262,8 +279,10 @@ class Fractales(Aplicacion.Aplicacion):
 					 # listado = [[norma,2,1],[parametro,3j,1+1j]]
 		pasos = 0
 		
-		disponibles = [item for item in self.vars if "iterable" in self.vars[item].flags.keys() and self.vars[item].flags["iterable"]] # lista por comprension de variables iterables
-	
+		# lista por comprension de variables iterables
+		# Ordena la lista de variables por su flag de orden, y se queda con las que tengan flag iterable y sea true.
+		disponibles = [variable[0] for variable in sorted(self.vars.items(),key=lambda x: x[1].orden) if "iterable" in variable[1].flags.keys() and variable[1].flags["iterable"]]
+
 		while (seguir):
 			print "variable a iterar?"
 			self.enumerarLista(disponibles + ["Volver"])
@@ -278,10 +297,12 @@ class Fractales(Aplicacion.Aplicacion):
 				print str(self.vars[variable].valor) + "\n"
 				
 				print "desde:"
-				desde = validador.ingresar(type(self.vars[variable].valor),validador.entre,self.vars[variable].minimo,self.vars[variable].maximo)
+				# desde = validador.ingresar(type(self.vars[variable].valor),validador.entre,self.vars[variable].minimo,self.vars[variable].maximo)
+				desde = validador.ingresarVariable(self.vars[variable])
 				
 				print "hasta:"
-				hasta = validador.ingresar(type(self.vars[variable].valor),validador.entre,self.vars[variable].minimo,self.vars[variable].maximo)
+				# hasta = validador.ingresar(type(self.vars[variable].valor),validador.entre,self.vars[variable].minimo,self.vars[variable].maximo)
+				hasta = validador.ingresarVariable(self.vars[variable])
 					
 				if(primera):
 					print "en cuantos pasos:"
@@ -311,39 +332,71 @@ class Fractales(Aplicacion.Aplicacion):
 				os.mkdir(nombreCarpeta)
 			os.chdir(nombreCarpeta)	
 					
+			#medicion de tiempo	
+			startTime = time.time()
+		
 			#Loop de la sesion
 			for i in range(0,pasos):
 				for key in listado:
 					var = key[0]
 					desdeaux = key[1]
 					saltoaux = key[2]
-					self.vars[var].valor = desdeaux + (saltoaux * i)
+					self.vars[var].modificador(var,desdeaux + (saltoaux * i))
+					# self.vars[var].valor = desdeaux + (saltoaux * i)
 	
 					self.graficar()
 					self.foto()
 					
 				print str(i+1) + "/" + str(pasos)
-
-			os.chdir(self.vars["filesPath"].valor)
-		
+			
+			#medicion de tiempo	
+			endTime = time.time()
+			
+			self.log("-----------------------------------------------------------------")
+			self.log("--- Sesion ------------------------------------------------------")
+			print "-----------------------------------------------------------------"
+			print "--- Sesion ------------------------------------------------------"
+			self.tiempos(endTime - startTime)
+			
+			os.chdir(self.vars["filesPath"].valor)		
+	
+	def modifNorma(self,key,*params):
+		if(len(params) == 0):
+			self.vars["norma"] = validador.ingresarVariable(self.vars["norma"])
+	
+	def modifExponente(self,key,*params):
+		if(len(params) == 0):
+			self.vars["exponente"] = validador.ingresarVariable(self.vars["exponente"])
+	
+	def	modifParametro(self,key,*params):
+		if(len(params) == 0):
+			self.vars["parametro"] = validador.ingresarVariable(self.vars["parametro"])
+			
 	def modifZoom(self,key,*params):
 		if(len(params) == 0):			
-			self.vars["zoom"].valor = validador.ingresar(float,validador.mayor,self.vars["zoom"].minimo)
+			self.vars["zoom"].valor = validador.ingresarVariable(self.vars["zoom"])
 		else:
-			self.vars["zoom"].valor = params[0]
+			self.vars["zoom"].valor = float(params[0])
 		self.calcularBounds()
 	
-	def modifEje(self,key,*params):
+	def modifEjeX(self,key,*params):
 		if(len(params) == 0):
-			print "valores positivos dezplazan la imagen hacia izquierda/arriba y valores negativos hacia la derecha/abajo"
+			print "valores positivos dezplazan la imagen hacia izquierda y valores negativos hacia la derecha"
 			print "corrimiento en x"
-			self.vars["deltax"].valor = validador.ingresar(float)# obtengo el delta en x			
-			print "corrimiento en y"
-			self.vars["deltay"].valor = validador.ingresar(float)# obtengo el delta en y
+			self.vars["deltax"].valor = validador.ingresarVariable(self.vars["deltax"])# obtengo el delta en x
 			
 		else:
-			self.vars["deltax"].valor = params[0]
-			self.vars["deltay"].valor = params[1]
+			self.vars["deltax"].valor = float(params[0])
+		self.calcularBounds()
+		
+	def modifEjeY(self,key,*params):
+		if(len(params) == 0):
+			print "valores positivos dezplazan la imagen hacia arriba y valores negativos hacia la abajo"			
+			print "corrimiento en y"
+			self.vars["deltay"].valor = validador.ingresarVariable(self.vars["deltay"])# obtengo el delta en y
+			
+		else:
+			self.vars["deltay"].valor = float(params[0])
 		self.calcularBounds()
 
 	def modifColor(self,key,*params):
@@ -364,53 +417,61 @@ class Fractales(Aplicacion.Aplicacion):
 		
 		return [r,g,b]
 	
-	def modifListaColor(self,key):
+	def modifListaColor(self,key,*params):
 		#Lista Colores
-		self.vars["listaColores"].valor = []
-		print "-- Lista de colores--"
-		print "Como armar la lista de colores:"
+		if(len(params) == 0):
+			self.vars["listaColores"].valor = []
+			print "-- Lista de colores--"
+			print "Como armar la lista de colores:"
 
-		print "En este modo se van a setear una cantidad de colores en puntos de la paleta, todos los puntos intermedios son interpolados linealmente."
-		print "Para ello se eligen de a dos colores RGB y hasta donde abarca ese tramo."
-		print "si la paleta no es llenada hasta el final, el ultimo color ingresado sera el que complete la misma, de igual modo si por error se ingresa un valor hasta mas grande que el que permite la paleta, este se trunca."
-		
-		print "resolucion:", self.vars["resolucion"].valor
-		
-		seguir = True
-		previo = 0
-		while(seguir):
-			print "Color Desde:"
-			colord = self.pickColor()
+			print "En este modo se van a setear una cantidad de colores en puntos de la paleta, todos los puntos intermedios son interpolados linealmente."
+			print "Para ello se eligen de a dos colores RGB y hasta donde abarca ese tramo."
+			print "si la paleta no es llenada hasta el final, el ultimo color ingresado sera el que complete la misma, de igual modo si por error se ingresa un valor hasta mas grande que el que permite la paleta, este se trunca."
 			
-			print "Color Hasta:"
-			colorh = self.pickColor()
+			print "resolucion:", self.vars["resolucion"].valor
 			
-			print "Hasta:"
-			hasta = validador.ingresar(int,validador.entre,previo,self.vars["resolucion"].valor)
-			
-			print "otro tramo?"
-			resp = validador.ingresarSINO()		
+			seguir = True
+			previo = 0
+			while(seguir):
+				print "Color Desde:"
+				colord = self.pickColor()
+				
+				print "Color Hasta:"
+				colorh = self.pickColor()
+				
+				print "Hasta:"
+				hasta = validador.ingresar(int,validador.entre,previo,self.vars["resolucion"].valor)
+				
+				print "otro tramo?"
+				resp = validador.ingresarSINO()		
 
-			if (resp): # SI quiero otro color
-				if(hasta == self.vars["resolucion"].valor):
-					seguir = False
-					
-			else: # NO quiero otro color
-				if(hasta < self.vars["resolucion"].valor):
-					hasta = self.vars["resolucion"].valor
-				seguir = False			
+				if (resp): # SI quiero otro color
+					if(hasta == self.vars["resolucion"].valor):
+						seguir = False
+						
+				else: # NO quiero otro color
+					if(hasta < self.vars["resolucion"].valor):
+						hasta = self.vars["resolucion"].valor
+					seguir = False			
 
-			color = [colord,colorh,hasta]
-			self.vars["listaColores"].valor.append(color)		
-		
+				color = [colord,colorh,hasta]
+				self.vars["listaColores"].valor.append(color)		
+			
+			# print self.vars["listaColores"].valor
+			# self.paleta.setear(self.vars["listaColores"].valor)
+			
+		else:
+			self.vars["listaColores"].valor = params[0]
+			
 		print self.vars["listaColores"].valor
 		self.paleta.setear(self.vars["listaColores"].valor)
 	
 	def modifResolucion(self,key,*params):
 		if(len(params) == 0):
-			self.vars["resolucion"].valor = validador.ingresar(int,validador.mayor,self.vars["resolucion"].minimo)
+			self.vars["resolucion"].valor = validador.ingresarVariable(self.vars["resolucion"])
 		else:
-			self.vars["resolucion"].valor = params[0]
+			self.vars["resolucion"].valor = int(params[0])
+			
 		self.vars["listaColores"].valor = self.paleta.ajustarResolucion(self.vars["listaColores"].valor, self.vars["resolucion"].valor)
 		
 	def modifTamano(self,key,*params): 
@@ -425,8 +486,8 @@ class Fractales(Aplicacion.Aplicacion):
 			print "alto:"
 			alto = validador.ingresar(int,validador.mayor,0)
 		else:
-			ancho = params[0]
-			alto = params[1]
+			ancho = int(params[0])
+			alto = int(params[1])
 			
 		mcd = gcd(ancho,alto)
 		self.vars["ratio"].valor[0] = ancho/mcd
@@ -434,31 +495,29 @@ class Fractales(Aplicacion.Aplicacion):
 	
 		if(len(params) == 0):
 			print "factor:"
-			self.vars["factorRatio"].valor = validador.ingresar(int,validador.mayorigual,self.vars["factorRatio"].minimo)
+			self.vars["factorRatio"].valor = validador.ingresarVariable(self.vars["factorRatio"])
 		else:
-			self.vars["factorRatio"].valor = params[2]
+			self.vars["factorRatio"].valor = int(params[2])
 	
 	def modifFuncion(self,key,*params):
 		if(len(params) == 0):
 			self.enumerarLista(self.listaFunciones.nombres+["volver"])
 			funcion = validador.seleccionar(self.listaFunciones.nombres + ["volver"])
 			if(funcion !="volver"):
-				self.vars["funcion"].valor = self.listaFunciones.listado[self.listaFunciones.nombres.index(funcion)]
+				self.vars["funcion"].valor = self.listaFunciones.obtenerFuncion(funcion)
 		else:
-			self.vars["funcion"].valor = self.listaFunciones[self.listaFunciones.nombres.index(params[0])]
-	
-	
+			self.vars["funcion"].valor = self.listaFunciones.obtenerFuncion(params[0])	
 	
 	def ayuda(self):
 		print "-----------------------------------------------------------------"
 		print "PROXIMAMENTE MANUAL DE INSTRUCCIONES E INTRODCCION A GEOMETRIA"
 		print "FRACTAL."	
-		print "-----------------------------------------------------------------"
-		
+		print "-----------------------------------------------------------------"	
 		
 	def salirPrint(self):
 		print "--- \\m/ ---"
-	
+
+		
 if __name__ == '__main__':
 	a = Fractales("Fractaloides","2.0.0",True,
 					ratio=[1,1],
