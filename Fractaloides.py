@@ -535,3 +535,16 @@ if __name__ == '__main__':
 					extension=".png")
 					
 	a.menuPrincipal()		
+
+# Constantes divertidas:
+# --- (julia) (1+0j)
+# --- (julia) (0+1j)	
+# --- (julia) (0.5+0.5j) 
+# --- (julia) (-1.3+0.00525j)
+# --- (julia) (-0.72-0.196j)
+# --- (julia) (-0.8-0.2j) !!! 
+# --- (julia) (0.4+0.3j)
+# --- (julia) (0.7+0.5j)
+# --- (juli4) (-0.8-0.2j)
+# --- (julia5) (0.718+0.5j) !!! 
+# --- (julia5) (0.71898+0.5j) !!! 
