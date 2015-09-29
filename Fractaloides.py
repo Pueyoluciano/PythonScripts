@@ -265,7 +265,7 @@ class Fractales(Aplicacion.Aplicacion):
 		
 		params = str(self.vars["funcion"].valor) + "-p" + str(self.vars["parametro"].valor) +"-e" + str(self.vars["exponente"].valor) +"-n" + str(self.vars["norma"].valor) +"-dx" + str(self.vars["deltax"].valor) +"-dy" + str(self.vars["deltay"].valor) +"-z" + str(self.vars["zoom"].valor) +"-r" + str(self.vars["resolucion"].valor)
 				
-		nombre = self.generarNombreValido(os.getcwd() +"\\"+ params + self.vars["extension"].valor)
+		nombre = self.generarNombreValido(self.vars["filesPath"].valor + "\\"+ params + self.vars["extension"].valor)
 		pygame.image.save(panta, nombre)
 		self.log("foto Tomada",nombre,str(self.vars))
 
@@ -534,7 +534,7 @@ if __name__ == '__main__':
 					listaColores=[[[0,0,0],[0,0,255],15]],
 					extension=".png")
 					
-	a.menuPrincipal()		
+	a.menuPrincipal()
 
 # Constantes divertidas:
 # --- (julia) (1+0j)
