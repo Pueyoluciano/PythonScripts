@@ -141,9 +141,10 @@ class Aplicacion:
 			self.vars["ratio"]  = Variable(ratio,self.modifTamano,minimo=[1,1],orden=200)
 			self.vars["factorRatio"] = Variable(fratio,self.modifTamano,minimo=2,orden=201)
 
-		self.vars["filesPath"] = Variable(os.getcwd() + "\ArchivosGenerados" + self.appNombre,self.modifGenerico,orden=202)
-		self.vars["outFile"] = Variable(self.appNombre + "Out.txt",self.modifGenerico,orden=203)
-		self.vars["logFile"] = Variable(self.appNombre + "Log.txt",self.modifGenerico,orden=204)
+		self.vars["rootPath"] = Variable(os.getcwd() + "\ArchivosGenerados" + self.appNombre,self.modifPath,orden=202)
+		self.vars["filesPath"] = Variable(self.vars["rootPath"].valor,self.modifPath,orden=203)
+		self.vars["outFile"] = Variable(self.appNombre + "Out.txt",self.modifPath,orden=204)
+		self.vars["logFile"] = Variable(self.appNombre + "Log.txt",self.modifPath,orden=205)
 		
 		#Genero el menu
 		titulo = "--- " +self.appNombre + " " + self.version + " ---"
@@ -215,7 +216,7 @@ class Aplicacion:
 	
 	def log(self,*datos):
 		# archivo  = open(self.vars["filesPath"].valor + "\\" + self.vars["logFile"].valor,"a")
-		archivo  = open(self.vars["filesPath"].valor + "\\" + self.vars["logFile"].valor,"a")
+		archivo  = open(self.vars["rootPath"].valor + "\\" + self.vars["logFile"].valor,"a")
 		
 		timestamp = str(datetime.now().strftime('%Y-%m-%d %H:%M:%S')) + " -- "
 		archivo.write(timestamp)
@@ -288,6 +289,13 @@ class Aplicacion:
 		
 		self.vars[key].valor = validador.seleccionar(self.vars[key].valoresPosibles)
 	
+	def modifPath(self,key):
+		path = validador.ingresar(str)
+		if not os.path.isdir(path):
+			os.mkdir(path)
+			# os.chdir(nombreCarpeta)	
+		self.vars[key].valor = path
+	
 	def menuPrincipal(self):
 		salir = False
 		while (not salir):
@@ -300,14 +308,14 @@ class Aplicacion:
 		print "--------------------------"
 	
 	def verFile(self):
-		fname = self.vars["filesPath"].valor + "\\" +  self.vars["outFile"].valor
+		fname = self.vars["rootPath"].valor + "\\" +  self.vars["outFile"].valor
 		if(os.path.isfile(fname)):
 			os.startfile(fname)
 		else:
 			print "Archivo no encontrado"
 		
 	def verLog(self):
-		fname = self.vars["filesPath"].valor + "\\" +  self.vars["logFile"].valor
+		fname = self.vars["rootPath"].valor + "\\" +  self.vars["logFile"].valor
 		if(os.path.isfile(fname)):
 			os.startfile(fname)
 		else:
