@@ -1,4 +1,5 @@
 import Aplicacion
+import random
 import os
 import time
 from Menu import *
@@ -7,36 +8,7 @@ from validador import *
 #------------------------------------------------
 #--------------- TODO ---------------------------
 #------------------------------------------------
-    # U=Up
-    # D=Down
-    # L=Left
-    # R=Right
-    # directions=[U,UR,R,DR,D,DL,L,UL]
 
-    # shortestWord=2
-    # longestHorizontalWord=width
-    # longestVerticalWord=height
-    # longestDiagonalWord=min(height,width)
-
-    # obtainPlacesForDirection(word, dir)
-    # --- checkTotalLength()
-    # --- checkMatcheableLetters()
-
-    # .....
-    # .....
-    # .....
-    # .....
-
-    # AAA
-    # BBB
-    # CCC
-    # abcde
-    # ---i-
-    # gfaaa
-    # createCrucigram()
-        # words.randomize()
-        # for word in words:
-        
 #------------------------------------------------
 #------------------------------------------------
 #------------------------------------------------
@@ -51,19 +23,23 @@ class Crucigrammer(Aplicacion.Aplicacion):
         self.possTemporal = []
         self.grillaCrucigrama = "grillaCrucigrama.txt"
         # self.palabras = ["pedro","ernesto","tres","atres","pos","zas","ywo"] # esta se carga segun las palabras a buscar, obvio.
-        self.palabras = ["otsenre"] # esta se carga segun las palabras a buscar, obvio.
+        self.palabras = ["dia", "via", "oro", "roto", "ocho", "mono", "cuatro", "cinco", "perro", "luchas", "piedra", "sismos", "luciano", "quiebro", "sorongo", "filantropo", "destructor"] # esta se carga segun las palabras a buscar, obvio.
         self.resultado = [] #[palabra:"Pedro",x:5,y:6,direccion:(1,1)]
+        self.abcdario = ['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z']
         
 		#variables de usuario	
-        self.vars["relleno"] = Variable("-",self.modifGenerico,orden=2)
-        # self.vars["variableConVariasPalabrasEnCamelCase"] = Variable(args["arg1"],self.modifValoresPosibles,valoresPosibles=["valor1","valor2"],orden=4)
+        self.vars["relleno"] = Variable("-",self.modifGenerico,orden=0)
+        self.vars["ancho"] = Variable(10,self.modifGenerico,minimo=3,orden=1)
+        self.vars["alto"] = Variable(10,self.modifGenerico,minimo=3,orden=2)
 		
 		#Items del Menu
-        
         self.agregarMenu(0,Leaf("Resolver","Realizando busqueda de palabras...",self.iterarPalabras))
-        self.agregarMenu(1,Leaf("Recargar Crucigrama","", self.cargarCrucigrama))
-        self.agregarMenu(2,Leaf("Modificar Crucigrama","",self.modificarCrucigrama))
-        self.agregarMenu(3,Nodo("Palabras a buscar","",Leaf("Agregar Palabras","",self.agregarPalabras), Leaf("Quitar Palabras","",self.quitarPalabras)))
+        self.agregarMenu(1,Leaf("Generar Crucigrama","",self.generarCrucigrama))
+        self.agregarMenu(2,Leaf("Rellenar Crucigrama","",self.rellenarConRandom))
+        self.agregarMenu(3,Leaf("Recargar Crucigrama","", self.cargarCrucigrama))
+        self.agregarMenu(4,Leaf("Modificar Crucigrama","",self.modificarCrucigrama))
+        self.agregarMenu(5,Nodo("Palabras a buscar","",Leaf("Agregar Palabras","",self.agregarPalabras), Leaf("Quitar Palabras","",self.quitarPalabras)))
+        
         #Funciones que se ejecutan luego de llamar a Modificar.
         # self.agregarPostFunciones()
 		
@@ -72,9 +48,6 @@ class Crucigrammer(Aplicacion.Aplicacion):
 	#-----------------------
 	#--- Funciones ---------
 	#-----------------------
-    def posFuncion1(self):
-        pass
-
     def agregarPalabras(self):
         print "Palabras actuales:"
         print self.palabras
@@ -107,7 +80,87 @@ class Crucigrammer(Aplicacion.Aplicacion):
         self.palabras = [palabra for palabra in self.palabras if palabra not in aRemover]
             
         self.pausa()
+    
+    def generarCrucigrama(self):
+        self.grilla = self.grillaVacia(self.vars["ancho"].valor,self.vars["alto"].valor)
+
+        startTime = time.time()
+        
+        palabrasNuevas = self.palabras
+        random.shuffle(palabrasNuevas)
+        
+        for palabra in palabrasNuevas:
+            lugares = self.obtenerLugaresPosibles(palabra)
+            if (lugares == []):
+                self.espaciador()
+                print "La palabra " + palabra + " no puede ser ubicada"
+                print "Esto puede ser porque: "
+                print "1) Sus dimensiones son mayores que la grilla actual"
+                print "2) En el reparto de palabras se quedo sin lugares posibles"
+                print "Siempre revisar que la longitud de las palabras sea menor o igual que el ancho y alto de la grilla"
+                self.pausa()
+            else:
+                lugarFinal = random.choice(lugares)
+                x = lugarFinal[0]
+                y = lugarFinal[1]
+                direccion = random.choice(lugarFinal[2])
+                print palabra, x , y ,direccion, self.traducirDireccion(direccion)
+                self.escribirPalabra(palabra,x,y,direccion)
+        
+        self.escribirCrucigrama()
+        
+        endTime = time.time()
+        elapsedTime = endTime-startTime
+        print "Tiempo de generacion: " + str(elapsedTime)
+        
+    def rellenarConRandom(self):
+        for x in range(0, len(self.grilla)):
+            for y in range(0, len(self.grilla[0])):
+                if(self.grilla[x][y] == self.vars["relleno"].valor):
+                    self.grilla[x][y] = random.choice(self.abcdario)
+        
+        self.escribirCrucigrama()
+        
+    def obtenerLugaresPosibles(self,palabra):
+        lugaresPosibles = []
+        for x in range(0,len(self.grilla)):
+            for y in range(0,len(self.grilla[0])):
+
+                direcciones = self.obtenerDireccionesPosibles(palabra,x,y)
                 
+                if([direccion for direccion in direcciones if self.macheaPalabraEnGrilla(palabra,x,y,direccion)] != []):
+                    lugaresPosibles.append([x,y,[direccion for direccion in direcciones if self.macheaPalabraEnGrilla(palabra,x,y,direccion)]])
+                    
+        return lugaresPosibles        
+   
+    def macheaPalabraEnGrilla(self,palabra,x,y,dir):
+        i = 0
+        
+        for letra in palabra:
+        
+            letraGrilla = self.grilla[x + (dir[0]*i)][y + (dir[1]*i)]
+            if(letraGrilla != letra and letraGrilla != self.vars["relleno"].valor):
+                return 0
+            i+=1
+            
+        return 1
+
+    def escribirCrucigrama(self):
+        archivo = open(self.vars["filesPath"].valor + "\\" +self.grillaCrucigrama,"w")
+        
+        for x in range(0, len(self.grilla)):
+            for y in range(0, len(self.grilla[0])):
+                archivo.write(self.grilla[x][y])
+            archivo.write("\n")
+            
+        archivo.close()
+    
+    def escribirPalabra(self,palabra,x,y,dir):
+        i = 0
+        for letra in palabra:
+            self.grilla[x + (dir[0]*i)][y + (dir[1]*i)] = letra
+            i+=1
+            
     def iterarPalabras(self):
         self.resultado = []
         startTime = time.time()	
@@ -170,8 +223,11 @@ class Crucigrammer(Aplicacion.Aplicacion):
             print "X: " + str(encuentro[2]) + " Y: "+ str(encuentro[1]),
             print "- Direccion: " + str(self.traducirDireccion(encuentro[3]))
     
+    def grillaVacia(self,ancho,alto):
+        return [[self.vars["relleno"].valor for i in range(0,ancho)] for j in range(0,alto)]
+        
     def cargarGrillaResultado(self):
-        self.grillaSoloResultado = [ [self.vars["relleno"].valor for i in range(0,len(self.grilla[0]))] for j in range(0,len(self.grilla))]
+        self.grillaSoloResultado = self.grillaVacia(len(self.grilla[0]),len(self.grilla))
         for palabra in self.resultado:
             #[palabra:"Pedro",x:5,y:6,direccion:(1,1)]
             i = 0
@@ -210,7 +266,7 @@ class Crucigrammer(Aplicacion.Aplicacion):
             return "izquierda-arriba"
                         
         return "ups"    
-    
+        
     def obtenerDireccionesPosibles(self,palabra,x,y):
         direccionesPosibles = []
         longitud = len(palabra) - 1
@@ -274,20 +330,18 @@ class Crucigrammer(Aplicacion.Aplicacion):
                 print "\n"
 
     def crearGrilla(self):
-        archivo = open(self.vars["filesPath"].valor + "\\" +self.grillaCrucigrama,"w")
-        archivo.close()
+        if not(os.path.exists(self.vars["filesPath"].valor + "\\" + self.grillaCrucigrama)):
+            archivo = open(self.vars["filesPath"].valor + "\\" +self.grillaCrucigrama,"w")
+            archivo.close()
 
     def modificarCrucigrama(self):
         self.verArchivo(self.grillaCrucigrama)
         
     def cargarCrucigrama(self):
-        if not(os.path.exists(self.vars["filesPath"].valor + "\\" + self.grillaCrucigrama)):
-            self.crearGrilla()
-        
+        self.crearGrilla()
         archivo = open(self.vars["filesPath"].valor + "\\" +self.grillaCrucigrama,"r")
         #cargo el crucigrama en la matriz self.grilla
         self.grilla = [ [letra for letra in fila if letra !="\n"] for fila in archivo.readlines()]
-        
         archivo.close()
         
 	#-----------------------
@@ -314,6 +368,10 @@ class Crucigrammer(Aplicacion.Aplicacion):
         print "No busques mas, aca esta la solucion.\n"
         print "Carga el crucigrama, indicale las palabras a buscar, y listo\n"
         print "Crucigrammer encuentra las palabras por vos."
+        print "No soportas la idea de armar vos mismo un crucigrama?\n"
+        print "Aca esta la solucion, indicale las palabras, un ancho y alto"
+        print "y listo! ya tenes tu crucigrama hecho. es muy dificil? no importa!"
+        print "lee un poco mas arriba para encontrar la solucion a tu problema!"
 	
     def funcionDeInicioLoop(self):
         self.mostrarGrilla(self.grilla)
