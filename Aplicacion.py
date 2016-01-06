@@ -54,81 +54,82 @@ class Pantalla(threading.Thread):
     
         
 class Aplicacion:
-    """
-        Clase Aplicacion es un esqueleto para armar aplicaciones con manejo a traves de la consola.
-        provee manejo de variables modificables por el usuario, pudiendo listarlas y/o modificarlas,
-        y un menu que recorre todas las acciones posibles.
-    
-        Los componentes principales son:
-        - Variables no modificables por el usuario, como appNombre y Version.
-        - Variables modificables por el usuario, como filesPath y outFile.
-        |- Cada variable tiene una estructura donde se guarda su valor actual, un diccionario con flags,
-           su funcion modificadora, y si corresponde, minimo y/o maximo.
-        - Menu con acciones basicas, como ver y modificar parametros, un texto de ayuda.
-          A su vez tiene para abrir el archivo de logs y el archivo de salida, si es que tiene.
-          
-        Para crear una nueva Aplicacion:
-        -1) hay que crear una nueva clase que herede de Aplicacion.
-        -2) el metodo init NO debe ser sobreescrito.
-        -3) agregar el metodo iniciar con la siguiente cabecera:
-        |
-        |-  def iniciar(self,**args):
-        |
-        |-  en este metodo hay que crear las variables de usuario y de programa.
-        |-  las variables de usuario se agregan a self.vars de la siguiente forma:
-        |
-        |--     self.vars["varibleUsuario1"] = Variable("valorDelaVariable",self.modificadorVariable1,flags={"bandera1":true})
-        |--     para detalles sobre Variable.py ver la documentacion.
-        
-        -4) Luego hay que crear los items del menu: 
-        |- se crean los Leaf y Nodos que sean necesarios.
-        |- para agregar items al menu:
-        |
-        |-  self.agregarMenu(0,Leaf("accion1","descripcion de la accion1",self.metodoQueCumpleLaAccion))
-        |-  para detalles sobre Menu.py ver la documentacion.
-        
-        -5) Por ultimo se agregan las PostFunciones, que son las que se ejecutan luego de realizar modificaciones a las variables de usuario.
-        |- para agregar postFunciones:
-        |
-        |-   self.agregarPostFunciones(self.postFuncion1,self.postFuncion2)
-        
-        -6) Todas las funciones de modificacion deben tener como parametros de entrada una de estas posibilidades:
-        |
-        |-  self.modificador1(self,key,*params):
-        |-  self.modificador2(self,key):
-        
-        -7) Para mostrar un mensaje personalizado al salir hay que sobreescribir el metodo salirPrint.
-        |
-        |-  self.salirPrint(self): print "texto que se muestra al salir"
 
-        -8) Para que la aplicacion pueda ser ejecutada:
-        |
-        |-  if __name__ == '__main__':
-        |-      a = NombreClase("NombreAPP","Version",esAplicacionGrafica?,param1=1,param2=2)
-        |-      a.menuPrincipal()   
-        |
-        |-  param1 y param2 son los que va a recibir el metodo iniciar detallado arriba,en forma de diccionario.
-        |- esAplicacionGrafica es un Boolean, si esta en True levanta un pygame.
-        
-        -9) Si es una aplicacion Grafica:
-        |- en la instanciacion de la clase hay que indicarselo con un True(Ver item anterior).
-        |- la variable de programa self.pixelArray[x,y] es el mapa de pixeles de la pantalla.
-        |- para actualizar la pantalla se llama al metodo:
-        |
-        |-  self.actualizarPantalla()
-        
-        -El metodo self.enumerarLista(self) sirve mostrar en pantalla los items de una lista con un numero de orden.
-        -El metodo self.log(self,*datos) permite loguear, guardando en el archivo referenciado en self.vars["logFile].
-        -El metodo self.ayuda(self) debe ser sobreescrito para mostrar un manual de usuario o cualquier referencia que se quiera, no es obligatorio.
-        -El metodo self.generarNombreValido(self,nombre) sirve para no pisar archivos al crearlos. recibe un nombre y devuelve el nombre con el numero
-            de repeticion que corresponda, por ejemplo, si tenemos pruebas.txt, devuelve pruebas(1).txt.
-        -El metodo self.funcionDeInicioLoop(self) se ejecuta antes de graficar el menu, sirve para mostrar datos o informacion relevante que tiene que ser
-            vista repetidamente. la funcion que hereda de Aplicacion.py tiene que sobreescribirla para hacer uso de la misma.
-        -El metodo verArchivo(self,nombre,*ruta) permite editar archivos. si no le pasas ruta, abre nombre desde filespath, sino lo abre desde la ruta.
-        -El metodo pausa(self) sirve para esperar una confirmacion del usuario.
-        -El metodo funcionDeInicioLoop(self) debe ser sobreescrito por la aplicacion hija, y se ejecuta al principio de cada Loop,
-        permitiendo mostrar algun tipo de info en cada vuelta.
     """
+    Clase Aplicacion es un esqueleto para armar aplicaciones con manejo a traves de la consola.
+    provee manejo de variables modificables por el usuario, pudiendo listarlas y/o modificarlas,
+    y un menu que recorre todas las acciones posibles.
+
+    Los componentes principales son:
+    - Variables no modificables por el usuario, como appNombre y Version.
+    - Variables modificables por el usuario, como filesPath y outFile.
+    |- Cada variable tiene una estructura donde se guarda su valor actual, un diccionario con flags,
+       su funcion modificadora, y si corresponde, minimo y/o maximo.
+    - Menu con acciones basicas, como ver y modificar parametros, un texto de ayuda.
+      A su vez tiene para abrir el archivo de logs y el archivo de salida, si es que tiene.
+      
+    Para crear una nueva Aplicacion:
+    -1) hay que crear una nueva clase que herede de Aplicacion.
+    -2) el metodo init NO debe ser sobreescrito.
+    -3) agregar el metodo iniciar con la siguiente cabecera:
+    |
+    |-  def iniciar(self,**args):
+    |
+    |-  en este metodo hay que crear las variables de usuario y de programa.
+    |-  las variables de usuario se agregan a self.vars de la siguiente forma:
+    |
+    |-- self.vars["varibleUsuario1"] = Variable("valorDelaVariable",self.modificadorVariable1,flags={"bandera1":true})
+    |-- para detalles sobre Variable.py ver la documentacion.
+    
+    -4) Luego hay que crear los items del menu: 
+    |- se crean los Leaf y Nodos que sean necesarios.
+    |- para agregar items al menu:
+    |
+    |-  self.agregarMenu(0,Leaf("accion1","descripcion de la accion1",self.metodoQueCumpleLaAccion))
+    |-  para detalles sobre Menu.py ver la documentacion.
+    
+    -5) Por ultimo se agregan las PostFunciones, que son las que se ejecutan luego de realizar modificaciones a las variables de usuario.
+    |- para agregar postFunciones:
+    |
+    |-   self.agregarPostFunciones(self.postFuncion1,self.postFuncion2)
+    
+    -6) Todas las funciones de modificacion deben tener como parametros de entrada una de estas posibilidades:
+    |
+    |-  self.modificador1(self,key,*params):
+    |-  self.modificador2(self,key):
+    
+    -7) Para mostrar un mensaje personalizado al salir hay que sobreescribir el metodo salirPrint.
+    |
+    |-  self.salirPrint(self): print "texto que se muestra al salir"
+
+    -8) Para que la aplicacion pueda ser ejecutada:
+    |
+    |-  if __name__ == '__main__':
+    |-      a = NombreClase("NombreAPP","Version",esAplicacionGrafica?,param1=1,param2=2)
+    |-      a.menuPrincipal()   
+    |
+    |-  param1 y param2 son los que va a recibir el metodo iniciar detallado arriba,en forma de diccionario.
+    |- esAplicacionGrafica es un Boolean, si esta en True levanta un pygame.
+    
+    -9) Si es una aplicacion Grafica:
+    |- en la instanciacion de la clase hay que indicarselo con un True(Ver item anterior).
+    |- la variable de programa self.pixelArray[x,y] es el mapa de pixeles de la pantalla.
+    |- para actualizar la pantalla se llama al metodo:
+    |
+    |-  self.actualizarPantalla()
+    
+    -El metodo self.log(self,*datos) permite loguear, guardando en el archivo referenciado en self.vars["logFile].
+    -El metodo self.ayuda(self) debe ser sobreescrito para mostrar un manual de usuario o cualquier referencia que se quiera, no es obligatorio.
+    -El metodo self.generarNombreValido(self,nombre) sirve para no pisar archivos al crearlos. recibe un nombre y devuelve el nombre con el numero
+        de repeticion que corresponda, por ejemplo, si tenemos pruebas.txt, devuelve pruebas(1).txt.
+    -El metodo self.funcionDeInicioLoop(self) se ejecuta antes de graficar el menu, sirve para mostrar datos o informacion relevante que tiene que ser
+        vista repetidamente. la funcion que hereda de Aplicacion.py tiene que sobreescribirla para hacer uso de la misma.
+    -El metodo verArchivo(self,nombre,*ruta) permite editar archivos. si no le pasas ruta, abre nombre desde filespath, sino lo abre desde la ruta.
+    -El metodo pausa(self) sirve para esperar una confirmacion del usuario.
+    -El metodo funcionDeInicioLoop(self) debe ser sobreescrito por la aplicacion hija, y se ejecuta al principio de cada Loop,
+    permitiendo mostrar algun tipo de info en cada vuelta.
+    """
+    
     def __init__(self,appnombre,version,aplicacionGrafica=False,**args):
         #Variables de programa
         self.appNombre = appnombre
@@ -156,8 +157,8 @@ class Aplicacion:
         titulo = "--- " +self.appNombre + " " + self.version + " ---"
         subtitulo = "-" * len(titulo)
         self.menu = Nodo(titulo,subtitulo,
-                    Leaf("Modificar parametros","Parametros modificables por el usuario",self.modificar),
                     Leaf("Ver parametros","Parametros actuales de la aplicacion", self.mostrarVariables),
+                    Leaf("Modificar parametros","Parametros modificables por el usuario",self.modificar),
                     Nodo("Ver Archivos","Archivos generados por " + self.appNombre + ":",
                         Leaf("Archivo de Salida","Archivo generado por el programa",self.verFile),
                         Leaf("Archivo de Logs","Archivo con todos los logs del programa",self.verLog),
@@ -317,6 +318,10 @@ class Aplicacion:
             salir = True if self.menu.evaluar() == "SALIR" else False
     
     def ayudaAplicacion(self):
+        self.espaciador()
+        print "--- Que es esto? ---"
+        print self.appNombre
+        print "Version: " + self.version
         self.ayuda()
         self.pausa()
     
@@ -357,10 +362,6 @@ class Aplicacion:
         else:
             print "Archivo no encontrado"
     
-    def enumerarLista(self,lista):
-        for i in range(0,len(lista)):
-            print str(i+1) + ") " + lista[i]
-    
     def generarNombreValido(self,nombre):
         seguir = True
         contador = 0
@@ -368,7 +369,7 @@ class Aplicacion:
         aux = path
         
         while(seguir):
-            if not os.path.exists(aux+ext):
+            if(not os.path.exists(aux+ext)):
                 seguir = False
             else:
                 contador +=1
