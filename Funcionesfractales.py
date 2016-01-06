@@ -6,6 +6,11 @@
 # y a continuacion todos los parametros que la funcion espera recibir, en el orden en el que fueron declarados a la hora de instanciar la clase.
 # el ultimo parametro accion es la funcion que ejecuta la accion concreta. son las funciones declaradas abajo.
 class Funciones():
+
+    """
+    FILLME
+    """
+
 	def __init__(self):
 		self.listado = []		
 		self.listado.append(Funcion("mandelbrot",["resolucion","norma"],mandelbrot))
