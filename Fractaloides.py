@@ -43,6 +43,11 @@ def graficarPorcion(self,funcion,desdex,hastax,alto,planoComplejo,grilla,params)
 		
 
 class Fractales(Aplicacion.Aplicacion):
+    
+    """
+    FILLME
+    """
+
 	def iniciar(self,**args):	
 		# self.listaFunciones= Funcion.listado # Diccionario con el listado de funciones.
 		self.listaFunciones = Funciones()
