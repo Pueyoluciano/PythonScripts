@@ -3,71 +3,76 @@ def sincomparar(valoringresado,valoracomprar):
 
 	
 class validador:
+
 	"""
-		Clase para ingresar datos por teclado de forma consistente.
-		Metodos:
-		
-		-> ingresar(tipo,funcionComparadora,*valoresAComparar)
-		-Permite ingresar(valga la redundancia) valores y realizarle una comparacion logica.
-		|
-		|-- tipo: es el type del dato a ingresar.
-		|
-		|-- funcionComparadora: (por defecto esta en modo sinComparar).
-		|   este campo es un modo( detallado abajo) que especifica el tipo de comparasaion de los datos.
-		|   
-		|-- *valoresAComparar: valores usados para las evaluaciones logicas, dependiendo de la funcion comparadora
-		    estos valores pueden variar.
-			
-		-> ingresarBoolean(tipo,funcioncomparadora=sincomparar,*valoresacomparar)
-		-Este metodo responde True o False a la pregunta: el valor ingresado, del tipo especificado, cumple con las validaciones especificadas?
-		|-- tipo: es el type del dato a ingresar.
-		|
-		|-- funcionComparadora: (por defecto esta en modo sinComparar).
-		|   este campo es un modo( detallado abajo) que especifica el tipo de comparasaion de los datos.
-		|   
-		|-- *valoresAComparar: valores usados para las evaluaciones logicas, dependiendo de la funcion comparadora
-		    estos valores pueden variar.
-		
-		-> ingresarVariable(variable)
-		-Pensado para ingresar datos usando la clase Variable.
-		|-- variable: este parametro tiene que ser del tipo Variable, ya que se van a usar atributos inherentes a este.
-		|
-		|-- es similar al ingresar, pero realiza la siguiente validacion:
-		 	Si posee valoresPosibles, valida que lo ingresado este en esa lista.
-		    Si no posee valoresPosibles, compara con validador.entre los valores maximo y minimos de la variable.
-		
-		-> ingresarSINO()
-		-Este metodo permite ingresar respuestas del tipo si o no.
-		
-		-> seleccionar(valores)
-		- este metodo permite seleccionar un item de entre una lista de items, por su numero de orden.
-		
-		------------------------------------------------------------------------------------------------------------------------------------------------------
-		------------------------------------------------------------------------------------------------------------------------------------------------------
-		Modos:
-		-los modos son los que se indican en el campo funcionComparadora.
-		
-		-> menor: valoringresado < valoresacomprar[0]
-		
-		-> menorigual: valoringresado <= valoresacomprar[0]
-		
-		-> mayor: valoringresado > valoresacomprar[0]
-		
-		-> mayorigual: valoringresado >= valoresacomprar[0]
-		
-		-> entre: valoresacomparar[0] <= valoringresado <= valoresacomprar[1]
-		
-		-> noentre: valoresacomparar[0] > valoringresado > valoresacomprar[1]
-		
-		-> igual: valoresacomparar[0] = valoringresado
-				si valoresacomprar[0] es una lista:
-				valoringresado in valoresacomparar[0]
-				
-		-> distinto: valoresacomparar[0] != valoringresado
-				si valoresacomprar[0] es una lista:
-				valoringresado not in valoresacomparar[0]
-	
+    Clase para ingresar datos por teclado de forma consistente.
+    
+    
+    Metodos:
+    
+    - ingresar(tipo,funcionComparadora,*valoresAComparar)
+        Permite ingresar(valga la redundancia) valores y realizarle una comparacion logica.
+        
+        tipo: es el type del dato a ingresar.
+        
+        funcionComparadora: (por defecto esta en modo sinComparar).
+        este campo es un modo( detallado abajo) que especifica el tipo de comparacion de los datos.
+        
+        *valoresAComparar: valores usados para las evaluaciones logicas, dependiendo de la funcion comparadora
+        estos valores pueden variar.
+        
+    - ingresarBoolean(tipo,funcioncomparadora=sincomparar,*valoresacomparar)
+        Este metodo responde True o False a la pregunta: el valor ingresado, del tipo especificado, cumple con las validaciones especificadas?
+        
+        tipo: es el type del dato a ingresar.
+        
+        funcionComparadora: (por defecto esta en modo sinComparar).
+        este campo es un modo( detallado abajo) que especifica el tipo de comparacion de los datos.
+        
+        *valoresAComparar: valores usados para las evaluaciones logicas, dependiendo de la funcion comparadora
+        estos valores pueden variar.
+        
+    - ingresarVariable(variable)
+        Pensado para ingresar datos usando la clase Variable.
+        
+        variable: este parametro tiene que ser del tipo Variable, ya que se van a usar atributos inherentes a este.
+        
+        es similar al ingresar, pero realiza la siguiente validacion:
+        Si posee valoresPosibles, valida que lo ingresado este en esa lista.
+        Si no posee valoresPosibles, compara con validador.entre los valores maximo y minimos de la variable.
+        
+    - ingresarSINO()
+        Este metodo permite ingresar respuestas del tipo si o no.
+    
+    - seleccionar(valores)
+        Este metodo permite seleccionar un item de entre una lista de items, por su numero de orden.
+    
+    
+    Modos:
+    
+    - Los modos son los que se indican en el campo funcionComparadora.
+    
+    -> menor: valoringresado < valoresacomprar[0]
+    
+    -> menorigual: valoringresado <= valoresacomprar[0]
+    
+    -> mayor: valoringresado > valoresacomprar[0]
+    
+    -> mayorigual: valoringresado >= valoresacomprar[0]
+    
+    -> entre: valoresacomparar[0] <= valoringresado <= valoresacomprar[1]
+    
+    -> noentre: valoresacomparar[0] > valoringresado > valoresacomprar[1]
+    
+    -> igual: valoresacomparar[0] = valoringresado
+            si valoresacomprar[0] es una lista:
+            valoringresado in valoresacomparar[0]
+            
+    -> distinto: valoresacomparar[0] != valoringresado
+            si valoresacomprar[0] es una lista:
+            valoringresado not in valoresacomparar[0]
 	"""
+    
 	#Clase estatica para realizar validaciones.
 	#ejemplos de invocacion:
 	# ingresar(int, validador.menor, 3)
