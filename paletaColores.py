@@ -1,4 +1,7 @@
-class Paleta:	
+class Paleta:
+    """
+    FILLME
+    """
 	def __init__(self,listaColores,resolucion):
 		self.resolucion = resolucion
 		self.setear(listaColores)
