@@ -5,18 +5,24 @@ from validador import *
 #------------------------------------------------
 #--------------- TODO ---------------------------
 #------------------------------------------------
-
-
+# 1) Lista de tareas pendientes a implementar.
+# 2) Si no te gusta lo sacas :).
 #------------------------------------------------
 #------------------------------------------------
 #------------------------------------------------
 class NombreAplicacion(Aplicacion.Aplicacion):
-    def iniciar(self,**args):	
+
+    """
+    FILLME
+    """
+
 	#-----------------------
 	#--- inicializacion ----
 	#-----------------------
+    def iniciar(self,**args):	
 		#variables de programa
-
+        self.variableNoModificablePorElUsuario1 = 420
+        
 		#variables de usuario	
         self.vars["variable1"] = Variable(5,self.modifGenerico,orden=0)
         self.vars["variable2"] = Variable(5.1,self.modifGenerico,minimo=0,maximo=8,flags={"algunNombreDeFlag":True},orden=1)
@@ -38,6 +44,7 @@ class NombreAplicacion(Aplicacion.Aplicacion):
 	
     def posFuncion1(self):
         pass
+        
 	#-----------------------
 	#--- modificadores -----
 	#-----------------------
@@ -45,21 +52,29 @@ class NombreAplicacion(Aplicacion.Aplicacion):
     def modifAlgunParametro(self,key,*params):
         #Modificador de una variable de usuario, 
         if(len(params) == 0):
-            pass
 			#realizar accion de modificacion, ejecutada cuando se hace a traves de interfaz.
+            pass
         else:
 			#realizar accion de modificacion, cuando se invoca programaticamente al metodo.
             pass
+            
 	#-----------------------
 	#--- otros -------------	
 	#-----------------------	
-	#Este metodo muestra lo que quieras, la idea es que expliques como se usa el programa.
+    # Funcion opcional. Si se desea mostrar algun tipo de informacion ( o ejecutar algun comando)
+    # en el menu principal( arriba del nombre de la aplicacion) hay que sobreescribir este metodo.
+    def funcionDeInicioLoop(self):
+        self.espaciador()
+        print "FILLME OR KILLME"
+        self.espaciador()
+        
+	# Este metodo muestra lo que quieras, la idea es que expliques como se usa el programa.
     def ayuda(self):
         print "-----------------------------------------------------------------"
         print "TEXTO DE AYUDA"
         print "-----------------------------------------------------------------"	
-	
-	#Texto personalizado de salida.	
+    
+	# Texto personalizado de salida.	
     def salirPrint(self):
         print "--- \\m/ ---"
 
