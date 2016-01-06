@@ -2,6 +2,7 @@ import Aplicacion
 import random
 import os
 import time
+from Letras import Letras
 from Menu import *
 from Variable import *
 from validador import *
@@ -13,6 +14,11 @@ from validador import *
 #------------------------------------------------
 #------------------------------------------------
 class Crucigrammer(Aplicacion.Aplicacion):
+
+    """
+    FILLME
+    """
+
     def iniciar(self,**args):	
 	#-----------------------
 	#--- inicializacion ----
@@ -25,7 +31,7 @@ class Crucigrammer(Aplicacion.Aplicacion):
         # self.palabras = ["pedro","ernesto","tres","atres","pos","zas","ywo"] # esta se carga segun las palabras a buscar, obvio.
         self.palabras = ["dia", "via", "oro", "roto", "ocho", "mono", "cuatro", "cinco", "perro", "luchas", "piedra", "sismos", "luciano", "quiebro", "sorongo", "filantropo", "destructor"] # esta se carga segun las palabras a buscar, obvio.
         self.resultado = [] #[palabra:"Pedro",x:5,y:6,direccion:(1,1)]
-        self.abcdario = ['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z']
+        self.abcdario = sorted(list(Letras.letras))
         
 		#variables de usuario	
         self.vars["relleno"] = Variable("-",self.modifGenerico,orden=0)
@@ -388,6 +394,6 @@ class Crucigrammer(Aplicacion.Aplicacion):
 # tenes que invocar a tu clase principal, los tres primeros parametros son el nombre, version y si es o no con pantalla grafica.
 # despues tenes que pasarle todos los parametros que quieras, separados por comas.
 if __name__ == '__main__':
-	a = Crucigrammer("Crucigrammer","1.0.0",False,arg1="argumento1")
+	a = Crucigrammer("Crucigrammer","1.0.0",False)
 					
 	a.menuPrincipal()		
