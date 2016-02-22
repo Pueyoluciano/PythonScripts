@@ -36,7 +36,8 @@ class Automatones(Aplicacion.Aplicacion):
         self.vars["iteraciones"] = Variable(10,self.modifGenerico,minimo=1) 
         self.vars["regla"] = Variable(110,self.modifRegla,minimo=0,maximo=255) # 01101110 bin = 110 dec
         self.vars["grillaInicial"] = Variable("medio",self.modifFuncionGeneradora)
-
+        self.vars["outFile"] = Variable(self.appNombre + "Out.txt",self.modifPath,orden=204)
+        
         leaf1 = Leaf("Generar","Escribe el archivo de salida con el automata configurado",self.generar)
         leaf2 = Leaf("pasar a decimal","pasar un numero binario a decimal",self.pasarADecimal)
         leaf3 = Leaf("pasar a binario","pasar un numero decimal a binario",self.pasarABinario)

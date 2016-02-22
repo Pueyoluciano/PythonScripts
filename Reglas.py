@@ -93,7 +93,7 @@ class Filtros:
 
         return Letras.letras
 
-
+   
 class ListadoReglas:
     """
     -Contenedor de todos los filtros(reglas) implementados.
@@ -157,12 +157,59 @@ class MotorReglas:
     
     def __init__(self):
         self.reglas = []
+        self.stringsExcluidos = []
+        self.stringDeComentario = "#"
         
         self.probAuxiliar = pr.Probabilidad() # Distribucion de probs auxiliar. 
         self.probabilidades = pr.Probabilidad() #Distribucion de probs que se usa como referencia (este se cambia bajo demanda del usuario).
         abcdario = list(Letras.letras)
         abcdario.sort()
         self.probabilidades.cargarDatos(abcdario)
+    
+    def aplicarExclusiones(self,nombreParcial):
+        # self.stingsExcluidos = ["bb","twb"]
+        posibles = Letras.letras.copy()
+        
+        for exclusion in self.stringsExcluidos:
+            lenNombre = len(nombreParcial)
+            lenExclusion = len(exclusion)
+            if(lenNombre >= lenExclusion -1):
+                if(nombreParcial[lenNombre-lenExclusion+1:lenNombre] == exclusion[0:lenExclusion-1]):
+                    # print exclusion
+                    # print lenNombre, lenExclusion
+                    # print nombreParcial[lenNombre-lenExclusion+1:lenNombre]
+                    # print exclusion[0:lenExclusion-1]
+                    posibles.remove(exclusion[-1])
+                    
+        return posibles
+    
+    def agregarExclusiones(self, *exclusiones):
+        if(type(exclusiones[0]) is list):
+            strings = exclusiones[0]
+            
+        else:
+            strings = exclusiones
+            
+        for exclusion in strings:
+            if(len(exclusion) >= 2 and (self.stringDeComentario not in exclusion)):
+                self.stringsExcluidos.append(exclusion)
+    
+    def quitarExlcusiones(self, *exclusiones):
+        if(type(exclusiones[0]) is list):
+            strings = exclusiones[0]
+            
+        else:
+            strings = exclusiones
+            
+        for exclusion in strings:
+            try:
+                self.stringsExcluidos.remove(exclusion)
+                
+            except ValueError:
+                print "[!!] El elemento " + exclusion + " no pudo ser removido"
+    
+    def quitarTodasExlcusiones(self):
+        self.stringsExcluidos = []
     
     def reglasActivas(self, *reglasTemporal):
         listadoCompleto = [item.nombre for item in ListadoReglas.contenido.contenido]
@@ -186,7 +233,7 @@ class MotorReglas:
         letrasPosibles = Letras.letras
         for regla in self.reglas:
             letrasPosibles = letrasPosibles.intersection(regla.accionParametro(nombreParcial))
-        
+            letrasPosibles = letrasPosibles.intersection(self.aplicarExclusiones(nombreParcial))
         if(len(letrasPosibles) == 0):
             raise Exception("Las reglas filtran todas las letras :(")
         

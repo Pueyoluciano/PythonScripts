@@ -11,57 +11,57 @@ class Funciones():
     FILLME
     """
 
-	def __init__(self):
-		self.listado = []		
-		self.listado.append(Funcion("mandelbrot",["resolucion","norma"],mandelbrot))
-		self.listado.append(Funcion("mandelbrotx",["resolucion","norma","exponente"],mandelbrotx))
-		self.listado.append(Funcion("max",["resolucion","norma","exponente","parametro"],maX))
-		self.listado.append(Funcion("julia",["resolucion","norma","parametro"],julia))
-		self.listado.append(Funcion("juliax",["resolucion","norma","exponente","parametro"],juliax))
-		self.listado.append(Funcion("asd",["resolucion","norma","parametro"],asd))
-		self.listado.append(Funcion("asd2",["resolucion","norma","parametro"],asd2))
-		self.listado.append(Funcion("asd3",["resolucion","norma","parametro"],asd3))
-		self.listado.append(Funcion("asd4",["resolucion","norma","parametro"],asd4))
-		self.listado.append(Funcion("asd5",["resolucion","norma","parametro"],asd5))
-		self.listado.append(Funcion("asd6",["resolucion","norma","parametro"],asd6))
-		self.listado.append(Funcion("qwe",["resolucion","norma","parametro"],qwe))
-		self.listado.append(Funcion("qwe2",["resolucion","norma","parametro"],qwe2))
-		self.listado.append(Funcion("qwe3",["resolucion","norma","parametro"],qwe3))
-		self.listado.append(Funcion("qwe4",["resolucion","norma","parametro"],qwe4))
-		self.listado.append(Funcion("qwe5",["resolucion","norma","parametro"],qwe5))
-		self.listado.append(Funcion("qwe6",["resolucion","norma","parametro"],qwe6))
-		self.listado.append(Funcion("zxc",["resolucion","norma","parametro"],zxc))
-		self.listado.append(Funcion("testerMin",[],testerMin))
-		self.listado.append(Funcion("testerMax",["resolucion"],testerMax))
-	
-		self.nombres = [funcion.nombre for funcion in self.listado]
-		
-	def obtenerID(self,nombre):
-		if(nombre in self.nombres):
-			return self.nombres.index(nombre)
-		else:
-			return -1
-	
-	def obtenerFuncion(self,nombre):
-		return self.listado[self.obtenerID(nombre)]
-	
+    def __init__(self):
+        self.listado = []       
+        self.listado.append(Funcion("mandelbrot",["resolucion","norma"],mandelbrot))
+        self.listado.append(Funcion("mandelbrotx",["resolucion","norma","exponente"],mandelbrotx))
+        self.listado.append(Funcion("max",["resolucion","norma","exponente","parametro"],maX))
+        self.listado.append(Funcion("julia",["resolucion","norma","parametro"],julia))
+        self.listado.append(Funcion("juliax",["resolucion","norma","exponente","parametro"],juliax))
+        self.listado.append(Funcion("asd",["resolucion","norma","parametro"],asd))
+        self.listado.append(Funcion("asd2",["resolucion","norma","parametro"],asd2))
+        self.listado.append(Funcion("asd3",["resolucion","norma","parametro"],asd3))
+        self.listado.append(Funcion("asd4",["resolucion","norma","parametro"],asd4))
+        self.listado.append(Funcion("asd5",["resolucion","norma","parametro"],asd5))
+        self.listado.append(Funcion("asd6",["resolucion","norma","parametro"],asd6))
+        self.listado.append(Funcion("qwe",["resolucion","norma","parametro"],qwe))
+        self.listado.append(Funcion("qwe2",["resolucion","norma","parametro"],qwe2))
+        self.listado.append(Funcion("qwe3",["resolucion","norma","parametro"],qwe3))
+        self.listado.append(Funcion("qwe4",["resolucion","norma","parametro"],qwe4))
+        self.listado.append(Funcion("qwe5",["resolucion","norma","parametro"],qwe5))
+        self.listado.append(Funcion("qwe6",["resolucion","norma","parametro"],qwe6))
+        self.listado.append(Funcion("zxc",["resolucion","norma","parametro"],zxc))
+        self.listado.append(Funcion("testerMin",[],testerMin))
+        self.listado.append(Funcion("testerMax",["resolucion"],testerMax))
+    
+        self.nombres = [funcion.nombre for funcion in self.listado]
+        
+    def obtenerID(self,nombre):
+        if(nombre in self.nombres):
+            return self.nombres.index(nombre)
+        else:
+            return -1
+    
+    def obtenerFuncion(self,nombre):
+        return self.listado[self.obtenerID(nombre)]
+    
 class Funcion():
-	listado = []
-	
-	def __init__(self,nombre,parametros,accion):
-		self.parametros = parametros
-		self.nombre = nombre
-		self.accion = accion
-	
-	def __str__(self):
-		return str(self.nombre)
-	
-	def parametros(self):
-		return self.parametros
-		
-	def calcular(self,c,params):
-		return self.accion(c,params)
-		
+    listado = []
+    
+    def __init__(self,nombre,parametros,accion):
+        self.parametros = parametros
+        self.nombre = nombre
+        self.accion = accion
+    
+    def __str__(self):
+        return str(self.nombre)
+    
+    def parametros(self):
+        return self.parametros
+        
+    def calcular(self,c,params):
+        return self.accion(c,params)
+        
 #-------------------------------------------------
 # ---------------  Mandelbrot  -------------------
 #-------------------------------------------------
@@ -74,49 +74,49 @@ class Funcion():
 # para unificar las llamadas de las funciones mandelbrot y julia.
 
 def mandelbrot(c,params):
-	z = c
-	diteraciones = params[0]
-	norma = params[1]
-	
-	for i in range(1,diteraciones+1):
-		if (abs(z) >= norma):
-			return i
-		else:
-			z = (((z**2)) + c )
-	return i
-	
+    z = c
+    diteraciones = params[0]
+    norma = params[1]
+    
+    for i in range(1,diteraciones+1):
+        if (abs(z) >= norma):
+            return i
+        else:
+            z = (((z**2)) + c )
+    return i
+    
 #-------------------------------------------------
 # ---------------  MandelbrotX  ------------------
 #-------------------------------------------------
 def mandelbrotx(c,params):
-	z = c
-	diteraciones = params[0]
-	norma = params[1]
-	exp = params[2]
-	
-	for i in range(1,diteraciones+1):
-		if (abs(z) >= norma):
-			return i
-		else:
-			z = (((z**exp)) + c )
-	return i
+    z = c
+    diteraciones = params[0]
+    norma = params[1]
+    exp = params[2]
+    
+    for i in range(1,diteraciones+1):
+        if (abs(z) >= norma):
+            return i
+        else:
+            z = (((z**exp)) + c )
+    return i
 
 #-------------------------------------------------
 # -------------------  MaX  ----------------------
 #-------------------------------------------------
 def maX(c,params):
-	z = c
-	diteraciones = params[0]
-	norma = params[1]
-	exp = params[2]
-	d = params[3]
-	
-	for i in range(1,diteraciones+1):
-		if (abs(z) >= norma):
-			return i
-		else:
-			z = (((z**exp)) + (c**2-(d)) )
-	return i
+    z = c
+    diteraciones = params[0]
+    norma = params[1]
+    exp = params[2]
+    d = params[3]
+    
+    for i in range(1,diteraciones+1):
+        if (abs(z) >= norma):
+            return i
+        else:
+            z = (((z**exp)) + (c**2-(d)) )
+    return i
 
 #-------------------------------------------------
 # ------------------  Julia  ---------------------
@@ -124,17 +124,17 @@ def maX(c,params):
 # Funcion para Conjuntos de Julia, muy similar a Mandelbrot 
 # pero toma un complejo "d" como parametro extra.
 def julia(c,params):
-	z = c
-	diteraciones = params[0]
-	norma = params[1]
-	d = params[2]
-	
-	for i in range(1,diteraciones+1):
-		if (abs(z) >= norma):
-			return i
-		else:
-			z = (((z**2)) + d )
-	return i
+    z = c
+    diteraciones = params[0]
+    norma = params[1]
+    d = params[2]
+    
+    for i in range(1,diteraciones+1):
+        if (abs(z) >= norma):
+            return i
+        else:
+            z = (((z**2)) + d )
+    return i
 
 #-------------------------------------------------
 # ------------------  JuliaX  --------------------
@@ -142,300 +142,300 @@ def julia(c,params):
 # Funcion para Conjuntos de Julia, muy similar a Mandelbrot 
 # pero toma un complejo "d" como parametro extra.
 def juliax(c,params):
-	z = c
-	diteraciones = params[0]
-	norma = params[1]
-	exp = params[2]
-	d = params[3]
-	
-	for i in range(1,diteraciones+1):
-		if (abs(z) >= norma):
-			return i
-		else:
-			z = (((z**exp)) + d )
-	return i
+    z = c
+    diteraciones = params[0]
+    norma = params[1]
+    exp = params[2]
+    d = params[3]
+    
+    for i in range(1,diteraciones+1):
+        if (abs(z) >= norma):
+            return i
+        else:
+            z = (((z**exp)) + d )
+    return i
 
 #-------------------------------------------------
 # -------------------  asd  ---------------------
 #-------------------------------------------------
 def asd(c,params):
-	z = c
-	diteraciones = params[0]
-	norma = params[1]
-	d = params[2]
-	zsig = 0
-	
-	for i in range(1,diteraciones+1):
-		if (abs(z) >= norma):
-			return i
-		else:
-			zsig = (((z**2)) + c  - ((c+d)/2))
-			z = zsig
-	return i
+    z = c
+    diteraciones = params[0]
+    norma = params[1]
+    d = params[2]
+    zsig = 0
+    
+    for i in range(1,diteraciones+1):
+        if (abs(z) >= norma):
+            return i
+        else:
+            zsig = (((z**2)) + c  - ((c+d)/2))
+            z = zsig
+    return i
 
 #-------------------------------------------------
 # -------------------  asd2  ---------------------
 #-------------------------------------------------
 def asd2(c,params):
-	z = c
-	diteraciones = params[0]
-	norma = params[1]
-	d = params[2]
-	zsig = 0
-	
-	for i in range(1,diteraciones+1):
-		if (abs(z) >= norma):
-			return i
-		else:
-			try:
-				zsig = ((z**2) + d)/((z**3)+ d)
-				z = zsig
-			except(ZeroDivisionError):
-				print "DIVISION POR 0"
-				continue
-	return i
+    z = c
+    diteraciones = params[0]
+    norma = params[1]
+    d = params[2]
+    zsig = 0
+    
+    for i in range(1,diteraciones+1):
+        if (abs(z) >= norma):
+            return i
+        else:
+            try:
+                zsig = ((z**2) + d)/((z**3)+ d)
+                z = zsig
+            except(ZeroDivisionError):
+                print "DIVISION POR 0"
+                continue
+    return i
 
 #-------------------------------------------------
 # -------------------  asd3  ---------------------
 #-------------------------------------------------
 def asd3(c,params):
-	z = c
-	diteraciones = params[0]
-	norma = params[1]
-	d = params[2]
-	zsig = 0
-	
-	for i in range(1,diteraciones+1):
-		if (abs(z) >= norma):
-			return i
-		else:
-			zsig = ((z**5) + d)/((z**4) + d)
-			z = zsig
-	return i
+    z = c
+    diteraciones = params[0]
+    norma = params[1]
+    d = params[2]
+    zsig = 0
+    
+    for i in range(1,diteraciones+1):
+        if (abs(z) >= norma):
+            return i
+        else:
+            zsig = ((z**5) + d)/((z**4) + d)
+            z = zsig
+    return i
 
 #-------------------------------------------------
 # -------------------  asd4  ---------------------
 #-------------------------------------------------
 def asd4(c,params):
-	z = c
-	diteraciones = params[0]
-	norma = params[1]
-	d = params[2]
-	zsig = 0
-	
-	for i in range(1,diteraciones+1):
-		if (abs(z) >= norma):
-			return i
-		else:
-			try:
-				zsig = ((z**2) + d)/((z**6) + d)
-				z = zsig
-			except(ZeroDivisionError):
-				print "DIVISION POR 0"
-				continue
-	return i
+    z = c
+    diteraciones = params[0]
+    norma = params[1]
+    d = params[2]
+    zsig = 0
+    
+    for i in range(1,diteraciones+1):
+        if (abs(z) >= norma):
+            return i
+        else:
+            try:
+                zsig = ((z**2) + d)/((z**6) + d)
+                z = zsig
+            except(ZeroDivisionError):
+                print "DIVISION POR 0"
+                continue
+    return i
 
 #-------------------------------------------------
 # -------------------  asd5  ---------------------
 #-------------------------------------------------
 def asd5(c,params):
-	z = c
-	diteraciones = params[0]
-	norma = params[1]
-	d = params[2]	
-	zsig = 0
-	
-	for i in range(1,diteraciones+1):
-		if (abs(z) >= norma):
-			return i
-		else:
-			try:
-				zsig = ((z**2)+d)/((z**3))
-				z = zsig
-			except(ZeroDivisionError):
-				print "DIVISION POR 0"
-				continue
-	return i
+    z = c
+    diteraciones = params[0]
+    norma = params[1]
+    d = params[2]   
+    zsig = 0
+    
+    for i in range(1,diteraciones+1):
+        if (abs(z) >= norma):
+            return i
+        else:
+            try:
+                zsig = ((z**2)+d)/((z**3))
+                z = zsig
+            except(ZeroDivisionError):
+                print "DIVISION POR 0"
+                continue
+    return i
 
 #-------------------------------------------------
 # -------------------  asd6  ---------------------
 #-------------------------------------------------
 def asd6(c,params):
-	z = c
-	diteraciones = params[0]
-	norma = params[1]
-	d = params[2]	
+    z = c
+    diteraciones = params[0]
+    norma = params[1]
+    d = params[2]   
 
-	for i in range(1,diteraciones+1):
-		if (abs(z) >= norma):
-			return i
-		else:
-			try:
-				z = (z+c**3)/(z**4-c+d)+(d**3)
-			except(ZeroDivisionError):
-				print "DIVISION POR 0"
-				continue
-	return i
+    for i in range(1,diteraciones+1):
+        if (abs(z) >= norma):
+            return i
+        else:
+            try:
+                z = (z+c**3)/(z**4-c+d)+(d**3)
+            except(ZeroDivisionError):
+                print "DIVISION POR 0"
+                continue
+    return i
 
 #-------------------------------------------------
 # -------------------  qwe  ----------------------
 #-------------------------------------------------
 def qwe(c,params):
-	z = c
-	diteraciones = params[0]
-	norma = params[1]
-	d = params[2]	
-	zsig = 0
-	
-	for i in range(1,diteraciones+1):
-		if (abs(z) >= norma):
-			return i
-		else:			
-			try:
-				z = ((z**6) + d)/((z**2) + d)
-			except(ZeroDivisionError):
-				print "DIVISION POR 0"
-				continue
-	return i
+    z = c
+    diteraciones = params[0]
+    norma = params[1]
+    d = params[2]   
+    zsig = 0
+    
+    for i in range(1,diteraciones+1):
+        if (abs(z) >= norma):
+            return i
+        else:           
+            try:
+                z = ((z**6) + d)/((z**2) + d)
+            except(ZeroDivisionError):
+                print "DIVISION POR 0"
+                continue
+    return i
 
 #-------------------------------------------------
 # -------------------  qwe2  ---------------------
 #-------------------------------------------------
 def qwe2(c,params):
-	z = c
-	diteraciones = params[0]
-	norma = params[1]
-	d = params[2]
-	zsig = 0
-	
-	for i in range(1,diteraciones+1):
-		if (abs(z) >= norma):
-			return i
-		else:		
-			try:
-				z = (z+d)/(z-d)
-			except(ZeroDivisionError):
-				print "DIVISION POR 0"
-				continue
-	return i
+    z = c
+    diteraciones = params[0]
+    norma = params[1]
+    d = params[2]
+    zsig = 0
+    
+    for i in range(1,diteraciones+1):
+        if (abs(z) >= norma):
+            return i
+        else:       
+            try:
+                z = (z+d)/(z-d)
+            except(ZeroDivisionError):
+                print "DIVISION POR 0"
+                continue
+    return i
 
 #-------------------------------------------------
 # -------------------  qwe3  ---------------------
 #-------------------------------------------------
 def qwe3(c,params):
-	z = c
-	diteraciones = params[0]
-	norma = params[1]
-	d = params[2]
-	zsig = 0
-	
-	for i in range(1,diteraciones+1):
-		if (abs(z) >= norma):
-			return i
-		else:		
-			try:
-				z = ((z**6) + d)/((z**3) + d)
-			except(ZeroDivisionError):
-				print "DIVISION POR 0"
-				continue
-	return i
+    z = c
+    diteraciones = params[0]
+    norma = params[1]
+    d = params[2]
+    zsig = 0
+    
+    for i in range(1,diteraciones+1):
+        if (abs(z) >= norma):
+            return i
+        else:       
+            try:
+                z = ((z**6) + d)/((z**3) + d)
+            except(ZeroDivisionError):
+                print "DIVISION POR 0"
+                continue
+    return i
 
 #-------------------------------------------------
 # -------------------  qwe4  ---------------------
 #-------------------------------------------------
 def qwe4(c,params):
-	z = c
-	diteraciones = params[0]
-	norma = params[1]
-	d = params[2]	
-	zsig = 0
-	
-	for i in range(1,diteraciones+1):
-		if (abs(z) >= norma):
-			return i
-		else:		
-			try:
-				z = ((z**6) + d)/((z**1) + d)
-			except(ZeroDivisionError):
-				print "DIVISION POR 0"
-				continue
-	return i
+    z = c
+    diteraciones = params[0]
+    norma = params[1]
+    d = params[2]   
+    zsig = 0
+    
+    for i in range(1,diteraciones+1):
+        if (abs(z) >= norma):
+            return i
+        else:       
+            try:
+                z = ((z**6) + d)/((z**1) + d)
+            except(ZeroDivisionError):
+                print "DIVISION POR 0"
+                continue
+    return i
 
 #-------------------------------------------------
 # -------------------  qwe5  ---------------------
 #-------------------------------------------------
 def qwe5(c,params):
-	z = c
-	diteraciones = params[0]
-	norma = params[1]
-	d = params[2]	
-	zsig = 0
-	
-	for i in range(1,diteraciones+1):
-		if (abs(z) >= norma):
-			return i
-		else:		
-			try:
-				z = z/(d+z)
-			except(ZeroDivisionError):
-				print "DIVISION POR 0"
-				continue
-	return i
+    z = c
+    diteraciones = params[0]
+    norma = params[1]
+    d = params[2]   
+    zsig = 0
+    
+    for i in range(1,diteraciones+1):
+        if (abs(z) >= norma):
+            return i
+        else:       
+            try:
+                z = z/(d+z)
+            except(ZeroDivisionError):
+                print "DIVISION POR 0"
+                continue
+    return i
 
 #-------------------------------------------------
 # -------------------  qwe6  ---------------------
 #-------------------------------------------------
 def qwe6(c,params):
-	z = c
-	diteraciones = params[0]
-	norma = params[1]
-	d = params[2]
-	
-	for i in range(1,diteraciones+1):
-		if (abs(z) >= norma):
-			return i
-		else:			
-			try:
-				z = (((z**2)) + c ) / (((z**2)) + d ) 
-			except(ZeroDivisionError):
-				print "DIVISION POR 0"
-				continue		
-	return i
+    z = c
+    diteraciones = params[0]
+    norma = params[1]
+    d = params[2]
+    
+    for i in range(1,diteraciones+1):
+        if (abs(z) >= norma):
+            return i
+        else:           
+            try:
+                z = (((z**2)) + c ) / (((z**2)) + d ) 
+            except(ZeroDivisionError):
+                print "DIVISION POR 0"
+                continue        
+    return i
 
 #-------------------------------------------------
 # --------------------  zxc  ---------------------
 #-------------------------------------------------
 def zxc(c,params):
-	z = c
-	diteraciones = params[0]
-	norma = params[1]
-	d = params[2]
-	
-	for i in range(1,diteraciones+1):
-		if (abs(z) >= norma):
-			return i
-		else:
-			try:
-				z = (z**z)-(z**d)
-				
-			except(ZeroDivisionError):
-				print "DIVISION POR 0"
-				continue
-	return i
+    z = c
+    diteraciones = params[0]
+    norma = params[1]
+    d = params[2]
+    
+    for i in range(1,diteraciones+1):
+        if (abs(z) >= norma):
+            return i
+        else:
+            try:
+                z = (z**z)-(z**d)
+                
+            except(ZeroDivisionError):
+                print "DIVISION POR 0"
+                continue
+    return i
 #-------------------------------------------------
 # --------------------  testerMax  ---------------
-#-------------------------------------------------	
+#-------------------------------------------------  
 def testerMax(c,params):
-	diteraciones = params[0]
-	for i in range(1,diteraciones+1):
-		a = 1+3+i
-	return i
+    diteraciones = params[0]
+    for i in range(1,diteraciones+1):
+        a = 1+3+i
+    return i
 
 #-------------------------------------------------
 # --------------------  testerMin  ---------------
-#-------------------------------------------------	
+#-------------------------------------------------  
 def testerMin(c,params):
-	return 1
+    return 1
 
 # Funcion.listado["mandelbrot"] = Funcion("mandelbrot",["resolucion","norma"],mandelbrot)
 # Funcion.listado["mandelbrotx"] = Funcion("mandelbrotx",["resolucion","norma","exponente"],mandelbrotx)

@@ -2,6 +2,7 @@ import Aplicacion
 import random
 import os
 import time
+from Generales import Generales
 from Letras import Letras
 from Menu import *
 from Variable import *
@@ -56,7 +57,7 @@ class Crucigrammer(Aplicacion.Aplicacion):
 	#-----------------------
     def agregarPalabras(self):
         print "Palabras actuales:"
-        print self.palabras
+        Generales.enumerarLista(self.palabras)
         print "escriba las palabras a agregar separadas por espacios:"
         nuevasPalabras = validador.ingresar(str)
         
@@ -69,7 +70,7 @@ class Crucigrammer(Aplicacion.Aplicacion):
             
     def quitarPalabras(self):
         print "Palabras actuales:"
-        self.enumerarLista(self.palabras)
+        Generales.enumerarLista(self.palabras)
         print "ingrese el numero de orden de las palabras a qutiar separados por espacios:"
         palabrasQuitar = validador.ingresar(str) 
         
@@ -362,14 +363,12 @@ class Crucigrammer(Aplicacion.Aplicacion):
         else:
 			#realizar accion de modificacion, cuando se invoca programaticamente al metodo.
             pass
+            
 	#-----------------------
 	#--- otros -------------	
 	#-----------------------	
 	#Este metodo muestra lo que quieras, la idea es que expliques como se usa el programa.
     def ayuda(self):
-        print "-----------------------------------------------------------------"
-        print "--- Crucigrammer ------------------------------------------------"
-        print "-----------------------------------------------------------------"
         print "No estas cansado de no poder resolver esos dificiles crucigramas?\n"
         print "No busques mas, aca esta la solucion.\n"
         print "Carga el crucigrama, indicale las palabras a buscar, y listo\n"
@@ -380,9 +379,11 @@ class Crucigrammer(Aplicacion.Aplicacion):
         print "lee un poco mas arriba para encontrar la solucion a tu problema!"
 	
     def funcionDeInicioLoop(self):
+        self.espaciador()
         self.mostrarGrilla(self.grilla)
         print "Palabras a buscar:"
         print self.palabras
+        self.espaciador()
         
 	#Texto personalizado de salida.	
     def salirPrint(self):

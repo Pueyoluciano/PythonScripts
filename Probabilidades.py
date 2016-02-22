@@ -1,5 +1,6 @@
-import random
 import time
+import random
+import traceback
 from Generales import Generales
 from validador import *
 
@@ -106,6 +107,7 @@ class Probabilidad:
     def __init__(self):
         self.conjunto=[]
         self.precision = 6 # precision de redondeo
+        self.randGnerator = random.SystemRandom()
                     
     def cargarDatos(self,*datos):
         #cargar datos distribuye la misma probabilidad a todos los elementos.
@@ -168,10 +170,11 @@ class Probabilidad:
             archivo = open(ruta, "r")
 
             nuevosItems = [[linea.split(" ")[0], float(linea.split(" ")[1])] for linea in archivo.readlines()]
-            
+
+            print nuevosItems
             probTotal = reduce(lambda x,y: x+y, [item[1] for item in nuevosItems])
             if (probTotal != 1.0):
-                print "La probabilidad total difiere de 1.0, la actualizacion es ignorada. \n por favor revisar el documento."
+                print str(probTotal) + " La probabilidad total difiere de 1.0, la actualizacion es ignorada. \nPor favor revisar el documento."
                 
             else:
                 self.cargarTodo(nuevosItems)
@@ -213,7 +216,8 @@ class Probabilidad:
                 self._agregarItemConDelta(dato[0],-1,-1)
                 
     def generar(self):
-        choice = random.random()
+        # choice = random.random()
+        choice = self.randGnerator.random()
         for dato in self.conjunto:
             if(choice >= dato[1][0] and choice < dato[1][1]):
                 return dato[0]
@@ -234,9 +238,12 @@ class Probabilidad:
             
         except IOError:
             print "no pudo abrirse el archivo: " + ruta
-            
+        
+        except Exception:
+            traceback.print_exc()
+        
         total = reduce(lambda x, y: x + y, [item[1] for item in listado])
-        print total
+        print "elementos contados: " + str(total)
         listadoProbs = map(lambda x: [x[0], x[1]/float(total)],listado)
         
         self.cargarTodo(listadoProbs)

@@ -138,6 +138,7 @@ class Aplicacion:
         self.postFunciones = [] 
         self.ancho = 0
         self.alto = 0
+        self.textoEspaciador = "-----------------------------------------------------------------"
         self.appGrafica = aplicacionGrafica
         
         #Variables de usuario
@@ -150,19 +151,17 @@ class Aplicacion:
 
         self.vars["rootPath"] = Variable(os.getcwd() + "\ArchivosGenerados" + self.appNombre,self.modifPath,orden=202)
         self.vars["filesPath"] = Variable(self.vars["rootPath"].valor,self.modifPath,orden=203)
-        self.vars["outFile"] = Variable(self.appNombre + "Out.txt",self.modifPath,orden=204)
-        self.vars["logFile"] = Variable(self.appNombre + "Log.txt",self.modifPath,orden=205)
+        self.vars["logFile"] = Variable(self.appNombre + "Log.txt",self.modifPath,orden=204)
         
         #Genero el menu
-        titulo = "--- " +self.appNombre + " " + self.version + " ---"
-        subtitulo = "-" * len(titulo)
+        auxTitulo = "--- " +self.appNombre + " " + self.version + " ---"
+        titulo = auxTitulo + ("-" *  (len(self.textoEspaciador) - len(auxTitulo)))
+        subtitulo = self.textoEspaciador
+        
         self.menu = Nodo(titulo,subtitulo,
                     Leaf("Ver parametros","Parametros actuales de la aplicacion", self.mostrarVariables),
                     Leaf("Modificar parametros","Parametros modificables por el usuario",self.modificar),
-                    Nodo("Ver Archivos","Archivos generados por " + self.appNombre + ":",
-                        Leaf("Archivo de Salida","Archivo generado por el programa",self.verFile),
-                        Leaf("Archivo de Logs","Archivo con todos los logs del programa",self.verLog),
-                        ),
+                    Leaf("Abrir archivo","",self.verArchivo),                        
                     Leaf("Que es esto?","",self.ayudaAplicacion),
                     Leaf("Salir","Cerrando " + self.appNombre,self.salir)
                     ,root=True
@@ -249,13 +248,18 @@ class Aplicacion:
     def obtenerValorVariables(self):
         return [value[1] for value in self.obtenerNombreValorVariables()]
         
-    def mostrarVariables(self):
-        print "\n"
+    def mostrarVariables(self,*mostrarVolver):
         self.espaciador()
+        
         variables = self.obtenerNombreValorVariables()
-        for i in range(0,len(variables)):
-            print str(i+1) + ") " + str(variables[i][0]) + ":",(variables[i][1])
-        print str(i+2) + ") Volver" 
+        
+        if(mostrarVolver):
+            lista = map(lambda x: x[0] + ": " + str(x[1]), variables) + ["Volver"]
+        else:
+            lista = map(lambda x: x[0] + ": " + str(x[1]), variables)
+            
+        Generales.enumerarLista(lista)
+        
         self.espaciador()
     
     def modificar(self):
@@ -264,7 +268,7 @@ class Aplicacion:
     
         salir = False
         while(not salir):
-            self.mostrarVariables()
+            self.mostrarVariables(True)
             # for (i,clave) in enumerate(self.vars.keys()):
                 # print str(i+1) + ") " + clave, ":",self.vars[clave].valor 
             
@@ -306,7 +310,7 @@ class Aplicacion:
     def funcionDeInicioLoopAplicacion(self):
         self.espaciador()
         self.funcionDeInicioLoop()
-        self.espaciador()
+        # self.espaciador()
     
     def funcionDeInicioLoop(self):
         pass
@@ -314,15 +318,22 @@ class Aplicacion:
     def menuPrincipal(self):
         salir = False
         while (not salir):
-            self.funcionDeInicioLoopAplicacion()
-            salir = True if self.menu.evaluar() == "SALIR" else False
+            try:
+                self.funcionDeInicioLoopAplicacion()
+                salir = True if self.menu.evaluar() == "SALIR" else False
+                
+            except Exception as e:
+                print "[ERROR] -", str(e)
+                self.log("[ERROR]",str(e))
     
     def ayudaAplicacion(self):
         self.espaciador()
         print "--- Que es esto? ---"
-        print self.appNombre
-        print "Version: " + self.version
+        print "Aplicacion: " + self.appNombre
+        print "Version:    " + self.version
+        self.espaciador()
         self.ayuda()
+        self.espaciador()
         self.pausa()
     
     def ayuda(self):
@@ -331,30 +342,11 @@ class Aplicacion:
         print "------ FILL ME PLZ -------"
         print "--------------------------"
     
-    def verArchivo(self,nombre,*ruta):
+    def verArchivo(self):
         self.espaciador()
-        print ruta
-        if(ruta == ()):
-            if(os.path.isfile(self.vars["filesPath"].valor + "\\" + nombre)):
-                os.startfile(self.vars["filesPath"].valor + "\\" + nombre)
-            else:
-                print "Archivo no encontrado"
-        else:   
-            if(os.path.isfile(ruta[0] + "\\" + nombre)):
-                os.startfile(ruta[0] + "\\" + nombre)
-            else:
-                print "Archivo no encontrado"
-        self.espaciador()
-        
-    def verFile(self):
-        self.espaciador()
-        fname = self.vars["rootPath"].valor + "\\" +  self.vars["outFile"].valor
-        if(os.path.isfile(fname)):
-            os.startfile(fname)
-        else:
-            print "Archivo no encontrado"
-        self.espaciador()
-        
+        print "Seleccione un archivo para abrir:"
+        Generales.abrirArchivo(self.vars["filesPath"].valor)
+
     def verLog(self):
         fname = self.vars["rootPath"].valor + "\\" +  self.vars["logFile"].valor
         if(os.path.isfile(fname)):
@@ -384,7 +376,7 @@ class Aplicacion:
         raw_input("...")
         
     def espaciador(self):
-        print "-----------------------------------------------------------------"
+        print self.textoEspaciador
         
     def salir(self):
         self.log("cerrando" + self.appNombre)
