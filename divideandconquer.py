@@ -80,8 +80,63 @@ def exponencial(base, exponente):
 #- EJ4 ---------------------------------------------------------------------------------
 
 #---------------------------------------------------------------------------------------
-#- EJ5 ---------------------------------------------------------------------------------
+#- SEGUNDO PARCIAL(RECUPERATORIO) 2015 -------------------------------------------------
+class AB:
+    def __init__(self, raiz=None, izq=None, der=None):
+        self.raiz = raiz
+        self.izq = izq
+        self.der = der
+    
+    def esHoja(self):
+        if(self.raiz != None and self.izq == None and self.der == None):
+            return True
+        
+        return False
+        
+def maximaSumaCamino(arbol):
+    return maximaSumaCaminoAux(arbol)
 
+def maximaSumaCaminoAux(arbol):
+    raiz
+    hijoIzq
+    hijoDer
+    maxParcialIzq
+    maxParcialDer
+
+    maximo(raiz, hijoIzq,hijoDer, )
+
+    
+    raiz + hijoIzq + maxParcialIzq > maxParcialIzq? => 
+
+
+    maxIzq = 0
+    maxDer = 0
+    print arbol.raiz
+    if(arbol.esHoja()):
+        print "maximo parcial: " + str(arbol.raiz)
+        return arbol.raiz, arbol.raiz # raiz y maximo
+        
+    else:
+        if(arbol.izq):
+            hijoIzquierdo, maximoParcial = maximaSumaCamino(arbol.izq)
+            # maxIzq = arbol.raiz + izquierdo
+            
+        if(arbol.der):
+            hijoDerecho, maximoParcial = maximaSumaCamino(arbol.der)
+            # maxDer = arbol.raiz + derecho
+    
+        if(arbol.raiz >= maxIzq and arbol.raiz >= maxDer):
+            return arbol.raiz
+            print "maximo parcial: " + str(arbol.raiz)
+        else:
+            if(izquierdo > maxIzq):
+                print "maximo parcial: " + str(maxIzq)
+                return maxIzq
+            else:
+                print "maximo parcial: " + str(maxDer)
+                return maxDer
+                
+                
 #---------------------------------------------------------------------------------------
 #- EJERCICIOS --------------------------------------------------------------------------
 def ej1():
@@ -102,9 +157,18 @@ def ej3():
     print exponencial(6,8)
     print exponencial(6,13)
     
+def parcial():
+    # AB(-1,
+        # AB(-2,
+            # AB(81),AB(0))
+        # ,AB(-3)
+        # )
+    ab = AB(-1,AB(-2,AB(81),AB(0)),AB(-3))
+    print maximaSumaCamino(ab)
 #---------------------------------------------------------------------------------------
 #- LLAMADAS ----------------------------------------------------------------------------
 #ej1()
 #ej2()
-ej3()
+# ej3()
+parcial()
 #---------------------------------------------------------------------------------------
