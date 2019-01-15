@@ -1,0 +1,106 @@
+________________________________
+                                
+  MUNICIPALIDAD DE SAN LORENZO  
+________________________________
+           SLPARKING            
+                                
+      Horario de atención       
+ Lunes a Viernes de 0 hs a 0 hs 
+________________________________
+ACTA N° &id
+                                
+San Lorenzo, &date
+Dirección: &address
+Hora: &time
+________________________________
+      DATOS DEL VEHICULO        
+                                
+Placa: &plate
+Marca: &brand
+Color: &color
+Tipo de vehículo: &vehicle_type
+________________________________
+  DATOS DEL PRESUNTO INFRACTOR  
+                                
+................................
+            Nombres             
+                                
+................................
+           Apellidos            
+                                
+................................
+     Documento de identidad     
+                                
+................................
+            Licencia            
+                                
+................................
+            Municipio           
+________________________________
+          DATOS CEDULA          
+                                
+................................
+            Nombres             
+                                
+................................
+           Apellidos            
+                                
+................................
+     Documento de identidad     
+________________________________
+     DESCRIPCIóN INFRACCIÓN     
+                                
+Código infracción: &ticket_category_code
+Descripción: &ticket_category_desc
+________________________________
+        MEDIDAS ADOPTADAS       
+                                
+&measure_taken
+______________________________
+        DATOS INSPECTOR         
+                                
+Interviniente: &inspector_name
+Documento de Identidad: &inspector_dni
+________________________________
+         NOTIFICACIÓN           
+                                
+&notification_type
+________________________________
+            TESTIGO             
+                                
+................................
+            Nombres             
+                                
+................................
+           Apellidos            
+                                
+................................
+     Documento de identidad     
+________________________________
+            FIRMAS              
+                                
+Notificado: ....................
+                                
+Testigo: .......................
+                                
+Inspector: .....................
+________________________________
+         OBSERVACIONES          
+                                
+................................
+                                
+................................
+                                
+................................
+                                
+    **Queda Ud. debidamente     
+notificado que: En el plazo de 5
+dìas habiles deberà presentarse 
+     en la Municipalidad de     
+San Lorenzo a dar cumplimiento a
+  la Ley Nacional  5016/14 y la 
+Ordenanza Municipal Nº 1532/2017
+                                
+                                
+                                
+                                
