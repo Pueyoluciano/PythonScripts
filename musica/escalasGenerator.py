@@ -7,7 +7,7 @@ import pygame.midi
 class MIDI:
     pass
 
-    
+
 class Interfaz:
     """
     """
