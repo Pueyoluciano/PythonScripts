@@ -3,7 +3,6 @@ import sys
 import time
 import pygame.midi
 
-
 class MIDI:
     pass
 
@@ -25,26 +24,15 @@ class Interfaz:
     def acciones(self):
         print("1. Escalas")
         print("2. Acordes")
-        
+        print("3. Progresiones")
         eleccion = input("> ")
+        
+        if eleccion == "1":
+            pass
         
     def loop(self):
         self.presentacion()
         self.acciones()
-      
-      
-def frecuencia(semitonos):
-    """
-        La formula general es:
-            frecuencia = 440hz * (a ** n)
-            
-        donde:
-            - 440hz es la frecuencia de A4 (Afinacion estandar con A4 = 440Hz)
-            - a es 2 ** (1/12). este numero es fijo.
-            - n son los semitonos de separacion entre A4 y la nota que se busca obtener su frecuencia.
-        
-    """
-    return 440 * ((2**(1/12)) ** semitonos)
             
 
 class Nota:
@@ -54,6 +42,10 @@ class Nota:
     }
 
     def __init__(self, nota_string, notacion="sostenidos"):
+        """
+        """
+        
+        # Si Recibo una Nota, simplemente copio sus atributos.
         if type(nota_string) is Nota:
             self.indice = nota_string.indice
             self.clave = nota_string.clave
@@ -61,6 +53,7 @@ class Nota:
             self.notacion = nota_string.notacion
     
         else:
+            # Si recibo un numero, es entonces lo uso de indice
             if type(nota_string) is int:
                 self.indice = nota_string
                 self.clave = nota_string % 12
@@ -68,12 +61,14 @@ class Nota:
                 self.notacion = notacion
         
             else:
+                # Si recibo un String, calculo el indice y la octava
                 if len(nota_string) == 2:
                     nota = nota_string[0]
                     self.octava = int(nota_string[1])
                     self.notacion = "sostenidos"
                     
                 else:
+                    #Si es un sostenido o un bemol, ocupa 3 caracteres
                     nota = nota_string[0:2]
                     self.octava = int(nota_string[2])
                     self.notacion = "sostenidos" if nota_string[1] == "#" else "bemoles"
@@ -96,22 +91,30 @@ class Nota:
         n = self.indice - 57
         return 440 * ((2**(1/12)) ** n)        
     
-    def reproducir(self, figura=0.5):
-        nota_string = str(self)
+    # def reproducir(self, figura=0.5):
+        # nota_string = str(self)
         
-        sys.stdout.write(nota_string)
-        sys.stdout.flush()
+        # sys.stdout.write(nota_string)
+        # sys.stdout.flush()
         
-        nota_midi = self.indice + 12
+        # nota_midi = self.indice + 12
         
-        player.note_on(nota_midi, 127)
-        time.sleep(0.5)
-        player.note_off(nota_midi, 127)
+        # player.note_on(nota_midi, 127)
+        # time.sleep(figura)
+        # player.note_off(nota_midi, 127)
     
-        sys.stdout.write("\b" * len(nota_string))
-        sys.stdout.write(" " * len(nota_string))
-        sys.stdout.write("\b" * len(nota_string))
-            
+        # sys.stdout.write("\b" * len(nota_string))
+        # sys.stdout.write(" " * len(nota_string))
+        # sys.stdout.write("\b" * len(nota_string))
+    
+    def reproducir(self):
+        nota_midi = self.indice + 12
+        player.note_on(nota_midi, 127)
+    
+    def detener(self):
+        nota_midi = self.indice + 12
+        player.note_off(nota_midi, 127)
+        
     
     def disminuir(self, grados):
         self.indice -= grados
@@ -225,6 +228,7 @@ class Musica:
         'pentatonica menor': [1, '3b', 4, 5, '7b']
     }
     
+    #Los grados son en funcion del modo mayor.
     acordes = {
         'mayor': [1, 3, 5],
         'maj7': [1, 3, 5, 7],
@@ -280,38 +284,30 @@ class Secuencia:
     def texto(self):
         return self.tipo + " " + str(self.modo) + " de " + str(self.tonica) + ": "
 
-        
-    def arpegiar(self):
+    def arpegiar(self, figura=Musica.figuras['blanca']):
         for nota in self.notas:
-            
             nota_string = str(nota)
-            
             sys.stdout.write(nota_string)
             sys.stdout.flush()
-            
-            nota_midi = nota.indice + 12
-            
-            player.note_on(nota_midi, 127)
-            time.sleep(0.5)
-            player.note_off(nota_midi, 127)
+
+            nota.reproducir()
+            time.sleep(figura)
+            nota.detener()
         
             sys.stdout.write("\b" * len(nota_string))
             sys.stdout.write(" " * len(nota_string))
             sys.stdout.write("\b" * len(nota_string))
-            
-        
-        time.sleep(0.5)
+
+        time.sleep(Musica.figuras['blanca'])
+
     
     def rasguear(self, figura=Musica.figuras['rasgueado']):
         for nota in self.notas:
-            
             nota_string = str(nota)
-            
             sys.stdout.write(nota_string)
             sys.stdout.flush()
-            nota_midi = nota.indice + 12
-            
-            player.note_on(nota_midi, 127)
+
+            nota.reproducir()
             time.sleep(figura)
         
             sys.stdout.write("\b" * len(nota_string))
@@ -321,8 +317,7 @@ class Secuencia:
         time.sleep(1.5)
         
         for nota in self.notas:
-            nota_midi = nota.indice + 12
-            player.note_off(nota_midi, 127)
+            nota.detener()
        
     def __len__(self):
         return len(self.notas)
@@ -389,6 +384,9 @@ class Acorde(Secuencia):
     def texto(self):
         return self.tipo + " " + str(self.tonica) + " " + str(self.nombre) + ": "
 
+        
+class Progresion():
+    pass
 """    
 print("------------------------------------------------------------------------")
 print("------------------------------------------------------------------------")
@@ -522,10 +520,10 @@ try:
     c.rasguear()
     """
     
-    for i in range(0, 61):
-        a = Nota(i)
-        print(i, a)
-        a.reproducir()
+    # for i in range(0, 61):
+        # a = Nota(i)
+        # print(i, a)
+        # a.reproducir(Musica.figuras['negra'])
         
     print("------------------------------------------------------------------------")
     print("------------------------------------------------------------------------")
@@ -571,6 +569,7 @@ try:
     for tonica in Musica.notas['sostenidos']:
         a = Acorde('sus2', tonica)
         print(a)
+        a.arpegiar()
         a.rasguear(Musica.figuras['corchea'])
         a.rasguear(Musica.figuras['semicorchea'])
         a.rasguear(Musica.figuras['fusa'])
