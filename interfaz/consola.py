@@ -79,6 +79,11 @@ class Nodo:
                 if eleccion == 1:
                     self.accion.ejecutar()
 
+                else:
+                    if eleccion == (len(self.nodos) + 2):
+                        pass
+                    
+                    
             else:
                 # Salir o volver
                 if eleccion == (len(self.nodos) + 1 + offset):
