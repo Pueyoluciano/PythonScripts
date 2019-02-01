@@ -1,41 +1,46 @@
+# -*- coding: utf-8 -*-
 from functools import *
 import sys
+
 import time
 import pygame.midi
 
-class MIDI:
-    pass
+sys.path.insert(0, '../intefaz')
+from consola import *
 
 
 class Interfaz:
     """
     """
     def __init__(self):
-        pass
+        self.player = None
         
-    def __del__(self):
-        pass
-        
-    def presentacion(self):
-        print("-------------------------------------------------")
-        print("- Musica: escalas acordes y esas cosas ----------")
-        print("-------------------------------------------------")
+        self.menu = Menu(
+                Nodo("Escalas Generator 1.0", "Pequeña implementacion para generar acordes, escalas y otras yerbas", True, 
+                    Nodo("Acordes", "Reproducir un acorde", True, *[Accion(acorde, True, lambda x: print(x), acorde) for acorde in Musica.acordes.keys()]),
+                    Nodo("Escalas", "", False),
+                    Nodo("Inversiones", "", False),
+                    Nodo("Progresiones", "", False)
+                )
+            )   
 
-    def acciones(self):
-        print("1. Escalas")
-        print("2. Acordes")
-        print("3. Progresiones")
-        eleccion = input("> ")
-        
-        if eleccion == "1":
-            pass
-        
     def loop(self):
-        self.presentacion()
-        self.acciones()
-            
+        pygame.midi.init()
+        self.player = pygame.midi.Output(0)
+        self.player.set_instrument(0)
 
+        try:
+            self.menu.iniciar()
+            
+            
+        finally:    
+            del self.player
+            pygame.midi.quit()
+        
+        
 class Nota:
+    """
+    """
     _notas = {
         'sostenidos': ['C' , 'C#','D' , 'D#','E' ,'F' , 'F#','G' , 'G#','A' , 'A#','B'],
         'bemoles': ['C' , 'Db','D' , 'Eb','E' ,'F' , 'Gb','G' , 'Ab','A' , 'Bb','B']
@@ -43,6 +48,59 @@ class Nota:
 
     def __init__(self, nota_string, notacion="sostenidos"):
         """
+            Podemos crear una nota de varias maneras:
+            - type(nota_string) is Nota:
+                Hacemos una copia de la que recibimos por parametro, asi
+                 podemos hacer Notas a partir de otras.
+            
+            - type(nota_string) is int:
+                Podemos crear una nota a partir de su indice. A saber:
+                      0 - C0 (Esta se la nota mas baja que podemos tocar)
+                      1 - B0 
+                       ...
+                    127 - G9 (Esta es la nota mas alta que podemos tocar)  
+                    
+                    Es importante notar que el estandar MIDI define:
+                    
+                        21 - A0
+                    
+                    pero en nuestra implementacion:
+                    
+                         9 - A0
+                    
+                    Por eso al hacer sonar una nota, le sumamos 12 al indice.
+                
+                A partir del indice podemos calcular directamente la nota y la octava:
+                
+                    - La musica occidental convencional usa la escala temperada, que
+                        divide la octava en 12 partes iguales llamadas semitonos.
+                        Es por esto que podemos trabajar las notas musicales 
+                        con aritmetica modular, en particular modulo 12.
+                        
+                    - Es por esto que:
+                        
+                        El resto de dividir el indice por 12 nos da su posicion 
+                        en el array de notas.
+                      
+                        La division entera del indice por 12 nos da la octava.
+                        
+            - type(nota_string) is str:
+                Por ultimo podemos crear la nota a partir de un String.
+                    - El primer caracter denota la altura (A, B, C ...)
+                    
+                    - Si el string mide dos caracteres:
+                        -- el segundo es la octava.
+                    
+                    - Si el string mide 3 caracteres es un sostenido o bemol:
+                        -- el segundo es la alteracion. # = sostenido | b = bemol
+                        -- el tercero es la octava.
+                        
+                    con estos valores podemos calcular el indice.
+              
+              
+            Si usamos la notacion de sostenidos, usamos los sostenidos en
+            la escala cromatica, de igual forma si la notacion es en bemoles,
+            veremos la escala cromatica notada en bemoles.
         """
         
         # Si Recibo una Nota, simplemente copio sus atributos.
@@ -90,24 +148,18 @@ class Nota:
         """
         n = self.indice - 57
         return 440 * ((2**(1/12)) ** n)        
-    
-    # def reproducir(self, figura=0.5):
-        # nota_string = str(self)
-        
-        # sys.stdout.write(nota_string)
-        # sys.stdout.flush()
-        
-        # nota_midi = self.indice + 12
-        
-        # player.note_on(nota_midi, 127)
-        # time.sleep(figura)
-        # player.note_off(nota_midi, 127)
-    
-        # sys.stdout.write("\b" * len(nota_string))
-        # sys.stdout.write(" " * len(nota_string))
-        # sys.stdout.write("\b" * len(nota_string))
-    
+
     def reproducir(self):
+        """
+            Las notas MIDI y las que usamos aca estan desfazadas 12 pasos.
+            
+            en MIDI:
+                21 = A0
+            
+            nosotros:
+                0 = C0
+                9 = A0
+        """
         nota_midi = self.indice + 12
         player.note_on(nota_midi, 127)
     
@@ -117,6 +169,10 @@ class Nota:
         
     
     def disminuir(self, grados):
+        """
+            Podemos disminuir una nota una cantidad arbitraria de 
+            semitonos.
+        """
         self.indice -= grados
         self.octava = (self.indice) // 12
         self.clave = (self.indice) % 12
@@ -124,6 +180,10 @@ class Nota:
         return self
         
     def aumentar(self, grados):
+        """
+            Podemos aumentar una nota una cantidad arbitraria de 
+            semitonos.
+        """
         self.indice += grados
         self.octava = (self.indice) // 12
         self.clave = (self.indice) % 12
@@ -131,6 +191,10 @@ class Nota:
         return self
         
     def octavar(self, octavas):
+        """
+            Podemos octavar una nota (subir o disminuir su octava) 
+            una cantidad entera arbitraria.
+        """
         if octavas >= 0:
             self.aumentar(12 * octavas)
             
@@ -171,7 +235,6 @@ class Musica:
     """
     notacion = ['sostenidos', 'bemoles']
 
-    
     _cromaticoSostenidos = [
         Nota('C4'), 
         Nota('C#4'), 
@@ -202,12 +265,6 @@ class Musica:
         Nota('B4')
     ]
     
-    # _cromaticoSostenidos = ['C4', 'C#4', 'D4', 'D#4', 'E4', 'F4', 'F#4', 'G4', 'G#4', 'A4', 'A#4', 'B4']
-    # _cromaticoBemoles = ['C4', 'Db4', '4D', 'Eb4', 'E4', 'F4', 'Gb4', 'G4', 'Ab4', 'A4', 'Bb4', 'B4']
-    
-    # _cromaticoSostenidos = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B']
-    # _cromaticoBemoles = ['C', 'Db', 'D', 'Eb', 'E', 'F', 'Gb', 'G', 'Ab', 'A', 'Bb', 'B']
-    
     notas = {
         notacion[0]: _cromaticoSostenidos,
         notacion[1]: _cromaticoBemoles
@@ -237,6 +294,7 @@ class Musica:
         'menor': [1,'3b',5],
         'min7': [1,'3b', 5, '7b'],
         'min11': [1,'3b', 5, '7b', 11],
+        'dom7': [1, 3, 5, '7b'],
         'aumentado': [1, 3,'5#'],
         'disminuido': [1, '3b', '5b'],
         'sus2': [1, 2, 5],
@@ -500,82 +558,84 @@ inter = Interfaz()
 inter.loop()
 """
 
-pygame.midi.init()
-player = pygame.midi.Output(0)
-player.set_instrument(0)
+# pygame.midi.init()
+# player = pygame.midi.Output(0)
+# player.set_instrument(0)
 
-try:
-    """
-    a = Escala('mayor', 'C')
-    b = Escala('menor', 'C')
-    c = Acorde('maj11', 'C')
+# try:
+    # """
+    # a = Escala('mayor', 'C')
+    # b = Escala('menor', 'C')
+    # c = Acorde('maj11', 'C')
 
-    print(a)
-    a.arpegiar()
+    # print(a)
+    # a.arpegiar()
 
-    # print(b)
-    # b.arpegiar()
+    # # print(b)
+    # # b.arpegiar()
 
-    print(c)
-    c.rasguear()
-    """
+    # print(c)
+    # c.rasguear()
+    # """
     
-    # for i in range(0, 61):
-        # a = Nota(i)
-        # print(i, a)
-        # a.reproducir(Musica.figuras['negra'])
+    # # for i in range(0, 61):
+        # # a = Nota(i)
+        # # print(i, a)
+        # # a.reproducir(Musica.figuras['negra'])
         
-    print("------------------------------------------------------------------------")
-    print("------------------------------------------------------------------------")
-    print("------------------------------------------------------------------------")
-    print("Escalas Mayores: ")
-
-    for tonica in Musica.notas['sostenidos']:
-        a = Escala('mayor', tonica)
-        print(a)
-        # a.arpegiar()
-     
-    print("------------------------------------------------------------------------")
-    print("------------------------------------------------------------------------")
-    print("------------------------------------------------------------------------")
-    print("Acordes Mayores:")    
-
-    for tonica in Musica.notas['sostenidos']:
-        a = Acorde('mayor', tonica)
-        print(a)
-        #a.rasguear(Musica.figuras['corchea'])
-        #a.rasguear(Musica.figuras['semicorchea'])
-        #a.rasguear(Musica.figuras['fusa'])
-        #a.rasguear(Musica.figuras['rasgueado'])
-    
     # print("------------------------------------------------------------------------")
     # print("------------------------------------------------------------------------")
     # print("------------------------------------------------------------------------")
-    # print("Acordes Maj11:")    
+    # print("Escalas Mayores: ")
 
     # for tonica in Musica.notas['sostenidos']:
-        # a = Acorde('maj11', tonica)
+        # a = Escala('mayor', tonica)
         # print(a)
+        # # a.arpegiar()
+     
+    # print("------------------------------------------------------------------------")
+    # print("------------------------------------------------------------------------")
+    # print("------------------------------------------------------------------------")
+    # print("Acordes Mayores:")    
+
+    # for tonica in Musica.notas['sostenidos']:
+        # a = Acorde('mayor', tonica)
+        # print(a)
+        # #a.rasguear(Musica.figuras['corchea'])
+        # #a.rasguear(Musica.figuras['semicorchea'])
+        # #a.rasguear(Musica.figuras['fusa'])
+        # #a.rasguear(Musica.figuras['rasgueado'])
+    
+    # # print("------------------------------------------------------------------------")
+    # # print("------------------------------------------------------------------------")
+    # # print("------------------------------------------------------------------------")
+    # # print("Acordes Maj11:")    
+
+    # # for tonica in Musica.notas['sostenidos']:
+        # # a = Acorde('maj11', tonica)
+        # # print(a)
+        # # a.rasguear(Musica.figuras['corchea'])
+        # # a.rasguear(Musica.figuras['semicorchea'])
+        # # a.rasguear(Musica.figuras['fusa'])
+        # # a.rasguear(Musica.figuras['rasgueado'])
+        
+    # print("------------------------------------------------------------------------")
+    # print("------------------------------------------------------------------------")
+    # print("------------------------------------------------------------------------")
+    # print("Acordes dom7:")    
+
+    # for tonica in Musica.notas['sostenidos']:
+        # a = Acorde('dom7', tonica)
+        # print(a)
+        # a.arpegiar()
         # a.rasguear(Musica.figuras['corchea'])
         # a.rasguear(Musica.figuras['semicorchea'])
         # a.rasguear(Musica.figuras['fusa'])
-        # a.rasguear(Musica.figuras['rasgueado'])
-        
-    print("------------------------------------------------------------------------")
-    print("------------------------------------------------------------------------")
-    print("------------------------------------------------------------------------")
-    print("Acordes sus2:")    
+        # a.rasguear(Musica.figuras['rasgueado'])        
+    
+# finally:    
+    # del player
+    # pygame.midi.quit()
 
-    for tonica in Musica.notas['sostenidos']:
-        a = Acorde('sus2', tonica)
-        print(a)
-        a.arpegiar()
-        a.rasguear(Musica.figuras['corchea'])
-        a.rasguear(Musica.figuras['semicorchea'])
-        a.rasguear(Musica.figuras['fusa'])
-        a.rasguear(Musica.figuras['rasgueado'])        
-    
-finally:    
-    del player
-    pygame.midi.quit()
-    
+
+escalasGenerator = Interfaz().loop()    
