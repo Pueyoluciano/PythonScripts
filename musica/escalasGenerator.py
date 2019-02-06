@@ -275,6 +275,16 @@ class Musica:
     modos = {
         'mayor': [2, 2, 1, 2, 2, 2, 1],
         'menor': [2, 1, 2, 2, 1, 2, 2],
+        
+        'jonico': [2, 2, 1, 2, 2, 2, 1],
+        'dorico': [2, 1, 2, 2, 2, 1, 2],
+        'frigio': [1, 2, 2, 2, 1, 2, 2],
+        'lidio': [2, 2, 2, 1, 2, 2, 1],     
+        'mixolidio': [2, 2, 1, 2, 2, 1, 2],   
+        'eolico': [2, 1, 2, 2, 1, 2, 2],  
+        'locrio': [1, 2, 2, 1, 2, 2, 2],
+        
+        'cromatico': [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
         'pentatonica mayor': [2, 2, 3, 2, 3],
         'pentatonica menor': [3, 2, 2, 3, 2]
     }
@@ -376,14 +386,34 @@ class Secuencia:
         
         for nota in self.notas:
             nota.detener()
-       
+   
+    def redondear(self, figura=Musica.figuras['rasgueado']):
+        
+        vueltaCompleta = self.notas + [Nota(self.notas[0]).octavar(1)] + list(reversed(self.notas))
+        
+        for nota in vueltaCompleta:
+            nota_string = str(nota)
+            sys.stdout.write(nota_string)
+            sys.stdout.flush()
+
+            nota.reproducir()
+            time.sleep(figura)
+            nota.detener()
+        
+            sys.stdout.write("\b" * len(nota_string))
+            sys.stdout.write(" " * len(nota_string))
+            sys.stdout.write("\b" * len(nota_string))
+
+        time.sleep(Musica.figuras['blanca'])    
+    
+    
     def __len__(self):
         return len(self.notas)
     
     def __str__(self):
         return  self.texto() + reduce(lambda x, y :str(x) + " - " + str(y),  self.notas)
   
-
+    
 class Escala(Secuencia):
     def __init__(self, modo, tonica):
         """
@@ -401,7 +431,19 @@ class Escala(Secuencia):
             
             auxiliar.aumentar(i)
     
-
+class EscalaCustom(Secuencia):
+    def __init__(self, intervalos, tonica):
+        super().__init__(str(intervalos), tonica)
+        self.tipo = "Escala Custom"
+        
+        auxiliar = Nota(str(self.tonica))
+        
+        for i in intervalos:
+            self.notas.append(Nota(str(auxiliar)))
+            
+            auxiliar.aumentar(i)
+        
+    
 class Acorde(Secuencia):
     def __init__(self, nombre, tonica, notacion=Musica.notacion[0], modo='mayor'):
         """
@@ -638,4 +680,105 @@ inter.loop()
     # pygame.midi.quit()
 
 
-escalasGenerator = Interfaz().loop()    
+pygame.midi.init()
+player = pygame.midi.Output(0)
+player.set_instrument(0)
+
+try:
+
+    # a = Escala('menor', 'C4')
+    # print(a)
+    # a.redondear(Musica.figuras['negra'])
+    
+    # for nota in Musica.notas['sostenidos']:
+        # a = Escala('eolico', nota)
+        # print(a)
+        # a.redondear(Musica.figuras['negra'])
+
+    escalasCustom = [
+        [1, 1, 2, 2, 2, 2, 2],
+        [2, 1, 1, 2, 2, 2, 2],
+        [2, 2, 1, 1, 2, 2, 2],
+        [2, 2, 2, 1, 1, 2, 2],
+        [2, 2, 2, 2, 1, 1, 2],
+        [2, 2, 2, 2, 2, 1, 1],
+        [1, 2, 1, 2, 2, 2, 2],
+        [2, 1, 2, 1, 2, 2, 2],
+        [2, 2, 1, 2, 1, 2, 2],
+        [2, 2, 2, 1, 2, 1, 2],
+        [2, 2, 2, 2, 1, 2, 1],
+        [1, 2, 2, 1, 2, 2, 2],
+        [2, 1, 2, 2, 1, 2, 2],
+        [2, 2, 1, 2, 2, 1, 2],
+        [2, 2, 2, 1, 2, 2, 1],
+        [1, 2, 2, 2, 1, 2, 2],
+        [2, 1, 2, 2, 2, 1, 2],
+        [2, 2, 1, 2, 2, 2, 1],
+        [1, 2, 2, 2, 2, 1, 2],
+        [2, 1, 2, 2, 2, 2, 1],
+        [1, 2, 2, 2, 2, 2, 1]
+    ]    
+        
+    escalasCustom = [
+        [6, 1, 1, 1, 3],
+        [3,3,3,3],
+        [4, 4, 4],
+        [4, 4, 1, 2, 1],
+        [2, 2, 3, 2, 3],
+        [1, 2, 3, 4, 2],
+    ]    
+        
+        
+    for ec in escalasCustom:
+        a = EscalaCustom(ec, 'C4')
+        print(a)
+        a.redondear(Musica.figuras['negra'])
+    
+finally:    
+    del player
+    pygame.midi.quit()
+    
+# escalasGenerator = Interfaz().loop()
+
+
+"""
+Circulo de 5tas
+            <--- | --->
+Gb Db Ab Eb Bb F C G D A E B F#
+
+"""
+
+
+"""
+- Cuantas escalas pueden armarse con 5 tonos y 2 semitonos ?
+    Es el combinatorio C(7,2) = 21. Esta es la lista:
+
+(Por una cuestion de visibilidad los tonos son denotados con x)
+
+11xxxxx
+x11xxxx
+xx11xxx
+xxx11xx
+xxxx11x
+xxxxx11
+
+1x1xxxx
+x1x1xxx
+xx1x1xx
+xxx1x1x
+xxxx1x1
+
+1xx1xxx
+x1xx1xx
+xx1xx1x
+xxx1xx1
+
+1xxx1xx
+x1xxx1x
+xx1xxx1
+
+1xxxx1x
+x1xxxx1
+
+1xxxxx1
+"""
