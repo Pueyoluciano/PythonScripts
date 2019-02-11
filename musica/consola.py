@@ -116,15 +116,15 @@ def funcionDos(a):
 def funcionTres(a,b,c):
     print("Soy una funcion con tres argumentos", a, b, c)
 
-nodos = Nodo("Menu Principal", "A tu vieja le gusta asi", Accion("Accion del menu principal", funcion),
-            Nodo("Opcion 1", "Soy la primera opcion", Accion("Accion de la opcion 1", funcionDos, "QUESO")),
-            Nodo("Opcion 2", "Soy la segunda opcion",Accion("Accion de la opcion 2", funcionTres, ("HOLA", "VIEJO", "COMO ESTAS")))
-        )
+# nodos = Nodo("Menu Principal", "A tu vieja le gusta asi", Accion("Accion del menu principal", funcion),
+            # Nodo("Opcion 1", "Soy la primera opcion", Accion("Accion de la opcion 1", funcionDos, "QUESO")),
+            # Nodo("Opcion 2", "Soy la segunda opcion",Accion("Accion de la opcion 2", funcionTres, ("HOLA", "VIEJO", "COMO ESTAS")))
+        # )
 
         
-menuA = Menu(nodos)
+# menuA = Menu(nodos)
 
 
-print(menuA.nodo)
+# print(menuA.nodo)
 
-menuA.iniciar()
+# menuA.iniciar()

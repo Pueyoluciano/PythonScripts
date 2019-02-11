@@ -1,11 +1,13 @@
 # -*- coding: utf-8 -*-
 from functools import *
+import itertools
+
 import sys
 
 import time
 import pygame.midi
 
-sys.path.insert(0, '../intefaz')
+# sys.path.insert(0, '../intefaz')
 from consola import *
 
 
@@ -149,7 +151,7 @@ class Nota:
         n = self.indice - 57
         return 440 * ((2**(1/12)) ** n)        
 
-    def reproducir(self):
+    def reproducir(self,player):
         """
             Las notas MIDI y las que usamos aca estan desfazadas 12 pasos.
             
@@ -349,6 +351,8 @@ class Secuencia:
         self.tonica = Nota(tonica)
         self.notas = []
         
+        self.ciclo = None
+        
     def texto(self):
         return self.tipo + " " + str(self.modo) + " de " + str(self.tonica) + ": "
 
@@ -406,6 +410,11 @@ class Secuencia:
 
         time.sleep(Musica.figuras['blanca'])    
     
+    def __next__(self):
+        if not self.ciclo:
+            self.ciclo = itertools.cycle(self.notas)
+            
+        return next(self.ciclo)
     
     def __len__(self):
         return len(self.notas)
@@ -679,7 +688,7 @@ inter.loop()
     # del player
     # pygame.midi.quit()
 
-
+"""
 pygame.midi.init()
 player = pygame.midi.Output(0)
 player.set_instrument(0)
@@ -737,7 +746,7 @@ try:
 finally:    
     del player
     pygame.midi.quit()
-    
+"""    
 # escalasGenerator = Interfaz().loop()
 
 
