@@ -10,6 +10,10 @@ import pygame.midi
 # sys.path.insert(0, '../intefaz')
 from consola import *
 
+"""
+    TODO: modularizar este documento.
+
+"""
 
 class Interfaz:
     """
@@ -60,15 +64,15 @@ class Nota:
                       0 - C0 (Esta se la nota mas baja que podemos tocar)
                       1 - B0 
                        ...
-                    127 - G9 (Esta es la nota mas alta que podemos tocar)  
+                    115 - G9 (Esta es la nota mas alta que podemos tocar)  
                     
-                    Es importante notar que el estandar MIDI define:
+                    Es importante notar que el estandar MIDI difere un poco al nuestro:
                     
                         21 - A0
                     
                     pero en nuestra implementacion:
                     
-                         9 - A0
+                        9 - A0
                     
                     Por eso al hacer sonar una nota, le sumamos 12 al indice.
                 
@@ -151,7 +155,7 @@ class Nota:
         n = self.indice - 57
         return 440 * ((2**(1/12)) ** n)        
 
-    def reproducir(self,player):
+    def reproducir(self, player):
         """
             Las notas MIDI y las que usamos aca estan desfazadas 12 pasos.
             
@@ -330,6 +334,12 @@ class Musica:
     }
     
     
+class Modo:
+    def __init__(self, nombre, secuenciaIntervalos):
+        self.nombre = nombre
+        self.intervalos = secuenciaIntervalos
+
+    
 class Secuencia:
     def __init__(self, modo, tonica):
         """
@@ -352,9 +362,6 @@ class Secuencia:
         self.notas = []
         
         self.ciclo = None
-        
-    def texto(self):
-        return self.tipo + " " + str(self.modo) + " de " + str(self.tonica) + ": "
 
     def arpegiar(self, figura=Musica.figuras['blanca']):
         for nota in self.notas:
@@ -371,7 +378,6 @@ class Secuencia:
             sys.stdout.write("\b" * len(nota_string))
 
         time.sleep(Musica.figuras['blanca'])
-
     
     def rasguear(self, figura=Musica.figuras['rasgueado']):
         for nota in self.notas:
@@ -409,7 +415,10 @@ class Secuencia:
             sys.stdout.write("\b" * len(nota_string))
 
         time.sleep(Musica.figuras['blanca'])    
-    
+            
+    def texto(self):
+        return self.tipo + " " + self.modo.nombre + " de " + str(self.tonica) + ": "
+        
     def __next__(self):
         if not self.ciclo:
             self.ciclo = itertools.cycle(self.notas)
@@ -426,32 +435,52 @@ class Secuencia:
 class Escala(Secuencia):
     def __init__(self, modo, tonica):
         """
-            modo: debe ser una entrada en el diccionario de Musica.modos. (lista de intervalos que definen la escala).
+            modo: instancia de un Modo.
+            
             tonica: tonica de la escala.
             notacion: mostrar las notas en sostenidos o bemoles.
         """
+        
         super().__init__(modo, tonica)
         self.tipo = "Escala"
         
         auxiliar = Nota(str(self.tonica))
         
-        for i in Musica.modos[modo]:
+        for intervalo in self.modo.intervalos:
             self.notas.append(Nota(str(auxiliar)))
             
-            auxiliar.aumentar(i)
+            auxiliar.aumentar(intervalo)
     
-class EscalaCustom(Secuencia):
-    def __init__(self, intervalos, tonica):
-        super().__init__(str(intervalos), tonica)
-        self.tipo = "Escala Custom"
+    def parcial(self, desde, hasta):
+        """
+            Generea una lista con las notas de la escala, empezando en la octava "desde"
+            e incluyendo hasta la octava "hasta".
+        """
+        desde = 0 if desde < 0 else (9 if desde > 9 else desde)
+        hasta = desde if hasta < desde else (0 if hasta < 0 else (9 if hasta > 9 else hasta))
         
-        auxiliar = Nota(str(self.tonica))
+        inicial = self.tonica.clave + (12 * desde)
         
-        for i in intervalos:
-            self.notas.append(Nota(str(auxiliar)))
-            
-            auxiliar.aumentar(i)
+        retorno = []
+        auxiliar = inicial
         
+        ciclo = itertools.cycle(self.modo.intervalos)
+        
+        # 115 es la nota maxima que se puede reproducir en midi.
+        # En nuestra nomenclatura 115 = G9
+        # En general suele aprecer 127 = G9
+        
+        while auxiliar <= (12 * (hasta + 1) - 1) and auxiliar <= 115:
+            retorno.append(Nota(auxiliar))
+            auxiliar += next(ciclo)
+        
+        return retorno
+        
+    def completa(self):
+        """
+            Genera una lista con TODAS las notas de la escala, pasando por todas las octavas( de la 0 a la 9).
+        """
+        return self.parcial(0,9)
     
 class Acorde(Secuencia):
     def __init__(self, nombre, tonica, notacion=Musica.notacion[0], modo='mayor'):
@@ -497,87 +526,39 @@ class Acorde(Secuencia):
 class Progresion():
     pass
 """    
-print("------------------------------------------------------------------------")
-print("------------------------------------------------------------------------")
-print("------------------------------------------------------------------------")
-
 print("Escalas Mayores: ")
-
 for tonica in Musica.notas['sostenidos']:
     print(Escala('mayor', tonica, 'sostenidos'))
-
-    
-print("------------------------------------------------------------------------")
-print("------------------------------------------------------------------------")
-print("------------------------------------------------------------------------")
 
 print("Escalas Menores: ")
-
 for tonica in Musica.notas['sostenidos']:
     print(Escala('mayor', tonica, 'sostenidos'))
 
-    
-print("------------------------------------------------------------------------")
-print("------------------------------------------------------------------------")
-print("------------------------------------------------------------------------")
-
 print("Pentatonicas Mayores: ")
-
 for tonica in Musica.notas['sostenidos']:
     print(Escala('pentatonica mayor', tonica, 'sostenidos'))
-
-    
-print("------------------------------------------------------------------------")
-print("------------------------------------------------------------------------")
-print("------------------------------------------------------------------------")
 
 print("Pentatonicas Menores: ")    
 for tonica in Musica.notas['sostenidos']:
     print(Escala('pentatonica menor', tonica, 'sostenidos'))
     
-    
-print("------------------------------------------------------------------------")
-print("------------------------------------------------------------------------")
-print("------------------------------------------------------------------------")
 print("Acordes Mayores:")    
-
 for tonica in Musica.notas['sostenidos']:
     print(Acorde('mayor', tonica))
 
-    
-print("------------------------------------------------------------------------")
-print("------------------------------------------------------------------------")
-print("------------------------------------------------------------------------")
-
 print("Acordes Maj7:")    
-
 for tonica in Musica.notas['sostenidos']:
     print(Acorde('maj7', tonica))
    
-   
-print("------------------------------------------------------------------------")
-print("------------------------------------------------------------------------")
-print("------------------------------------------------------------------------")
-
 print("Acordes Maj11:")    
-
 for tonica in Musica.notas['sostenidos']:
     print(Acorde('maj11', tonica))
 
-    
-print("------------------------------------------------------------------------")
-print("------------------------------------------------------------------------")
-print("------------------------------------------------------------------------")
 print("Acordes Menores:")    
-
 for tonica in Musica.notas['sostenidos']:
     print(Acorde('menor', tonica))
     
-print("------------------------------------------------------------------------")
-print("------------------------------------------------------------------------")
-print("------------------------------------------------------------------------")
 print("Progresion de acordes para cada grado de la escala mayor:")
-
 for tonica in Musica.notas['sostenidos']:
     escala = Escala('mayor', tonica)
     print(escala)
@@ -587,12 +568,7 @@ for tonica in Musica.notas['sostenidos']:
  
     print("")
     
-    
-print("------------------------------------------------------------------------")
-print("------------------------------------------------------------------------")
-print("------------------------------------------------------------------------")
 print("Progresion de acordes para cada grado de la escala menor:")
-
 for tonica in Musica.notas['sostenidos']:
     escala = Escala('menor', tonica)
     print(escala)
@@ -601,12 +577,6 @@ for tonica in Musica.notas['sostenidos']:
         print(Acorde(Musica.progresion['menor'][i], escala.notas[i]))
  
     print("")
-    
-"""
-
-"""
-inter = Interfaz()
-inter.loop()
 """
 
 # pygame.midi.init()
@@ -688,7 +658,6 @@ inter.loop()
     # del player
     # pygame.midi.quit()
 
-"""
 pygame.midi.init()
 player = pygame.midi.Output(0)
 player.set_instrument(0)
@@ -736,19 +705,32 @@ try:
         [2, 2, 3, 2, 3],
         [1, 2, 3, 4, 2],
     ]    
+    # for ec in escalasCustom:
+        # a = EscalaCustom(ec, 'C4')
+        # print(a)
+        # a.redondear(Musica.figuras['negra'])
+    
+    a = Escala(Musica.modos['mayor']), 'C4')
+    b = Escala(Modo('custom', [1,1]), 'C5')
+    
+    print(a)
+    print(b)
+    
+    # c = a.completa()
+    # for nota in c:
+        # print(nota)
+        # nota.reproducir(player)
+        # time.sleep(.4)
         
-        
-    for ec in escalasCustom:
-        a = EscalaCustom(ec, 'C4')
-        print(a)
-        a.redondear(Musica.figuras['negra'])
+    c = a.parcial(4,6)
+    for nota in c:
+        print(nota)
+        nota.reproducir(player)
+        time.sleep(.4)    
     
 finally:    
     del player
     pygame.midi.quit()
-"""    
-# escalasGenerator = Interfaz().loop()
-
 
 """
 Circulo de 5tas
