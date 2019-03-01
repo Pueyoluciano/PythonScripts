@@ -1,9 +1,101 @@
+import time
 import itertools
 import pygame.midi
 
 from ritmosEuclideos import *
 
-class Canal:
+class Nota:
+    _lista = {
+        'sostenidos': ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'],
+        'bemoles': ['C', 'Db', 'D', 'Eb', 'E', 'F', 'Gb', 'G', 'Ab', 'A', 'Bb', 'B']
+    }
+
+    def __init__(self, nota_string):
+        if type(nota_string) is int:
+            self.notacion = 'sostenidos'
+            self.indice = 127 if nota_string > 127 else (0 if nota_string < 0 else nota_string)
+            self.octava = (self.indice // 12) - 1
+            self.altura = self.indice % 12
+            
+        else:
+            if len(nota_string) == 2:
+                self.notacion = 'sostenidos'
+                self.altura = self._lista[self.notacion].index(nota_string[0])
+                self.octava = int(nota_string[1])
+                
+            if len(nota_string) == 3:
+                self.notacion = 'sostenidos' if nota_string[1] == "#" else 'bemoles'
+                self.altura = self._lista[self.notacion].index(nota_string[:2])
+                self.octava = int(nota_string[1])
+                
+            self.indice =  self.altura + 12 * (self.octava + 1)
+    
+    def aumentar(self, semitonos):
+        self.indice += semitonos
+        self.octava = (self.indice // 12) - 1
+        self.altura = self.indice % 12
+        
+        return self
+        
+    def disminuir(self, semitonos):
+        self.indice -= semitonos
+        self.octava = (self.indice // 12) - 1
+        self.altura = self.indice % 12
+        
+        return self
+    
+    def __str__(self):
+        return self._lista[self.notacion][self.altura] + str(self.octava)
+    
+    @classmethod
+    def octava(cls, nota):
+        return (nota// 12) - 1
+
+    @classmethod
+    def signatura(cls, nota, notacion='sostenidos'):
+        return cls._lista[notacion][nota % 12] + str(cls.octava(nota))
+    
+    @classmethod
+    def frecuencia(cls, nota, afinacion=440):
+        """
+        La formula general es:
+            frecuencia = 440hz * (a ** n)
+            
+        donde:
+            - 440hz es la frecuencia de A4 (Afinacion estandar con A4 = 440Hz)
+            - a es 2 ** (1/12). este numero es fijo.
+            - n son los semitonos de separacion entre A4 y la nota que se busca obtener su frecuencia.
+        """
+        
+        n = nota - 69
+        return afinacion * ((2**(1/12)) ** n)
+    
+class Escala:
+    """
+        Escala.generar(60, [2,2,1,2,2,2,1])
+        Escala.generar('C4', [2,2,1,2,2,2,1])
+        Escala.generar(Nota(60), [2,2,1,2,2,2,1])
+        Escala.generar(Nota('C4'), [2,2,1,2,2,2,1])
+    """
+    
+    @classmethod
+    def generar(cls, tonica, intervalos):
+        if type(tonica) is Nota:
+            tonica = tonica.indice
+    
+        if type(tonica) is str:
+            tonica = Nota(tonica).indice
+        
+        retorno = []
+        
+        for intervalo in intervalos:
+            retorno.append(tonica)
+            
+            tonica += intervalo
+    
+        return retorno
+    
+class Pista:
     def __init__(self, nombre, pulsos, ritmo, rotacion, notes, velocity, channel, instrument, activo=True):
         self.nombre = nombre
         self.rotacion = rotacion
@@ -58,20 +150,21 @@ class Matrix:
         
         self.pulso = self.figuras['semicorchea']
         
-        self.canales = [
-                        # Canal(nombre='Canal 1', pulsos=5, ritmo=7, rotacion=0, notes=[44], velocity=127, channel=9, instrument=0),
-                        # Canal(nombre='Canal 2', pulsos=3, ritmo=7, rotacion=0, notes=[37, 36, 37], velocity=127, channel=9, instrument=0),
-                        # Canal(nombre='Canal 3', pulsos=8, ritmo=14, rotacion=0, notes=[60, 62, 63], velocity=127, channel=0, instrument=5),
-                        # Canal(nombre='Canal 4', pulsos=3, ritmo=14, rotacion=0, notes=[72, 74, 75], velocity=127, channel=0, instrument=5),
+        self.pistas = [
+                        # Pista(nombre='Pista 1', pulsos=5, ritmo=7, rotacion=0, notes=[44], velocity=127, channel=9, instrument=0),
+                        # Pista(nombre='Pista 2', pulsos=3, ritmo=7, rotacion=0, notes=[37, 36, 37], velocity=127, channel=9, instrument=0),
+                        # Pista(nombre='Pista 3', pulsos=8, ritmo=14, rotacion=0, notes=[60, 62, 63], velocity=127, channel=0, instrument=5),
+                        # Pista(nombre='Pista 4', pulsos=3, ritmo=14, rotacion=0, notes=[72, 74, 75], velocity=127, channel=0, instrument=5),
 
                         #Doble pedal bien RACK
-                        Canal(nombre='Canal 1', pulsos=2, ritmo=8, rotacion=0, notes=[44,44,44,57], velocity=127, channel=9, instrument=0),
-                        Canal(nombre='Canal 2', pulsos=8, ritmo=8, rotacion=4, notes=[36], velocity=127, channel=9, instrument=0),
-                        Canal(nombre='Canal 3', pulsos=2, ritmo=8, rotacion=2, notes=[38], velocity=127, channel=9, instrument=0),
+                        Pista(nombre='Pista 1', pulsos=2, ritmo=8, rotacion=0, notes=[44,44,44,57], velocity=127, channel=9, instrument=0),
+                        Pista(nombre='Pista 2', pulsos=8, ritmo=8, rotacion=4, notes=[36], velocity=127, channel=9, instrument=0),
+                        Pista(nombre='Pista 3', pulsos=2, ritmo=8, rotacion=2, notes=[38], velocity=127, channel=9, instrument=0),
+                        Pista(nombre='Pista 4', pulsos=3, ritmo=14, rotacion=0, notes=Escala.generar('C4', [2,2,1,2,2,2,1,2]), velocity=127, channel=0, instrument=63),
                         
                         # GAME OF TRONES
-                        Canal(nombre='Canal 3', pulsos=4, ritmo=10, rotacion=0, notes=[69, 62, 65, 67, 69, 62, 65, 67, 69, 62, 65, 67, 69, 62, 65, 67, 69, 62, 66, 67, 69, 62, 66, 67,], velocity=127, channel=0, instrument=4),
-                        # Canal(nombre='Canal 4', pulsos=3, ritmo=14, rotacion=0, notes=[72, 74, 75], velocity=127, channel=0, instrument=5),
+                        # Pista(nombre='Pista 3', pulsos=4, ritmo=10, rotacion=0, notes=[69, 62, 65, 67, 69, 62, 65, 67, 69, 62, 65, 67, 69, 62, 65, 67, 69, 62, 66, 67, 69, 62, 66, 67,], velocity=127, channel=0, instrument=4),
+                        # Pista(nombre='Pista 4', pulsos=3, ritmo=14, rotacion=0, notes=[72, 74, 75], velocity=127, channel=0, instrument=5),
                     ]
         
         self.ticks = 0
@@ -82,7 +175,7 @@ class Matrix:
         self.midi_player = pygame.midi.Output(0)
         
     def configuracionInicial(self):
-        for canal in self.canales:
+        for canal in self.pistas:
             self.midi_player.set_instrument(canal.instrument, canal.channel)
         
             print(canal.euclideo)
@@ -99,13 +192,13 @@ class Matrix:
     
     def reproducir_notas(self):
         out = ""
-        for canal in self.canales:
+        for canal in self.pistas:
             out += str(canal.note) + " "
             
             if next(canal):
-                self.midi_player.note_on(canal.note, canal.velocity, canal.channel)
+                self.midi_player.note_on(int(canal.note), canal.velocity, canal.channel)
                 
-                self.silencios.append(Silencio(canal.note,canal.channel, self.ticks + canal.note_duracion))
+                self.silencios.append(Silencio(int(canal.note),canal.channel, self.ticks + canal.note_duracion))
                 
         # print(out)
     
@@ -123,7 +216,7 @@ class Matrix:
                 self.reproducir_notas()
 
                 self.actualizarConfiguracion()
-                 
+                
                 pygame.time.delay(self.pulso)
                 
                 self.ticks+= 1
@@ -131,7 +224,7 @@ class Matrix:
         finally:
             del self.midi_player
             pygame.midi.quit()
-            
-            
+
+
 dem = Matrix(120, 100)
 dem.loop()

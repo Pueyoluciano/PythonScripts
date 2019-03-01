@@ -84,7 +84,7 @@ print(pygame.midi.get_device_info(1))
 player.set_instrument(0,channel=9)
 
 tick = 0
-
+"""
 a = Euclideo(3,7)
 b = Euclideo(3,7)
 c = Euclideo(1,7)
@@ -112,6 +112,25 @@ print(notac)
 print(escala)
 print(escala2)
 print(escala3)
+"""
+
+for i in range(0, 128):
+    """
+        La formula general es:
+            frecuencia = 440hz * (a ** n)
+            
+        donde:
+            - 440hz es la frecuencia de A4 (Afinacion estandar con A4 = 440Hz)
+            - a es 2 ** (1/12). este numero es fijo.
+            - n son los semitonos de separacion entre A4 y la nota que se busca obtener su frecuencia.
+        
+    """
+    n = i - 69
+    print(i, 440 * ((2**(1/12)) ** n))
+    
+    
+    player.note_on(i, 127, channel=1)
+    pygame.time.delay(figuras['semicorchea'])
 
 contador = 0
 while True:

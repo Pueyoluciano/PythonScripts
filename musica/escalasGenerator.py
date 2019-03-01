@@ -439,6 +439,10 @@ class Escala(Secuencia):
             
             tonica: tonica de la escala.
             notacion: mostrar las notas en sostenidos o bemoles.
+            
+            Cuantas escalas podemos armar con 12 semitonos?
+            https://en.wikipedia.org/wiki/Composition_(combinatorics)
+
         """
         
         super().__init__(modo, tonica)
@@ -710,11 +714,11 @@ try:
         # print(a)
         # a.redondear(Musica.figuras['negra'])
     
-    a = Escala(Musica.modos['mayor']), 'C4')
-    b = Escala(Modo('custom', [1,1]), 'C5')
+    # a = Escala(Musica.modos['mayor'], 'C4')
+    # b = Escala(Modo('custom', [1,1]), 'C5')
     
-    print(a)
-    print(b)
+    # print(a)
+    # print(b)
     
     # c = a.completa()
     # for nota in c:
@@ -722,11 +726,11 @@ try:
         # nota.reproducir(player)
         # time.sleep(.4)
         
-    c = a.parcial(4,6)
-    for nota in c:
-        print(nota)
-        nota.reproducir(player)
-        time.sleep(.4)    
+    # c = a.parcial(4,6)
+    # for nota in c:
+        # print(nota)
+        # nota.reproducir(player)
+        # time.sleep(.4)    
     
 finally:    
     del player
