@@ -2,12 +2,13 @@ import itertools
 import time
 
 class Euclideo:
-    def __init__(self, pulsos, ritmo):
+    def __init__(self, pulsos, ritmo, rotacion=0):
         self.posicion = 0
         
         # Pongo algunas validaciones para que no rompa la funcion
         self.pulsos = abs(pulsos)
         self.ritmo = abs(ritmo)
+        self.rotacion = abs(rotacion)
         
         if self.pulsos > self.ritmo:
             self.pulsos = self.ritmo
@@ -35,12 +36,15 @@ class Euclideo:
             for _ in range(0, x):
                 self.ritmo.append(0)
     
-        self._generarCiclo()
+        # self._generarCiclo()
+        self.rotar(self.rotacion)
         
     def _generarCiclo(self):
         self.ciclo = itertools.cycle(self.ritmo)
     
     def rotar(self, pasos=1):
+        self.rotacion = pasos
+        
         for _ in range(0, pasos):
             self.ritmo.insert(0, self.ritmo.pop())
         
