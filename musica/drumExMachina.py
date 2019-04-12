@@ -529,86 +529,124 @@ class Matrix:
             pygame.midi.quit()
 
             
-# Pista(nombre='Pista 1', pulsos=5, ritmo=7, rotacion=0, notes=[44], velocity=127, channel=9, instrument=0),
-# Pista(nombre='Pista 2', pulsos=3, ritmo=7, rotacion=0, notes=[37, 36, 37], velocity=127, channel=9, instrument=0),
-# Pista(nombre='Pista 3', pulsos=8, ritmo=14, rotacion=0, notes=[60, 62, 63], velocity=127, channel=0, instrument=5),
-# Pista(nombre='Pista 4', pulsos=3, ritmo=14, rotacion=0, notes=[72, 74, 75], velocity=127, channel=0, instrument=5),
+def testeos():
+    # Pista(nombre='Pista 1', pulsos=5, ritmo=7, rotacion=0, notes=[44], velocity=127, channel=9, instrument=0),
+    # Pista(nombre='Pista 2', pulsos=3, ritmo=7, rotacion=0, notes=[37, 36, 37], velocity=127, channel=9, instrument=0),
+    # Pista(nombre='Pista 3', pulsos=8, ritmo=14, rotacion=0, notes=[60, 62, 63], velocity=127, channel=0, instrument=5),
+    # Pista(nombre='Pista 4', pulsos=3, ritmo=14, rotacion=0, notes=[72, 74, 75], velocity=127, channel=0, instrument=5),
 
-#Doble pedal bien RACK
-# Pista(nombre='Pista 1', pulsos=2, ritmo=8, rotacion=0, notes=[44,44,44,57], velocity=127, channel=9, instrument=0),
-# Pista(nombre='Pista 2', pulsos=8, ritmo=8, rotacion=4, notes=[36], velocity=127, channel=9, instrument=0),
-# Pista(nombre='Pista 3', pulsos=2, ritmo=8, rotacion=2, notes=[38], velocity=127, channel=9, instrument=0),
-# Pista(nombre='Pista 4', pulsos=3, ritmo=14, rotacion=0, notes=Escala.generar('C4', [2,2,1,2,2,2,1,2]), velocity=127, channel=0, instrument=63),
+    #Doble pedal bien RACK
+    # Pista(nombre='Pista 1', pulsos=2, ritmo=8, rotacion=0, notes=[44,44,44,57], velocity=127, channel=9, instrument=0),
+    # Pista(nombre='Pista 2', pulsos=8, ritmo=8, rotacion=4, notes=[36], velocity=127, channel=9, instrument=0),
+    # Pista(nombre='Pista 3', pulsos=2, ritmo=8, rotacion=2, notes=[38], velocity=127, channel=9, instrument=0),
+    # Pista(nombre='Pista 4', pulsos=3, ritmo=14, rotacion=0, notes=Escala.generar('C4', [2,2,1,2,2,2,1,2]), velocity=127, channel=0, instrument=63),
 
-# GAME OF TRONES
-# Pista(nombre='Pista 3', pulsos=4, ritmo=10, rotacion=0, notes=[69, 62, 65, 67, 69, 62, 65, 67, 69, 62, 65, 67, 69, 62, 65, 67, 69, 62, 66, 67, 69, 62, 66, 67,], velocity=127, channel=0, instrument=4),
-# Pista(nombre='Pista 4', pulsos=3, ritmo=14, rotacion=0, notes=[72, 74, 75], velocity=127, channel=0, instrument=5),
-
-
-dem = Matrix(tempo=180, pulso='corchea', volumen=100)
-"""
-dem.agregar_pista(Pista(nombre='Pista 1', pulsos=7, ritmo=7, rotacion=0, notes=[44,44,44,44,44,44,44,46,44,44,44,44,44,44], velocity=127, channel=9, instrument=0))
-dem.agregar_pista(Pista(nombre='Pista 2', pulsos=4, ritmo=7, rotacion=0, notes=[36, 36, 37, 36], velocity=127, channel=9, instrument=0))
-dem.agregar_pista(Pista(nombre='Pista 3', pulsos=1, ritmo=14, rotacion=0, notes=[Acorde('C4', [1,3,5,11]), Acorde('C4', [1,'3b',5,13]), Acorde('C4', [1,2,5,12])], velocity=30, channel=0, instrument=95,duracion=14))
-dem.agregar_pista(Pista(nombre='Pista 4', pulsos=3, ritmo=7, rotacion=0, notes=[Nota('C2')], velocity=127, channel=1, instrument=33))
-# dem.agregar_pista(Pista(nombre='Pista 5', pulsos=1, ritmo=4, rotacion=0, notes=Escala.generar('C4', [2,2,1,2,2,2,1,2]), velocity=50, channel=2, instrument=28))
-dem.agregar_pista(Pista(nombre='Pista 6', pulsos=1, ritmo=14, rotacion=0, notes=[Nota('C6'), Nota('C6').disminuir(1), Nota('C6').disminuir(3)], velocity=50,channel=2, instrument=74,duracion=14))
-"""
-
-"""
-p1 = Partitura(Seccion(duracion=2, pulsos=7, ritmo=7, rotacion=0, notas=[44,44,44,44,44,44,44,46,44,44,44,44,44,44]))
-p2 = Partitura(Seccion(duracion=1, pulsos=4, ritmo=7, rotacion=0, notas=[36, 36, 37, 36]))
-p3 = Partitura(Seccion(duracion=3, pulsos=1, ritmo=14, rotacion=0, notas=[Acorde('C4', [1,3,5,11]), Acorde('C4', [1,'3b',5,13]), Acorde('C4', [1,2,5,12])]))
-p4 = Partitura(Seccion(duracion=2, pulsos=4, ritmo=7, rotacion=0, notas=[Nota('C2')]),
-            Seccion(duracion=2, pulsos=4, ritmo=7, rotacion=0, notas=[Nota('B1')]),
-            Seccion(duracion=2, pulsos=4, ritmo=7, rotacion=0, notas=[Nota('A1')])
-            )
-p5 = Partitura(Seccion(duracion=1, pulsos=1, ritmo=4, rotacion=0, notas=Escala.generar('C4', [2,2,1,2,2,2,1,2])))
-p6 = Partitura(Seccion(duracion=3, pulsos=1, ritmo=14, rotacion=0, notas=[Nota('C6'), Nota('C6').disminuir(1), Nota('C6').disminuir(3)]))
-
-dem.agregar_pista(Pista(nombre='Pista 1', partitura=p1, velocity=127, channel=9, instrument=0))
-dem.agregar_pista(Pista(nombre='Pista 2', partitura=p2, velocity=127, channel=9, instrument=0))
-dem.agregar_pista(Pista(nombre='Pista 3', partitura=p3, velocity=30, channel=0, instrument=95,duracion=14))
-dem.agregar_pista(Pista(nombre='Pista 4', partitura=p4, velocity=127, channel=1, instrument=33))
-# dem.agregar_pista(Pista(nombre='Pista 5', partitura=p5, velocity=50, channel=2, instrument=28))
-dem.agregar_pista(Pista(nombre='Pista 6', partitura=p6, velocity=50,channel=2, instrument=74,duracion=14))
-"""
+    # GAME OF TRONES
+    # Pista(nombre='Pista 3', pulsos=4, ritmo=10, rotacion=0, notes=[69, 62, 65, 67, 69, 62, 65, 67, 69, 62, 65, 67, 69, 62, 65, 67, 69, 62, 66, 67, 69, 62, 66, 67,], velocity=127, channel=0, instrument=4),
+    # Pista(nombre='Pista 4', pulsos=3, ritmo=14, rotacion=0, notes=[72, 74, 75], velocity=127, channel=0, instrument=5),
 
 
-p1 = Partitura(Seccion(duracion=16, pulsos=2, ritmo=4, rotacion=0, notas=[44]),
-                Seccion(duracion=16, pulsos=2, ritmo=4, rotacion=0, notas=[46]),
-            )
-p2 = Partitura(Seccion(duracion=16, pulsos=1, ritmo=4, rotacion=1, notas=[36]),
-                Seccion(duracion=16, pulsos=4, ritmo=4, rotacion=0, notas=[36])
-            )
-p3 = Partitura(Seccion(duracion=1, pulsos=1, ritmo=4, rotacion=2, notas=[38]),
-                # Seccion(duracion=4, pulsos=4, ritmo=4, rotacion=0, notas=[48, 45, 43, 41])
-            )            
-p4 = Partitura(Seccion(duracion=4, pulsos=2, ritmo=4, rotacion=0, notas=[Nota('C2')]),
-                Seccion(duracion=4, pulsos=2, ritmo=4, rotacion=0, notas=[Nota('E2')]),
-                Seccion(duracion=4, pulsos=2, ritmo=4, rotacion=0, notas=[Nota('F2')]),
-                Seccion(duracion=4, pulsos=2, ritmo=4, rotacion=0, notas=[Nota('G#2')]),
-            )
-p5 = Partitura(
-                # Seccion(duracion=4, pulsos=1, ritmo=7, rotacion=0, notas=[Acorde('C4', [1,3,5]), Acorde('G3', [1,3,5]), Acorde('A3', [1,'3b',5]), Acorde('F3', [1,3,5])]),
-                Seccion(duracion=4, pulsos=1, ritmo=4, rotacion=0, notas=[Acorde('C4', [1,3,5,9])]),
-                Seccion(duracion=4, pulsos=1, ritmo=4, rotacion=0, notas=[Acorde('E4', [1,'3b',6,9])]),
-                Seccion(duracion=4, pulsos=1, ritmo=4, rotacion=0, notas=[Acorde('F4', [1,'3b',5,9])]),
-                Seccion(duracion=4, pulsos=1, ritmo=4, rotacion=0, notas=[Acorde('G#4', [1,'3b',5,7])]),
-)
+    dem = Matrix(tempo=180, pulso='corchea', volumen=100)
+    """
+    dem.agregar_pista(Pista(nombre='Pista 1', pulsos=7, ritmo=7, rotacion=0, notes=[44,44,44,44,44,44,44,46,44,44,44,44,44,44], velocity=127, channel=9, instrument=0))
+    dem.agregar_pista(Pista(nombre='Pista 2', pulsos=4, ritmo=7, rotacion=0, notes=[36, 36, 37, 36], velocity=127, channel=9, instrument=0))
+    dem.agregar_pista(Pista(nombre='Pista 3', pulsos=1, ritmo=14, rotacion=0, notes=[Acorde('C4', [1,3,5,11]), Acorde('C4', [1,'3b',5,13]), Acorde('C4', [1,2,5,12])], velocity=30, channel=0, instrument=95,duracion=14))
+    dem.agregar_pista(Pista(nombre='Pista 4', pulsos=3, ritmo=7, rotacion=0, notes=[Nota('C2')], velocity=127, channel=1, instrument=33))
+    # dem.agregar_pista(Pista(nombre='Pista 5', pulsos=1, ritmo=4, rotacion=0, notes=Escala.generar('C4', [2,2,1,2,2,2,1,2]), velocity=50, channel=2, instrument=28))
+    dem.agregar_pista(Pista(nombre='Pista 6', pulsos=1, ritmo=14, rotacion=0, notes=[Nota('C6'), Nota('C6').disminuir(1), Nota('C6').disminuir(3)], velocity=50,channel=2, instrument=74,duracion=14))
+    """
+
+    """
+    p1 = Partitura(Seccion(duracion=2, pulsos=7, ritmo=7, rotacion=0, notas=[44,44,44,44,44,44,44,46,44,44,44,44,44,44]))
+    p2 = Partitura(Seccion(duracion=1, pulsos=4, ritmo=7, rotacion=0, notas=[36, 36, 37, 36]))
+    p3 = Partitura(Seccion(duracion=3, pulsos=1, ritmo=14, rotacion=0, notas=[Acorde('C4', [1,3,5,11]), Acorde('C4', [1,'3b',5,13]), Acorde('C4', [1,2,5,12])]))
+    p4 = Partitura(Seccion(duracion=2, pulsos=4, ritmo=7, rotacion=0, notas=[Nota('C2')]),
+                Seccion(duracion=2, pulsos=4, ritmo=7, rotacion=0, notas=[Nota('B1')]),
+                Seccion(duracion=2, pulsos=4, ritmo=7, rotacion=0, notas=[Nota('A1')])
+                )
+    p5 = Partitura(Seccion(duracion=1, pulsos=1, ritmo=4, rotacion=0, notas=Escala.generar('C4', [2,2,1,2,2,2,1,2])))
+    p6 = Partitura(Seccion(duracion=3, pulsos=1, ritmo=14, rotacion=0, notas=[Nota('C6'), Nota('C6').disminuir(1), Nota('C6').disminuir(3)]))
+
+    dem.agregar_pista(Pista(nombre='Pista 1', partitura=p1, velocity=127, channel=9, instrument=0))
+    dem.agregar_pista(Pista(nombre='Pista 2', partitura=p2, velocity=127, channel=9, instrument=0))
+    dem.agregar_pista(Pista(nombre='Pista 3', partitura=p3, velocity=30, channel=0, instrument=95,duracion=14))
+    dem.agregar_pista(Pista(nombre='Pista 4', partitura=p4, velocity=127, channel=1, instrument=33))
+    # dem.agregar_pista(Pista(nombre='Pista 5', partitura=p5, velocity=50, channel=2, instrument=28))
+    dem.agregar_pista(Pista(nombre='Pista 6', partitura=p6, velocity=50,channel=2, instrument=74,duracion=14))
+    """
 
 
-p1 = Partitura(Seccion(duracion=0, pulsos=5, ritmo=9, rotacion=0, notas=[36,36,37]),
-                # Seccion(duracion=1, pulsos=4, ritmo=4, rotacion=0, notas=[44]),
-            )
-p2 = Partitura(Seccion(duracion=0, pulsos=2, ritmo=4, rotacion=0, notas=[44]),
-                # Seccion(duracion=1, pulsos=2, ritmo=4, rotacion=0, notas=[36,38])
-            )
+    p1 = Partitura(Seccion(duracion=16, pulsos=2, ritmo=4, rotacion=0, notas=[44]),
+                    Seccion(duracion=16, pulsos=2, ritmo=4, rotacion=0, notas=[46]),
+                )
+    p2 = Partitura(Seccion(duracion=16, pulsos=1, ritmo=4, rotacion=1, notas=[36]),
+                    Seccion(duracion=16, pulsos=4, ritmo=4, rotacion=0, notas=[36])
+                )
+    p3 = Partitura(Seccion(duracion=1, pulsos=1, ritmo=4, rotacion=2, notas=[38]),
+                    # Seccion(duracion=4, pulsos=4, ritmo=4, rotacion=0, notas=[48, 45, 43, 41])
+                )            
+    p4 = Partitura(Seccion(duracion=1, pulsos=8, ritmo=8, rotacion=0, notas=[Nota('D2')]),
+                    Seccion(duracion=1, pulsos=8, ritmo=8, rotacion=0, notas=[Nota('E2')]),
+                    Seccion(duracion=1, pulsos=8, ritmo=8, rotacion=0, notas=[Nota('F2')]),
+                    Seccion(duracion=1, pulsos=8, ritmo=8, rotacion=0, notas=[Nota('D2')]),
+                    Seccion(duracion=1, pulsos=8, ritmo=8, rotacion=0, notas=[Nota('E2')]),
+                    Seccion(duracion=1, pulsos=8, ritmo=8, rotacion=0, notas=[Nota('F2')]),
+                    Seccion(duracion=1, pulsos=8, ritmo=8, rotacion=0, notas=[Nota('D2')]),
+                    Seccion(duracion=1, pulsos=8, ritmo=8, rotacion=0, notas=[Nota('E2')]),
+                    Seccion(duracion=1, pulsos=8, ritmo=8, rotacion=0, notas=[Nota('F2')]),
+                    
+                    Seccion(duracion=1, pulsos=8, ritmo=8, rotacion=0, notas=[Nota('C2')]),
+                    Seccion(duracion=1, pulsos=8, ritmo=8, rotacion=0, notas=[Nota('D2')]),
+                    Seccion(duracion=1, pulsos=8, ritmo=8, rotacion=0, notas=[Nota('C2')]),
+                    Seccion(duracion=1, pulsos=8, ritmo=8, rotacion=0, notas=[Nota('Bb2')]),
+                    Seccion(duracion=1, pulsos=8, ritmo=8, rotacion=0, notas=[Nota('C2')]),
+                    Seccion(duracion=1, pulsos=8, ritmo=8, rotacion=0, notas=[Nota('D2')]),
+                    Seccion(duracion=1, pulsos=8, ritmo=8, rotacion=0, notas=[Nota('C2')]),
+                    Seccion(duracion=1, pulsos=8, ritmo=8, rotacion=0, notas=[Nota('Bb2')]),
+                    Seccion(duracion=1, pulsos=8, ritmo=8, rotacion=0, notas=[Nota('C2')]),
+                    Seccion(duracion=1, pulsos=8, ritmo=8, rotacion=0, notas=[Nota('D2')]),
+                    Seccion(duracion=1, pulsos=8, ritmo=8, rotacion=0, notas=[Nota('C2')]),
+                    Seccion(duracion=1, pulsos=8, ritmo=8, rotacion=0, notas=[Nota('Bb2')]),
+                    
+                    Seccion(duracion=1, pulsos=8, ritmo=8, rotacion=0, notas=[Nota('D2')]),
+                    Seccion(duracion=1, pulsos=8, ritmo=8, rotacion=0, notas=[Nota('F2')]),
+                    Seccion(duracion=1, pulsos=8, ritmo=8, rotacion=0, notas=[Nota('C2')]),
+                    Seccion(duracion=1, pulsos=8, ritmo=8, rotacion=0, notas=[Nota('Bb2')]),
+                    Seccion(duracion=1, pulsos=8, ritmo=8, rotacion=0, notas=[Nota('D2')]),
+                    Seccion(duracion=1, pulsos=8, ritmo=8, rotacion=0, notas=[Nota('F2')]),
+                    Seccion(duracion=1, pulsos=8, ritmo=8, rotacion=0, notas=[Nota('C2')]),
+                    Seccion(duracion=1, pulsos=8, ritmo=8, rotacion=0, notas=[Nota('Bb2')]),
+                    Seccion(duracion=1, pulsos=8, ritmo=8, rotacion=0, notas=[Nota('D2')]),
+                    Seccion(duracion=1, pulsos=8, ritmo=8, rotacion=0, notas=[Nota('F2')]),
+                    Seccion(duracion=1, pulsos=8, ritmo=8, rotacion=0, notas=[Nota('C2')]),
+                    Seccion(duracion=1, pulsos=8, ritmo=8, rotacion=0, notas=[Nota('Bb2')]),
+                )
+    p5 = Partitura(
+                    Seccion(duracion=9, pulsos=1, ritmo=8, rotacion=0, notas=[Acorde('D3', [1,'3b',5]), Acorde('E3', [1,'3b',5]), Acorde('F3', [1,3,5])]),
+                    Seccion(duracion=12, pulsos=1, ritmo=8, rotacion=0, notas=[Acorde('C3', [1,3,5]), Acorde('D3', [1,'3b',5]), Acorde('C3', [1,3,5]), Acorde('Bb3', [1,3,5])]),
+                    Seccion(duracion=12, pulsos=1, ritmo=8, rotacion=0, notas=[Acorde('D4', [1,'3b',5]), Acorde('F4', [1,3,5]), Acorde('C4', [1,3,5]), Acorde('Bb4', [1,3,5])]),
+    )
+
+    # PET SEMATARY CHORDS
+    # Dm, Em, F
+    # C, Dm, C, Bb
+    # Dm, F, C, Bb
 
 
-dem.agregar_pista(Pista(nombre='Pista 1', partitura=p1, velocity=100, channel=9, instrument=0))
-dem.agregar_pista(Pista(nombre='Pista 2', partitura=p2, velocity=100, channel=9, instrument=0))
-# dem.agregar_pista(Pista(nombre='Pista 3', partitura=p3, velocity=127, channel=9, instrument=0))
-dem.agregar_pista(Pista(nombre='Pista 4', partitura=p4, velocity=127, channel=1, instrument=33))
-dem.agregar_pista(Pista(nombre='Pista 5', partitura=p5, velocity=50, channel=2, instrument=28, duracion=4))
-dem.loop()
+    p1 = Partitura(Seccion(duracion=0, pulsos=6, ritmo=16, rotacion=0, notas=[36,37]),
+                    # Seccion(duracion=1, pulsos=4, ritmo=4, rotacion=0, notas=[44]),
+                )
+    p2 = Partitura(Seccion(duracion=0, pulsos=4, ritmo=4, rotacion=0, notas=[44]),
+                    # Seccion(duracion=1, pulsos=2, ritmo=4, rotacion=0, notas=[36,38])
+                )
+
+
+    dem.agregar_pista(Pista(nombre='Pista 1', partitura=p1, velocity=100, channel=9, instrument=0))
+    dem.agregar_pista(Pista(nombre='Pista 2', partitura=p2, velocity=100, channel=9, instrument=0))
+    # dem.agregar_pista(Pista(nombre='Pista 3', partitura=p3, velocity=127, channel=9, instrument=0))
+    dem.agregar_pista(Pista(nombre='Pista 4', partitura=p4, velocity=127, channel=1, instrument=33))
+    dem.agregar_pista(Pista(nombre='Pista 5', partitura=p5, velocity=50, channel=2, instrument=29, duracion=7))
+    dem.loop()
+
+# if __name__ == "__main__":
+    # testeos()

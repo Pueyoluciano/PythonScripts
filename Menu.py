@@ -26,14 +26,14 @@ class Nodo:
         self.nodos.extend(nodos)
         
     def expandir(self,tabs=""):
-        print self.nombre
+        print(self.nombre)
         for nodo in self.nodos:
-            print "|-" + tabs,
+            print("|-" + tabs,)
             nodo.expandir(tabs + "-")
     
     def evaluar(self):
-        print self.nombre
-        print self.texto
+        print(self.nombre)
+        print(self.texto)
         
         nombreNodos = [item.nombre for item in self.nodos]
         listaNodos = nombreNodos if self.soyRaiz else nombreNodos + ["volver"]
@@ -60,9 +60,9 @@ class Leaf:
         self.accion = accion
     
     def expandir(self,tabs=""):
-        print "> " + self.nombre
+        print("> " + self.nombre)
     
     def evaluar(self):
-        print self.texto
+        print(self.texto)
         return self.accion()
  

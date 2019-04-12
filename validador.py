@@ -90,7 +90,7 @@ class validador:
 		error = True
 		while (error):
 			error = False
-			valoringresado = raw_input("> ")
+			valoringresado = input("> ")
 			
 			try:
 				valoringresado = tipo(valoringresado)
@@ -108,7 +108,7 @@ class validador:
 		error = True
 		while (error):
 			error = False
-			valoringresado = raw_input("> ")
+			valoringresado = input("> ")
 			
 			try:
 				tipo = type(variable.valor)
@@ -132,7 +132,7 @@ class validador:
 		error = True
 		while (error):
 			error = False
-			valoringresado = raw_input("> ")
+			valoringresado = input("> ")
 			
 			try:
 				valoringresado = tipo(valoringresado)
@@ -150,7 +150,7 @@ class validador:
 		no = False
 		error = True
 		while(error):
-			valoringresado = raw_input("> ").upper()
+			valoringresado = input("> ").upper()
 			dijosi = validador.igual(valoringresado, validador.respuestasSI)
 			dijono = validador.igual(valoringresado, validador.respuestasNO)
 			if(dijosi):

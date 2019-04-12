@@ -1,8 +1,11 @@
 import random
+import functools
+
 from Generales import Generales
 import Probabilidades as pr
 from Letras import Letras
 import Implementador
+
 
 class Filtros:
     """
@@ -175,10 +178,10 @@ class MotorReglas:
             lenExclusion = len(exclusion)
             if(lenNombre >= lenExclusion -1):
                 if(nombreParcial[lenNombre-lenExclusion+1:lenNombre] == exclusion[0:lenExclusion-1]):
-                    # print exclusion
-                    # print lenNombre, lenExclusion
-                    # print nombreParcial[lenNombre-lenExclusion+1:lenNombre]
-                    # print exclusion[0:lenExclusion-1]
+                    # print(exclusion)
+                    # print(lenNombre, lenExclusion)
+                    # print(nombreParcial[lenNombre-lenExclusion+1:lenNombre])
+                    # print(exclusion[0:lenExclusion-1])
                     posibles.remove(exclusion[-1])
                     
         return posibles
@@ -206,7 +209,7 @@ class MotorReglas:
                 self.stringsExcluidos.remove(exclusion)
                 
             except ValueError:
-                print "[!!] El elemento " + exclusion + " no pudo ser removido"
+                print("[!!] El elemento " + exclusion + " no pudo ser removido")
     
     def quitarTodasExlcusiones(self):
         self.stringsExcluidos = []
@@ -239,12 +242,12 @@ class MotorReglas:
         
         # Esta operacion filtra la lista completa(todas las letras) quedandose con aquellas que
         # esten en letrasPosibles.
-        probs = filter(lambda x: x[0] in letrasPosibles, self.probabilidades.listarProbabilidades())
+        probs = list(filter(lambda x: x[0] in letrasPosibles, self.probabilidades.listarProbabilidades()))
         
         # Ahora calculo la probabilidad que resulta de los elementos filtrados ( siempre es <= 1)
         # y la reparto equitativamente entre estos para obtener probabilidad total = 1.
-        probParcial = (1.0 - reduce(lambda x,y: x+y, [elemento[1] for elemento in probs])) / (len(probs))
-        probs = map(lambda x: [x[0], x[1] + probParcial], probs)
+        probParcial = (1.0 - functools.reduce(lambda x,y: x+y, [elemento[1] for elemento in probs])) / (len(probs))
+        probs = list(map(lambda x: [x[0], x[1] + probParcial], probs))
 
         # actualizo mi probabilidades auxiliar, para que tenga los datos recien calculados.
         self.probAuxiliar.cargarTodo(probs)

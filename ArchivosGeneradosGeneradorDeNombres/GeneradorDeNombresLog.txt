@@ -1,0 +1,639 @@
+2019-04-10 11:40:22 -- -----------------------------------------------------------------
+2019-04-10 11:40:22 -- --- Actualizacion de datos --------------------------------------
+2019-04-10 11:40:22 -- --- Variables de programa ---------------------------------------
+2019-04-10 11:40:22 -- rootPath, C:\dev\Projects\PythonScripts\ArchivosGeneradosGeneradorDeNombres
+2019-04-10 11:40:22 -- filesPath, C:\dev\Projects\PythonScripts\ArchivosGeneradosGeneradorDeNombres
+2019-04-10 11:40:22 -- logFile, GeneradorDeNombresLog.txt
+2019-04-10 11:40:22 -- longitud, 5
+2019-04-10 11:40:22 -- archivoExterno, Mapeo_Probabilidades.txt
+2019-04-10 11:40:22 -- archivoExclusiones, Exclusiones.txt
+2019-04-10 11:40:22 -- --- Reglas ------------------------------------------------------
+2019-04-10 11:40:22 -- [ ] unaVocal
+2019-04-10 11:40:22 -- [x] dosVocales
+2019-04-10 11:40:22 -- [ ] tresVocales
+2019-04-10 11:40:22 -- [x] unaConsonante
+2019-04-10 11:40:22 -- [ ] dosConsonantes
+2019-04-10 11:40:22 -- [ ] tresConsonantes
+2019-04-10 11:40:22 -- [x] qSiempreConU
+2019-04-10 11:40:22 -- [x] quSiempreConEI
+2019-04-10 11:40:22 -- [ ] soloLetrasAUnaVocal
+2019-04-10 11:40:22 -- [ ] soloLetrasADosVocales
+2019-04-10 11:40:22 -- --- Distribucion ------------------------------------------------
+2019-04-10 11:40:22 -- a, 0.038462
+2019-04-10 11:40:22 -- b, 0.038461
+2019-04-10 11:40:22 -- c, 0.038461999999999996
+2019-04-10 11:40:22 -- d, 0.03846100000000001
+2019-04-10 11:40:22 -- e, 0.038461999999999996
+2019-04-10 11:40:22 -- f, 0.038460999999999995
+2019-04-10 11:40:22 -- g, 0.038461999999999996
+2019-04-10 11:40:22 -- h, 0.03846100000000002
+2019-04-10 11:40:22 -- i, 0.038461999999999996
+2019-04-10 11:40:22 -- j, 0.03846099999999997
+2019-04-10 11:40:22 -- k, 0.038461999999999996
+2019-04-10 11:40:22 -- l, 0.03846100000000002
+2019-04-10 11:40:22 -- m, 0.038461999999999996
+2019-04-10 11:40:22 -- n, 0.038461999999999996
+2019-04-10 11:40:22 -- o, 0.03846099999999997
+2019-04-10 11:40:22 -- p, 0.038461999999999996
+2019-04-10 11:40:22 -- q, 0.03846100000000008
+2019-04-10 11:40:22 -- r, 0.038461999999999996
+2019-04-10 11:40:22 -- s, 0.03846099999999997
+2019-04-10 11:40:22 -- t, 0.038461999999999996
+2019-04-10 11:40:22 -- u, 0.03846099999999997
+2019-04-10 11:40:22 -- v, 0.038461999999999996
+2019-04-10 11:40:22 -- w, 0.03846100000000008
+2019-04-10 11:40:22 -- x, 0.038461999999999996
+2019-04-10 11:40:22 -- y, 0.03846099999999997
+2019-04-10 11:40:22 -- z, 0.038461999999999996
+2019-04-10 11:40:22 -- -----------------------------------------------------------------
+2019-04-10 11:40:22 -- IniciandoGeneradorDeNombres
+2019-04-10 11:40:22 -- [ERROR], name 'raw_input' is not defined
+2019-04-10 11:40:22 -- [ERROR], name 'raw_input' is not defined
+2019-04-10 11:40:22 -- [ERROR], name 'raw_input' is not defined
+2019-04-10 11:40:22 -- [ERROR], name 'raw_input' is not defined
+2019-04-10 11:40:22 -- [ERROR], name 'raw_input' is not defined
+2019-04-10 11:40:22 -- [ERROR], name 'raw_input' is not defined
+2019-04-10 11:40:22 -- [ERROR], name 'raw_input' is not defined
+2019-04-10 11:40:22 -- [ERROR], name 'raw_input' is not defined
+2019-04-10 11:40:22 -- [ERROR], name 'raw_input' is not defined
+2019-04-10 11:40:22 -- [ERROR], name 'raw_input' is not defined
+2019-04-10 11:40:22 -- [ERROR], name 'raw_input' is not defined
+2019-04-10 11:40:22 -- [ERROR], name 'raw_input' is not defined
+2019-04-10 11:40:22 -- [ERROR], name 'raw_input' is not defined
+2019-04-10 11:40:22 -- [ERROR], name 'raw_input' is not defined
+2019-04-10 11:40:22 -- [ERROR], name 'raw_input' is not defined
+2019-04-10 11:40:22 -- [ERROR], name 'raw_input' is not defined
+2019-04-10 11:40:22 -- [ERROR], name 'raw_input' is not defined
+2019-04-10 11:40:23 -- [ERROR], name 'raw_input' is not defined
+2019-04-10 11:40:23 -- [ERROR], name 'raw_input' is not defined
+2019-04-10 11:40:23 -- [ERROR], name 'raw_input' is not defined
+2019-04-10 11:40:23 -- [ERROR], name 'raw_input' is not defined
+2019-04-10 11:40:23 -- [ERROR], name 'raw_input' is not defined
+2019-04-10 11:40:23 -- [ERROR], name 'raw_input' is not defined
+2019-04-10 11:40:23 -- [ERROR], name 'raw_input' is not defined
+2019-04-10 11:40:23 -- [ERROR], name 'raw_input' is not defined
+2019-04-10 11:40:23 -- [ERROR], name 'raw_input' is not defined
+2019-04-10 11:40:23 -- [ERROR], name 'raw_input' is not defined
+2019-04-10 11:40:23 -- [ERROR], name 'raw_input' is not defined
+2019-04-10 11:40:23 -- [ERROR], name 'raw_input' is not defined
+2019-04-10 11:40:23 -- [ERROR], name 'raw_input' is not defined
+2019-04-10 11:40:23 -- [ERROR], name 'raw_input' is not defined
+2019-04-10 11:40:23 -- [ERROR], name 'raw_input' is not defined
+2019-04-10 11:40:23 -- [ERROR], name 'raw_input' is not defined
+2019-04-10 11:40:23 -- [ERROR], name 'raw_input' is not defined
+2019-04-10 11:40:23 -- [ERROR], name 'raw_input' is not defined
+2019-04-10 11:40:23 -- [ERROR], name 'raw_input' is not defined
+2019-04-10 11:40:23 -- [ERROR], name 'raw_input' is not defined
+2019-04-10 11:40:23 -- [ERROR], name 'raw_input' is not defined
+2019-04-10 11:40:23 -- [ERROR], name 'raw_input' is not defined
+2019-04-10 11:40:23 -- [ERROR], name 'raw_input' is not defined
+2019-04-10 11:40:23 -- [ERROR], name 'raw_input' is not defined
+2019-04-10 11:40:23 -- [ERROR], name 'raw_input' is not defined
+2019-04-10 11:40:23 -- [ERROR], name 'raw_input' is not defined
+2019-04-10 11:40:23 -- [ERROR], name 'raw_input' is not defined
+2019-04-10 11:40:23 -- [ERROR], name 'raw_input' is not defined
+2019-04-10 11:40:23 -- [ERROR], name 'raw_input' is not defined
+2019-04-10 11:40:23 -- [ERROR], name 'raw_input' is not defined
+2019-04-10 11:40:23 -- [ERROR], name 'raw_input' is not defined
+2019-04-10 11:40:23 -- [ERROR], name 'raw_input' is not defined
+2019-04-10 11:40:23 -- [ERROR], name 'raw_input' is not defined
+2019-04-10 11:40:23 -- [ERROR], name 'raw_input' is not defined
+2019-04-10 11:40:23 -- [ERROR], name 'raw_input' is not defined
+2019-04-10 11:40:23 -- [ERROR], name 'raw_input' is not defined
+2019-04-10 11:40:23 -- [ERROR], name 'raw_input' is not defined
+2019-04-10 11:40:23 -- [ERROR], name 'raw_input' is not defined
+2019-04-10 11:40:23 -- [ERROR], name 'raw_input' is not defined
+2019-04-10 11:40:23 -- [ERROR], name 'raw_input' is not defined
+2019-04-10 11:40:23 -- [ERROR], name 'raw_input' is not defined
+2019-04-10 11:40:23 -- [ERROR], name 'raw_input' is not defined
+2019-04-10 11:40:23 -- [ERROR], name 'raw_input' is not defined
+2019-04-10 11:40:23 -- [ERROR], name 'raw_input' is not defined
+2019-04-10 11:40:23 -- [ERROR], name 'raw_input' is not defined
+2019-04-10 11:40:23 -- [ERROR], name 'raw_input' is not defined
+2019-04-10 11:40:23 -- [ERROR], name 'raw_input' is not defined
+2019-04-10 11:40:23 -- [ERROR], name 'raw_input' is not defined
+2019-04-10 11:40:23 -- [ERROR], name 'raw_input' is not defined
+2019-04-10 11:40:23 -- [ERROR], name 'raw_input' is not defined
+2019-04-10 11:40:23 -- [ERROR], name 'raw_input' is not defined
+2019-04-10 11:40:23 -- [ERROR], name 'raw_input' is not defined
+2019-04-10 11:40:23 -- [ERROR], name 'raw_input' is not defined
+2019-04-10 11:40:23 -- [ERROR], name 'raw_input' is not defined
+2019-04-10 11:40:23 -- [ERROR], name 'raw_input' is not defined
+2019-04-10 11:40:23 -- [ERROR], name 'raw_input' is not defined
+2019-04-10 11:40:23 -- [ERROR], name 'raw_input' is not defined
+2019-04-10 11:40:23 -- [ERROR], name 'raw_input' is not defined
+2019-04-10 11:40:23 -- [ERROR], name 'raw_input' is not defined
+2019-04-10 11:40:23 -- [ERROR], name 'raw_input' is not defined
+2019-04-10 11:40:23 -- [ERROR], name 'raw_input' is not defined
+2019-04-10 11:40:23 -- [ERROR], name 'raw_input' is not defined
+2019-04-10 11:40:23 -- [ERROR], name 'raw_input' is not defined
+2019-04-10 11:40:23 -- [ERROR], name 'raw_input' is not defined
+2019-04-10 11:40:23 -- [ERROR], name 'raw_input' is not defined
+2019-04-10 11:40:23 -- [ERROR], name 'raw_input' is not defined
+2019-04-10 11:40:23 -- [ERROR], name 'raw_input' is not defined
+2019-04-10 11:40:23 -- [ERROR], name 'raw_input' is not defined
+2019-04-10 11:40:23 -- [ERROR], name 'raw_input' is not defined
+2019-04-10 11:40:24 -- [ERROR], name 'raw_input' is not defined
+2019-04-10 11:40:24 -- [ERROR], name 'raw_input' is not defined
+2019-04-10 11:40:24 -- [ERROR], name 'raw_input' is not defined
+2019-04-10 11:40:24 -- [ERROR], name 'raw_input' is not defined
+2019-04-10 11:40:24 -- [ERROR], name 'raw_input' is not defined
+2019-04-10 11:40:24 -- [ERROR], name 'raw_input' is not defined
+2019-04-10 11:40:24 -- [ERROR], name 'raw_input' is not defined
+2019-04-10 11:40:24 -- [ERROR], name 'raw_input' is not defined
+2019-04-10 11:40:24 -- [ERROR], name 'raw_input' is not defined
+2019-04-10 11:40:24 -- [ERROR], name 'raw_input' is not defined
+2019-04-10 11:40:24 -- [ERROR], name 'raw_input' is not defined
+2019-04-10 11:40:24 -- [ERROR], name 'raw_input' is not defined
+2019-04-10 11:40:24 -- [ERROR], name 'raw_input' is not defined
+2019-04-10 11:40:24 -- [ERROR], name 'raw_input' is not defined
+2019-04-10 11:40:24 -- [ERROR], name 'raw_input' is not defined
+2019-04-10 11:40:24 -- [ERROR], name 'raw_input' is not defined
+2019-04-10 11:40:24 -- [ERROR], name 'raw_input' is not defined
+2019-04-10 11:40:24 -- [ERROR], name 'raw_input' is not defined
+2019-04-10 11:40:24 -- [ERROR], name 'raw_input' is not defined
+2019-04-10 11:40:24 -- [ERROR], name 'raw_input' is not defined
+2019-04-10 11:40:24 -- [ERROR], name 'raw_input' is not defined
+2019-04-10 11:40:24 -- [ERROR], name 'raw_input' is not defined
+2019-04-10 11:40:24 -- [ERROR], name 'raw_input' is not defined
+2019-04-10 11:41:08 -- -----------------------------------------------------------------
+2019-04-10 11:41:08 -- --- Actualizacion de datos --------------------------------------
+2019-04-10 11:41:08 -- --- Variables de programa ---------------------------------------
+2019-04-10 11:41:08 -- rootPath, C:\dev\Projects\PythonScripts\ArchivosGeneradosGeneradorDeNombres
+2019-04-10 11:41:08 -- filesPath, C:\dev\Projects\PythonScripts\ArchivosGeneradosGeneradorDeNombres
+2019-04-10 11:41:08 -- logFile, GeneradorDeNombresLog.txt
+2019-04-10 11:41:08 -- longitud, 5
+2019-04-10 11:41:08 -- archivoExterno, Mapeo_Probabilidades.txt
+2019-04-10 11:41:08 -- archivoExclusiones, Exclusiones.txt
+2019-04-10 11:41:08 -- --- Reglas ------------------------------------------------------
+2019-04-10 11:41:08 -- [ ] unaVocal
+2019-04-10 11:41:08 -- [x] dosVocales
+2019-04-10 11:41:08 -- [ ] tresVocales
+2019-04-10 11:41:08 -- [x] unaConsonante
+2019-04-10 11:41:08 -- [ ] dosConsonantes
+2019-04-10 11:41:08 -- [ ] tresConsonantes
+2019-04-10 11:41:08 -- [x] qSiempreConU
+2019-04-10 11:41:08 -- [x] quSiempreConEI
+2019-04-10 11:41:08 -- [ ] soloLetrasAUnaVocal
+2019-04-10 11:41:08 -- [ ] soloLetrasADosVocales
+2019-04-10 11:41:08 -- --- Distribucion ------------------------------------------------
+2019-04-10 11:41:08 -- a, 0.038462
+2019-04-10 11:41:08 -- b, 0.038461
+2019-04-10 11:41:08 -- c, 0.038461999999999996
+2019-04-10 11:41:08 -- d, 0.03846100000000001
+2019-04-10 11:41:08 -- e, 0.038461999999999996
+2019-04-10 11:41:08 -- f, 0.038460999999999995
+2019-04-10 11:41:08 -- g, 0.038461999999999996
+2019-04-10 11:41:08 -- h, 0.03846100000000002
+2019-04-10 11:41:08 -- i, 0.038461999999999996
+2019-04-10 11:41:08 -- j, 0.03846099999999997
+2019-04-10 11:41:08 -- k, 0.038461999999999996
+2019-04-10 11:41:08 -- l, 0.03846100000000002
+2019-04-10 11:41:08 -- m, 0.038461999999999996
+2019-04-10 11:41:08 -- n, 0.038461999999999996
+2019-04-10 11:41:08 -- o, 0.03846099999999997
+2019-04-10 11:41:08 -- p, 0.038461999999999996
+2019-04-10 11:41:08 -- q, 0.03846100000000008
+2019-04-10 11:41:08 -- r, 0.038461999999999996
+2019-04-10 11:41:08 -- s, 0.03846099999999997
+2019-04-10 11:41:08 -- t, 0.038461999999999996
+2019-04-10 11:41:08 -- u, 0.03846099999999997
+2019-04-10 11:41:08 -- v, 0.038461999999999996
+2019-04-10 11:41:08 -- w, 0.03846100000000008
+2019-04-10 11:41:08 -- x, 0.038461999999999996
+2019-04-10 11:41:08 -- y, 0.03846099999999997
+2019-04-10 11:41:08 -- z, 0.038461999999999996
+2019-04-10 11:41:08 -- -----------------------------------------------------------------
+2019-04-10 11:41:08 -- IniciandoGeneradorDeNombres
+2019-04-10 11:41:08 -- [ERROR], name 'raw_input' is not defined
+2019-04-10 11:41:08 -- [ERROR], name 'raw_input' is not defined
+2019-04-10 11:41:08 -- [ERROR], name 'raw_input' is not defined
+2019-04-10 11:41:08 -- [ERROR], name 'raw_input' is not defined
+2019-04-10 11:41:08 -- [ERROR], name 'raw_input' is not defined
+2019-04-10 11:41:08 -- [ERROR], name 'raw_input' is not defined
+2019-04-10 11:41:08 -- [ERROR], name 'raw_input' is not defined
+2019-04-10 11:41:08 -- [ERROR], name 'raw_input' is not defined
+2019-04-10 11:41:08 -- [ERROR], name 'raw_input' is not defined
+2019-04-10 11:41:08 -- [ERROR], name 'raw_input' is not defined
+2019-04-10 11:41:08 -- [ERROR], name 'raw_input' is not defined
+2019-04-10 11:41:08 -- [ERROR], name 'raw_input' is not defined
+2019-04-10 11:41:08 -- [ERROR], name 'raw_input' is not defined
+2019-04-10 11:41:08 -- [ERROR], name 'raw_input' is not defined
+2019-04-10 11:41:08 -- [ERROR], name 'raw_input' is not defined
+2019-04-10 11:41:08 -- [ERROR], name 'raw_input' is not defined
+2019-04-10 11:41:08 -- [ERROR], name 'raw_input' is not defined
+2019-04-10 11:41:08 -- [ERROR], name 'raw_input' is not defined
+2019-04-10 11:41:08 -- [ERROR], name 'raw_input' is not defined
+2019-04-10 11:41:08 -- [ERROR], name 'raw_input' is not defined
+2019-04-10 11:41:08 -- [ERROR], name 'raw_input' is not defined
+2019-04-10 11:41:08 -- [ERROR], name 'raw_input' is not defined
+2019-04-10 11:41:08 -- [ERROR], name 'raw_input' is not defined
+2019-04-10 11:41:08 -- [ERROR], name 'raw_input' is not defined
+2019-04-10 11:41:08 -- [ERROR], name 'raw_input' is not defined
+2019-04-10 11:41:08 -- [ERROR], name 'raw_input' is not defined
+2019-04-10 11:41:08 -- [ERROR], name 'raw_input' is not defined
+2019-04-10 11:41:08 -- [ERROR], name 'raw_input' is not defined
+2019-04-10 11:41:08 -- [ERROR], name 'raw_input' is not defined
+2019-04-10 11:41:08 -- [ERROR], name 'raw_input' is not defined
+2019-04-10 11:41:09 -- [ERROR], name 'raw_input' is not defined
+2019-04-10 11:41:09 -- [ERROR], name 'raw_input' is not defined
+2019-04-10 11:44:41 -- -----------------------------------------------------------------
+2019-04-10 11:44:41 -- --- Actualizacion de datos --------------------------------------
+2019-04-10 11:44:41 -- --- Variables de programa ---------------------------------------
+2019-04-10 11:44:41 -- rootPath, C:\dev\Projects\PythonScripts\ArchivosGeneradosGeneradorDeNombres
+2019-04-10 11:44:41 -- filesPath, C:\dev\Projects\PythonScripts\ArchivosGeneradosGeneradorDeNombres
+2019-04-10 11:44:41 -- logFile, GeneradorDeNombresLog.txt
+2019-04-10 11:44:41 -- longitud, 5
+2019-04-10 11:44:41 -- archivoExterno, Mapeo_Probabilidades.txt
+2019-04-10 11:44:41 -- archivoExclusiones, Exclusiones.txt
+2019-04-10 11:44:41 -- --- Reglas ------------------------------------------------------
+2019-04-10 11:44:41 -- [ ] unaVocal
+2019-04-10 11:44:41 -- [x] dosVocales
+2019-04-10 11:44:41 -- [ ] tresVocales
+2019-04-10 11:44:41 -- [x] unaConsonante
+2019-04-10 11:44:41 -- [ ] dosConsonantes
+2019-04-10 11:44:41 -- [ ] tresConsonantes
+2019-04-10 11:44:41 -- [x] qSiempreConU
+2019-04-10 11:44:41 -- [x] quSiempreConEI
+2019-04-10 11:44:41 -- [ ] soloLetrasAUnaVocal
+2019-04-10 11:44:41 -- [ ] soloLetrasADosVocales
+2019-04-10 11:44:41 -- --- Distribucion ------------------------------------------------
+2019-04-10 11:44:41 -- a, 0.038462
+2019-04-10 11:44:41 -- b, 0.038461
+2019-04-10 11:44:41 -- c, 0.038461999999999996
+2019-04-10 11:44:41 -- d, 0.03846100000000001
+2019-04-10 11:44:41 -- e, 0.038461999999999996
+2019-04-10 11:44:41 -- f, 0.038460999999999995
+2019-04-10 11:44:41 -- g, 0.038461999999999996
+2019-04-10 11:44:41 -- h, 0.03846100000000002
+2019-04-10 11:44:41 -- i, 0.038461999999999996
+2019-04-10 11:44:41 -- j, 0.03846099999999997
+2019-04-10 11:44:41 -- k, 0.038461999999999996
+2019-04-10 11:44:41 -- l, 0.03846100000000002
+2019-04-10 11:44:41 -- m, 0.038461999999999996
+2019-04-10 11:44:41 -- n, 0.038461999999999996
+2019-04-10 11:44:41 -- o, 0.03846099999999997
+2019-04-10 11:44:41 -- p, 0.038461999999999996
+2019-04-10 11:44:41 -- q, 0.03846100000000008
+2019-04-10 11:44:41 -- r, 0.038461999999999996
+2019-04-10 11:44:41 -- s, 0.03846099999999997
+2019-04-10 11:44:41 -- t, 0.038461999999999996
+2019-04-10 11:44:41 -- u, 0.03846099999999997
+2019-04-10 11:44:41 -- v, 0.038461999999999996
+2019-04-10 11:44:41 -- w, 0.03846100000000008
+2019-04-10 11:44:41 -- x, 0.038461999999999996
+2019-04-10 11:44:41 -- y, 0.03846099999999997
+2019-04-10 11:44:41 -- z, 0.038461999999999996
+2019-04-10 11:44:41 -- -----------------------------------------------------------------
+2019-04-10 11:44:41 -- IniciandoGeneradorDeNombres
+2019-04-10 11:44:47 -- Nuevo nombre: 
+2019-04-10 11:44:47 -- [ERROR], string index out of range
+2019-04-10 11:48:48 -- cerrandoGeneradorDeNombres
+2019-04-10 11:48:48 -- Nuevo nombre: 
+2019-04-10 11:48:50 -- -----------------------------------------------------------------
+2019-04-10 11:48:50 -- --- Actualizacion de datos --------------------------------------
+2019-04-10 11:48:50 -- --- Variables de programa ---------------------------------------
+2019-04-10 11:48:50 -- rootPath, C:\dev\Projects\PythonScripts\ArchivosGeneradosGeneradorDeNombres
+2019-04-10 11:48:50 -- filesPath, C:\dev\Projects\PythonScripts\ArchivosGeneradosGeneradorDeNombres
+2019-04-10 11:48:50 -- logFile, GeneradorDeNombresLog.txt
+2019-04-10 11:48:50 -- longitud, 5
+2019-04-10 11:48:50 -- archivoExterno, Mapeo_Probabilidades.txt
+2019-04-10 11:48:50 -- archivoExclusiones, Exclusiones.txt
+2019-04-10 11:48:50 -- --- Reglas ------------------------------------------------------
+2019-04-10 11:48:50 -- [ ] unaVocal
+2019-04-10 11:48:50 -- [x] dosVocales
+2019-04-10 11:48:50 -- [ ] tresVocales
+2019-04-10 11:48:50 -- [x] unaConsonante
+2019-04-10 11:48:50 -- [ ] dosConsonantes
+2019-04-10 11:48:50 -- [ ] tresConsonantes
+2019-04-10 11:48:50 -- [x] qSiempreConU
+2019-04-10 11:48:50 -- [x] quSiempreConEI
+2019-04-10 11:48:50 -- [ ] soloLetrasAUnaVocal
+2019-04-10 11:48:50 -- [ ] soloLetrasADosVocales
+2019-04-10 11:48:50 -- --- Distribucion ------------------------------------------------
+2019-04-10 11:48:50 -- a, 0.038462
+2019-04-10 11:48:50 -- b, 0.038461
+2019-04-10 11:48:50 -- c, 0.038461999999999996
+2019-04-10 11:48:50 -- d, 0.03846100000000001
+2019-04-10 11:48:50 -- e, 0.038461999999999996
+2019-04-10 11:48:50 -- f, 0.038460999999999995
+2019-04-10 11:48:50 -- g, 0.038461999999999996
+2019-04-10 11:48:50 -- h, 0.03846100000000002
+2019-04-10 11:48:50 -- i, 0.038461999999999996
+2019-04-10 11:48:50 -- j, 0.03846099999999997
+2019-04-10 11:48:50 -- k, 0.038461999999999996
+2019-04-10 11:48:50 -- l, 0.03846100000000002
+2019-04-10 11:48:50 -- m, 0.038461999999999996
+2019-04-10 11:48:50 -- n, 0.038461999999999996
+2019-04-10 11:48:50 -- o, 0.03846099999999997
+2019-04-10 11:48:50 -- p, 0.038461999999999996
+2019-04-10 11:48:50 -- q, 0.03846100000000008
+2019-04-10 11:48:50 -- r, 0.038461999999999996
+2019-04-10 11:48:50 -- s, 0.03846099999999997
+2019-04-10 11:48:50 -- t, 0.038461999999999996
+2019-04-10 11:48:50 -- u, 0.03846099999999997
+2019-04-10 11:48:50 -- v, 0.038461999999999996
+2019-04-10 11:48:50 -- w, 0.03846100000000008
+2019-04-10 11:48:50 -- x, 0.038461999999999996
+2019-04-10 11:48:50 -- y, 0.03846099999999997
+2019-04-10 11:48:50 -- z, 0.038461999999999996
+2019-04-10 11:48:50 -- -----------------------------------------------------------------
+2019-04-10 11:48:50 -- IniciandoGeneradorDeNombres
+2019-04-10 11:48:51 -- Nuevo nombre: 
+2019-04-10 11:48:51 -- [ERROR], string index out of range
+2019-04-10 11:50:16 -- cerrandoGeneradorDeNombres
+2019-04-10 11:50:16 -- Nuevo nombre: 
+2019-04-10 11:50:47 -- -----------------------------------------------------------------
+2019-04-10 11:50:47 -- --- Actualizacion de datos --------------------------------------
+2019-04-10 11:50:47 -- --- Variables de programa ---------------------------------------
+2019-04-10 11:50:47 -- rootPath, C:\dev\Projects\PythonScripts\ArchivosGeneradosGeneradorDeNombres
+2019-04-10 11:50:47 -- filesPath, C:\dev\Projects\PythonScripts\ArchivosGeneradosGeneradorDeNombres
+2019-04-10 11:50:47 -- logFile, GeneradorDeNombresLog.txt
+2019-04-10 11:50:47 -- longitud, 5
+2019-04-10 11:50:47 -- archivoExterno, Mapeo_Probabilidades.txt
+2019-04-10 11:50:47 -- archivoExclusiones, Exclusiones.txt
+2019-04-10 11:50:47 -- --- Reglas ------------------------------------------------------
+2019-04-10 11:50:47 -- [ ] unaVocal
+2019-04-10 11:50:47 -- [x] dosVocales
+2019-04-10 11:50:47 -- [ ] tresVocales
+2019-04-10 11:50:47 -- [x] unaConsonante
+2019-04-10 11:50:47 -- [ ] dosConsonantes
+2019-04-10 11:50:47 -- [ ] tresConsonantes
+2019-04-10 11:50:47 -- [x] qSiempreConU
+2019-04-10 11:50:47 -- [x] quSiempreConEI
+2019-04-10 11:50:47 -- [ ] soloLetrasAUnaVocal
+2019-04-10 11:50:47 -- [ ] soloLetrasADosVocales
+2019-04-10 11:50:47 -- --- Distribucion ------------------------------------------------
+2019-04-10 11:50:47 -- a, 0.038462
+2019-04-10 11:50:47 -- b, 0.038461
+2019-04-10 11:50:47 -- c, 0.038461999999999996
+2019-04-10 11:50:47 -- d, 0.03846100000000001
+2019-04-10 11:50:47 -- e, 0.038461999999999996
+2019-04-10 11:50:47 -- f, 0.038460999999999995
+2019-04-10 11:50:47 -- g, 0.038461999999999996
+2019-04-10 11:50:47 -- h, 0.03846100000000002
+2019-04-10 11:50:47 -- i, 0.038461999999999996
+2019-04-10 11:50:47 -- j, 0.03846099999999997
+2019-04-10 11:50:47 -- k, 0.038461999999999996
+2019-04-10 11:50:47 -- l, 0.03846100000000002
+2019-04-10 11:50:47 -- m, 0.038461999999999996
+2019-04-10 11:50:47 -- n, 0.038461999999999996
+2019-04-10 11:50:47 -- o, 0.03846099999999997
+2019-04-10 11:50:47 -- p, 0.038461999999999996
+2019-04-10 11:50:47 -- q, 0.03846100000000008
+2019-04-10 11:50:47 -- r, 0.038461999999999996
+2019-04-10 11:50:47 -- s, 0.03846099999999997
+2019-04-10 11:50:47 -- t, 0.038461999999999996
+2019-04-10 11:50:47 -- u, 0.03846099999999997
+2019-04-10 11:50:47 -- v, 0.038461999999999996
+2019-04-10 11:50:47 -- w, 0.03846100000000008
+2019-04-10 11:50:47 -- x, 0.038461999999999996
+2019-04-10 11:50:47 -- y, 0.03846099999999997
+2019-04-10 11:50:47 -- z, 0.038461999999999996
+2019-04-10 11:50:47 -- -----------------------------------------------------------------
+2019-04-10 11:50:47 -- IniciandoGeneradorDeNombres
+2019-04-10 11:50:47 -- Nuevo nombre: 
+2019-04-10 11:50:47 -- [ERROR], string index out of range
+2019-04-10 11:51:26 -- cerrandoGeneradorDeNombres
+2019-04-10 11:51:26 -- Nuevo nombre: 
+2019-04-10 11:51:27 -- -----------------------------------------------------------------
+2019-04-10 11:51:27 -- --- Actualizacion de datos --------------------------------------
+2019-04-10 11:51:27 -- --- Variables de programa ---------------------------------------
+2019-04-10 11:51:27 -- rootPath, C:\dev\Projects\PythonScripts\ArchivosGeneradosGeneradorDeNombres
+2019-04-10 11:51:27 -- filesPath, C:\dev\Projects\PythonScripts\ArchivosGeneradosGeneradorDeNombres
+2019-04-10 11:51:27 -- logFile, GeneradorDeNombresLog.txt
+2019-04-10 11:51:27 -- longitud, 5
+2019-04-10 11:51:27 -- archivoExterno, Mapeo_Probabilidades.txt
+2019-04-10 11:51:27 -- archivoExclusiones, Exclusiones.txt
+2019-04-10 11:51:27 -- --- Reglas ------------------------------------------------------
+2019-04-10 11:51:27 -- [ ] unaVocal
+2019-04-10 11:51:27 -- [x] dosVocales
+2019-04-10 11:51:27 -- [ ] tresVocales
+2019-04-10 11:51:27 -- [x] unaConsonante
+2019-04-10 11:51:27 -- [ ] dosConsonantes
+2019-04-10 11:51:27 -- [ ] tresConsonantes
+2019-04-10 11:51:27 -- [x] qSiempreConU
+2019-04-10 11:51:27 -- [x] quSiempreConEI
+2019-04-10 11:51:27 -- [ ] soloLetrasAUnaVocal
+2019-04-10 11:51:27 -- [ ] soloLetrasADosVocales
+2019-04-10 11:51:27 -- --- Distribucion ------------------------------------------------
+2019-04-10 11:51:27 -- a, 0.038462
+2019-04-10 11:51:27 -- b, 0.038461
+2019-04-10 11:51:27 -- c, 0.038461999999999996
+2019-04-10 11:51:27 -- d, 0.03846100000000001
+2019-04-10 11:51:27 -- e, 0.038461999999999996
+2019-04-10 11:51:27 -- f, 0.038460999999999995
+2019-04-10 11:51:27 -- g, 0.038461999999999996
+2019-04-10 11:51:27 -- h, 0.03846100000000002
+2019-04-10 11:51:27 -- i, 0.038461999999999996
+2019-04-10 11:51:27 -- j, 0.03846099999999997
+2019-04-10 11:51:27 -- k, 0.038461999999999996
+2019-04-10 11:51:27 -- l, 0.03846100000000002
+2019-04-10 11:51:27 -- m, 0.038461999999999996
+2019-04-10 11:51:27 -- n, 0.038461999999999996
+2019-04-10 11:51:27 -- o, 0.03846099999999997
+2019-04-10 11:51:27 -- p, 0.038461999999999996
+2019-04-10 11:51:27 -- q, 0.03846100000000008
+2019-04-10 11:51:27 -- r, 0.038461999999999996
+2019-04-10 11:51:27 -- s, 0.03846099999999997
+2019-04-10 11:51:27 -- t, 0.038461999999999996
+2019-04-10 11:51:27 -- u, 0.03846099999999997
+2019-04-10 11:51:27 -- v, 0.038461999999999996
+2019-04-10 11:51:27 -- w, 0.03846100000000008
+2019-04-10 11:51:27 -- x, 0.038461999999999996
+2019-04-10 11:51:27 -- y, 0.03846099999999997
+2019-04-10 11:51:27 -- z, 0.038461999999999996
+2019-04-10 11:51:27 -- -----------------------------------------------------------------
+2019-04-10 11:51:27 -- IniciandoGeneradorDeNombres
+2019-04-10 11:51:27 -- Nuevo nombre: omifu
+2019-04-10 11:51:29 -- Nuevo nombre: kejip
+2019-04-10 11:51:30 -- Nuevo nombre: quiju
+2019-04-10 11:51:31 -- Nuevo nombre: xaliz
+2019-04-10 11:51:31 -- Nuevo nombre: degub
+2019-04-10 11:51:32 -- Nuevo nombre: uobon
+2019-04-10 11:51:34 -- Nuevo nombre: ayite
+2019-04-10 11:51:35 -- Nuevo nombre: bohen
+2019-04-10 11:51:37 -- Nuevo nombre: renix
+2019-04-10 11:51:38 -- Nuevo nombre: tuemo
+2019-04-10 11:51:39 -- Nuevo nombre: wegum
+2019-04-10 11:51:53 -- [ERROR], object of type 'map' has no len()
+2019-04-10 11:52:50 -- cerrandoGeneradorDeNombres
+2019-04-10 11:52:50 -- Nuevo nombre: bixeq
+2019-04-10 11:52:51 -- -----------------------------------------------------------------
+2019-04-10 11:52:51 -- --- Actualizacion de datos --------------------------------------
+2019-04-10 11:52:51 -- --- Variables de programa ---------------------------------------
+2019-04-10 11:52:51 -- rootPath, C:\dev\Projects\PythonScripts\ArchivosGeneradosGeneradorDeNombres
+2019-04-10 11:52:51 -- filesPath, C:\dev\Projects\PythonScripts\ArchivosGeneradosGeneradorDeNombres
+2019-04-10 11:52:51 -- logFile, GeneradorDeNombresLog.txt
+2019-04-10 11:52:51 -- longitud, 5
+2019-04-10 11:52:51 -- archivoExterno, Mapeo_Probabilidades.txt
+2019-04-10 11:52:51 -- archivoExclusiones, Exclusiones.txt
+2019-04-10 11:52:51 -- --- Reglas ------------------------------------------------------
+2019-04-10 11:52:51 -- [ ] unaVocal
+2019-04-10 11:52:51 -- [x] dosVocales
+2019-04-10 11:52:51 -- [ ] tresVocales
+2019-04-10 11:52:51 -- [x] unaConsonante
+2019-04-10 11:52:51 -- [ ] dosConsonantes
+2019-04-10 11:52:51 -- [ ] tresConsonantes
+2019-04-10 11:52:51 -- [x] qSiempreConU
+2019-04-10 11:52:51 -- [x] quSiempreConEI
+2019-04-10 11:52:51 -- [ ] soloLetrasAUnaVocal
+2019-04-10 11:52:51 -- [ ] soloLetrasADosVocales
+2019-04-10 11:52:51 -- --- Distribucion ------------------------------------------------
+2019-04-10 11:52:51 -- a, 0.038462
+2019-04-10 11:52:51 -- b, 0.038461
+2019-04-10 11:52:51 -- c, 0.038461999999999996
+2019-04-10 11:52:51 -- d, 0.03846100000000001
+2019-04-10 11:52:51 -- e, 0.038461999999999996
+2019-04-10 11:52:51 -- f, 0.038460999999999995
+2019-04-10 11:52:51 -- g, 0.038461999999999996
+2019-04-10 11:52:51 -- h, 0.03846100000000002
+2019-04-10 11:52:51 -- i, 0.038461999999999996
+2019-04-10 11:52:51 -- j, 0.03846099999999997
+2019-04-10 11:52:51 -- k, 0.038461999999999996
+2019-04-10 11:52:51 -- l, 0.03846100000000002
+2019-04-10 11:52:51 -- m, 0.038461999999999996
+2019-04-10 11:52:51 -- n, 0.038461999999999996
+2019-04-10 11:52:51 -- o, 0.03846099999999997
+2019-04-10 11:52:51 -- p, 0.038461999999999996
+2019-04-10 11:52:51 -- q, 0.03846100000000008
+2019-04-10 11:52:51 -- r, 0.038461999999999996
+2019-04-10 11:52:51 -- s, 0.03846099999999997
+2019-04-10 11:52:51 -- t, 0.038461999999999996
+2019-04-10 11:52:51 -- u, 0.03846099999999997
+2019-04-10 11:52:51 -- v, 0.038461999999999996
+2019-04-10 11:52:51 -- w, 0.03846100000000008
+2019-04-10 11:52:51 -- x, 0.038461999999999996
+2019-04-10 11:52:51 -- y, 0.03846099999999997
+2019-04-10 11:52:51 -- z, 0.038461999999999996
+2019-04-10 11:52:51 -- -----------------------------------------------------------------
+2019-04-10 11:52:51 -- IniciandoGeneradorDeNombres
+2019-04-10 11:52:52 -- Nuevo nombre: uzuxa
+2019-04-10 11:52:57 -- [ERROR], object of type 'map' has no len()
+2019-04-10 11:53:26 -- cerrandoGeneradorDeNombres
+2019-04-10 11:53:26 -- Nuevo nombre: zaquelewezesujuhiwuh
+2019-04-10 11:53:27 -- -----------------------------------------------------------------
+2019-04-10 11:53:27 -- --- Actualizacion de datos --------------------------------------
+2019-04-10 11:53:27 -- --- Variables de programa ---------------------------------------
+2019-04-10 11:53:27 -- rootPath, C:\dev\Projects\PythonScripts\ArchivosGeneradosGeneradorDeNombres
+2019-04-10 11:53:27 -- filesPath, C:\dev\Projects\PythonScripts\ArchivosGeneradosGeneradorDeNombres
+2019-04-10 11:53:27 -- logFile, GeneradorDeNombresLog.txt
+2019-04-10 11:53:27 -- longitud, 5
+2019-04-10 11:53:27 -- archivoExterno, Mapeo_Probabilidades.txt
+2019-04-10 11:53:27 -- archivoExclusiones, Exclusiones.txt
+2019-04-10 11:53:27 -- --- Reglas ------------------------------------------------------
+2019-04-10 11:53:27 -- [ ] unaVocal
+2019-04-10 11:53:27 -- [x] dosVocales
+2019-04-10 11:53:27 -- [ ] tresVocales
+2019-04-10 11:53:27 -- [x] unaConsonante
+2019-04-10 11:53:27 -- [ ] dosConsonantes
+2019-04-10 11:53:27 -- [ ] tresConsonantes
+2019-04-10 11:53:27 -- [x] qSiempreConU
+2019-04-10 11:53:27 -- [x] quSiempreConEI
+2019-04-10 11:53:27 -- [ ] soloLetrasAUnaVocal
+2019-04-10 11:53:27 -- [ ] soloLetrasADosVocales
+2019-04-10 11:53:27 -- --- Distribucion ------------------------------------------------
+2019-04-10 11:53:27 -- a, 0.038462
+2019-04-10 11:53:27 -- b, 0.038461
+2019-04-10 11:53:27 -- c, 0.038461999999999996
+2019-04-10 11:53:27 -- d, 0.03846100000000001
+2019-04-10 11:53:27 -- e, 0.038461999999999996
+2019-04-10 11:53:27 -- f, 0.038460999999999995
+2019-04-10 11:53:27 -- g, 0.038461999999999996
+2019-04-10 11:53:27 -- h, 0.03846100000000002
+2019-04-10 11:53:27 -- i, 0.038461999999999996
+2019-04-10 11:53:27 -- j, 0.03846099999999997
+2019-04-10 11:53:27 -- k, 0.038461999999999996
+2019-04-10 11:53:27 -- l, 0.03846100000000002
+2019-04-10 11:53:27 -- m, 0.038461999999999996
+2019-04-10 11:53:27 -- n, 0.038461999999999996
+2019-04-10 11:53:27 -- o, 0.03846099999999997
+2019-04-10 11:53:27 -- p, 0.038461999999999996
+2019-04-10 11:53:27 -- q, 0.03846100000000008
+2019-04-10 11:53:27 -- r, 0.038461999999999996
+2019-04-10 11:53:27 -- s, 0.03846099999999997
+2019-04-10 11:53:27 -- t, 0.038461999999999996
+2019-04-10 11:53:27 -- u, 0.03846099999999997
+2019-04-10 11:53:27 -- v, 0.038461999999999996
+2019-04-10 11:53:27 -- w, 0.03846100000000008
+2019-04-10 11:53:27 -- x, 0.038461999999999996
+2019-04-10 11:53:27 -- y, 0.03846099999999997
+2019-04-10 11:53:27 -- z, 0.038461999999999996
+2019-04-10 11:53:27 -- -----------------------------------------------------------------
+2019-04-10 11:53:27 -- IniciandoGeneradorDeNombres
+2019-04-10 11:53:27 -- Nuevo nombre: becub
+2019-04-10 11:54:04 -- [ERROR], object of type 'map' has no len()
+2019-04-10 11:54:26 -- cerrandoGeneradorDeNombres
+2019-04-10 11:54:26 -- Nuevo nombre: fabouge
+2019-04-10 11:54:27 -- -----------------------------------------------------------------
+2019-04-10 11:54:27 -- --- Actualizacion de datos --------------------------------------
+2019-04-10 11:54:27 -- --- Variables de programa ---------------------------------------
+2019-04-10 11:54:27 -- rootPath, C:\dev\Projects\PythonScripts\ArchivosGeneradosGeneradorDeNombres
+2019-04-10 11:54:27 -- filesPath, C:\dev\Projects\PythonScripts\ArchivosGeneradosGeneradorDeNombres
+2019-04-10 11:54:27 -- logFile, GeneradorDeNombresLog.txt
+2019-04-10 11:54:27 -- longitud, 5
+2019-04-10 11:54:27 -- archivoExterno, Mapeo_Probabilidades.txt
+2019-04-10 11:54:27 -- archivoExclusiones, Exclusiones.txt
+2019-04-10 11:54:27 -- --- Reglas ------------------------------------------------------
+2019-04-10 11:54:27 -- [ ] unaVocal
+2019-04-10 11:54:27 -- [x] dosVocales
+2019-04-10 11:54:27 -- [ ] tresVocales
+2019-04-10 11:54:27 -- [x] unaConsonante
+2019-04-10 11:54:27 -- [ ] dosConsonantes
+2019-04-10 11:54:27 -- [ ] tresConsonantes
+2019-04-10 11:54:27 -- [x] qSiempreConU
+2019-04-10 11:54:27 -- [x] quSiempreConEI
+2019-04-10 11:54:27 -- [ ] soloLetrasAUnaVocal
+2019-04-10 11:54:27 -- [ ] soloLetrasADosVocales
+2019-04-10 11:54:27 -- --- Distribucion ------------------------------------------------
+2019-04-10 11:54:27 -- a, 0.038462
+2019-04-10 11:54:27 -- b, 0.038461
+2019-04-10 11:54:27 -- c, 0.038461999999999996
+2019-04-10 11:54:27 -- d, 0.03846100000000001
+2019-04-10 11:54:27 -- e, 0.038461999999999996
+2019-04-10 11:54:27 -- f, 0.038460999999999995
+2019-04-10 11:54:27 -- g, 0.038461999999999996
+2019-04-10 11:54:27 -- h, 0.03846100000000002
+2019-04-10 11:54:27 -- i, 0.038461999999999996
+2019-04-10 11:54:27 -- j, 0.03846099999999997
+2019-04-10 11:54:27 -- k, 0.038461999999999996
+2019-04-10 11:54:27 -- l, 0.03846100000000002
+2019-04-10 11:54:27 -- m, 0.038461999999999996
+2019-04-10 11:54:27 -- n, 0.038461999999999996
+2019-04-10 11:54:27 -- o, 0.03846099999999997
+2019-04-10 11:54:27 -- p, 0.038461999999999996
+2019-04-10 11:54:27 -- q, 0.03846100000000008
+2019-04-10 11:54:27 -- r, 0.038461999999999996
+2019-04-10 11:54:27 -- s, 0.03846099999999997
+2019-04-10 11:54:27 -- t, 0.038461999999999996
+2019-04-10 11:54:27 -- u, 0.03846099999999997
+2019-04-10 11:54:27 -- v, 0.038461999999999996
+2019-04-10 11:54:27 -- w, 0.03846100000000008
+2019-04-10 11:54:27 -- x, 0.038461999999999996
+2019-04-10 11:54:27 -- y, 0.03846099999999997
+2019-04-10 11:54:27 -- z, 0.038461999999999996
+2019-04-10 11:54:27 -- -----------------------------------------------------------------
+2019-04-10 11:54:27 -- IniciandoGeneradorDeNombres
+2019-04-10 11:54:35 -- [ERROR], unsupported operand type(s) for +: 'map' and 'list'
+2019-04-10 11:58:00 -- Nuevo nombre: sopue
+2019-04-10 11:58:02 -- Nuevo nombre: raita
+2019-04-10 11:58:03 -- Nuevo nombre: yitit
+2019-04-10 11:58:05 -- Nuevo nombre: axera
+2019-04-10 11:58:06 -- Nuevo nombre: dovak
+2019-04-10 11:58:07 -- Nuevo nombre: gurof
+2019-04-10 11:58:08 -- Nuevo nombre: tajen
+2019-04-10 11:58:09 -- Nuevo nombre: weayu
+2019-04-10 11:58:10 -- Nuevo nombre: wuque
+2019-04-10 11:58:11 -- Nuevo nombre: keduj
+2019-04-10 11:58:12 -- Nuevo nombre: balix
+2019-04-10 11:58:13 -- Nuevo nombre: tuobe
+2019-04-10 11:58:14 -- Nuevo nombre: aluqu
+2019-04-10 11:58:15 -- Nuevo nombre: darog
+2019-04-10 11:58:16 -- Nuevo nombre: deboj
+2019-04-10 11:58:17 -- Nuevo nombre: adotu
+2019-04-10 11:58:18 -- Nuevo nombre: ulefe
+2019-04-10 11:58:18 -- Nuevo nombre: hunou
+2019-04-10 11:58:20 -- Nuevo nombre: suren
+2019-04-10 11:58:21 -- Nuevo nombre: jekoi
+2019-04-10 11:58:21 -- Nuevo nombre: ibazo
+2019-04-10 11:58:25 -- Nuevo nombre: aguno

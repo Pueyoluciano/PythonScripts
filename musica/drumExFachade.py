@@ -1,15 +1,33 @@
-import pygame
+# import pygame
+import threading
+import drumExMachina
 
-class DrumExFacade:
+class _DXFConsola:
     
-    def __init__(self, ancho, alto):
+    salir_codes = [0, "0", "salir", "exit"]
+    
+    def __init__(self):
+        pass
+
+    def loop(self):
+        salir = False
+        
+        while not salir:
+            user_input = input("> ")
+            salir = user_input in self.salir_codes
+                
+    
+class _DXFGrafico:
+    def __init__(self, ancho=1200, alto=800):
         self.alto = alto
         self.ancho = ancho
-        self.screen = pygame.display.set_mode((ancho,alto))
+        
+        self.screen = pygame.display.set_mode([self.ancho, self.alto])
         pygame.display.set_caption("Drum Ex Machina")
-        
-        
+
     def loop(self):
+        self.engine.loop()
+        
         pygame.init()
         
         clock = pygame.time.Clock()
@@ -25,9 +43,34 @@ class DrumExFacade:
                     
             pygame.display.flip()
             pygame.time.delay(50)
+        
+        
+class DrumExFacade:
+    """
+        Interfaz de DrumExMachina.
+        
+        Tiene dos modos de uso, consola y grafico.
+    """
+    
+    def __init__(self, modo='consola', ancho=1200, alto=800):
+        self.modo = modo
+        self.engine = None
+        
+        # Modo: Consola | grafico
+        self.engine = _DXFConsola() if modo == 'consola' else _DXFGrafico(alto, ancho)
             
+    def loop(self):
+        DXM_thread = threading.Thread(target=drumExMachina.testeos)
+        DXM_thread.start()
+        
+        self.engine.loop()
+        
+        DXF_thread.exit()
+        DXM_thread.exit()
             
-DXF = DrumExFacade(1200, 800)
-DXF.loop()
+DXF = DrumExFacade("consola")
 
-            
+
+DXF_thread = threading.Thread(target=DXF.loop)
+
+DXF_thread.start()            

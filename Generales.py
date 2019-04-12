@@ -12,7 +12,7 @@ class Generales:
     @staticmethod
     def enumerarLista(lista):
         if (len(lista) == 0):
-            print "[!!] Lista vacia"
+            print("[!!] Lista vacia")
             
         else:
             retorno = []
@@ -20,7 +20,7 @@ class Generales:
             multiplicador = 1
             contador = 1
             
-            print ""
+            print("")
             
             for i in range(0,len(lista)):
                 if(i > (9*multiplicador) - 1):
@@ -29,9 +29,9 @@ class Generales:
                     contador += 1
                 
                 retorno.append(str(i+1) + ") " + relleno + str(lista[i]))
-                print str(i+1) + ") " + relleno + str(lista[i])
+                print(str(i+1) + ") " + relleno + str(lista[i]))
                 
-            print ""
+            print("")
             
             return retorno
         
@@ -49,7 +49,7 @@ class Generales:
         if(os.path.isdir(ruta)):
             listado = os.listdir(ruta) + ["Volver"]
             
-            print "Directorio: " + ruta
+            print("Directorio: " + ruta)
             Generales.enumerarLista(listado)
             
             file = validador.seleccionar(listado)

@@ -95,8 +95,8 @@ class CreadorNombres(Aplicacion.Aplicacion):
             #Genero todo el nombre
             nombre = self.generarNombre(longitud)
             nombre = nombre[0].upper() + nombre[1:]
-            print "-> " + nombre
-            print "otro nombre?"
+            print("-> " + nombre)
+            print("otro nombre?")
             seguir = validador.ingresarSINO()
     
     def generarNombre(self,longitud):
@@ -106,7 +106,7 @@ class CreadorNombres(Aplicacion.Aplicacion):
                 nombre += self.motor.nuevaLetra(nombre)         
                 
         except Exception as exc:
-            # print exc.args[0] # mensaje de error que trae la exception
+            # print(exc.args[0]) # mensaje de error que trae la exception
             traceback.print_exc()
         
         self.log("Nuevo nombre: " + nombre)
@@ -150,7 +150,7 @@ class CreadorNombres(Aplicacion.Aplicacion):
     def verDistribucion(self):
         self.espaciador()
         listado = self.motor.probabilidades.listarProbabilidades()
-        Generales.enumerarLista(map(lambda x: str(x[0]) + " --> " + str(x[1]),listado))
+        Generales.enumerarLista(list(map(lambda x: str(x[0]) + " --> " + str(x[1]),listado)))
         
     def modificarDistribucionManual(self):
         menu = ["Restaurar Valores por defecto","Confirmar","Volver"]
@@ -161,11 +161,11 @@ class CreadorNombres(Aplicacion.Aplicacion):
         while not termine:
             self.espaciador()
             
-            listado = map(lambda x: str(x[0]) + " --> " + str(x[1]), probs.listarProbabilidades()) + menu
+            listado = list(map(lambda x: str(x[0]) + " --> " + str(x[1]), probs.listarProbabilidades()) + menu)
             Generales.enumerarLista(listado)
             self.espaciador()
             
-            print "Seleccione el item a modificar (por numero de orden)"
+            print("Seleccione el item a modificar (por numero de orden)")
             indice = validador.ingresar(int,validador.entre, 1, len(listado))
             
             if(indice != len(listado)):         # -- Volver
@@ -177,15 +177,15 @@ class CreadorNombres(Aplicacion.Aplicacion):
                     if(indice == len(listado) - 2): # -- Restaurar Valores por defecto
                         probs.reestablecerDatos()
                     else:
-                        print "elemento: " + str(probs.obtenerItem(indice - 1)[0])
-                        print "valor actual: " + str(probs.obtenerItem(indice - 1)[1])
-                        print "Cargue el nuevo valor: (entre 0 y 1)"
+                        print("elemento: " + str(probs.obtenerItem(indice - 1)[0]))
+                        print("valor actual: " + str(probs.obtenerItem(indice - 1)[1]))
+                        print("Cargue el nuevo valor: (entre 0 y 1)")
                         
                         elemento = probs.obtenerItem(indice - 1)
                         
                         valor = validador.ingresar(float, validador.entre, 0.0,1.0)
                         probs.compensar([elemento[0],valor])
-                        print probs.mostrarProbabilidades()
+                        print(probs.mostrarProbabilidades())
             else:
                 termine = True
                 
@@ -194,14 +194,14 @@ class CreadorNombres(Aplicacion.Aplicacion):
     def modificarDistribucionArchivo(self):
         file = self.vars["filesPath"].valor + "\\" + self.vars["archivoExterno"].valor
         self.espaciador()
-        # print "Archivo utilizado: " + file
-        print "Se utilizara el archivo: " + file
-        print "Desea continuar?"
+        # print("Archivo utilizado: " + file)
+        print("Se utilizara el archivo: " + file)
+        print("Desea continuar?")
         
         if(validador.ingresarSINO()):
             self.motor.probabilidades.cargarTodoDesdeArchivo(file)
             self.espaciador()
-            print "Nuevos valores:"
+            print("Nuevos valores:")
             self.motor.probabilidades.mostrarProbabilidades()
             
             self.logParametrosActuales()
@@ -210,8 +210,8 @@ class CreadorNombres(Aplicacion.Aplicacion):
         self.espaciador()
         nombre = os.path.abspath(self.vars["archivoExterno"].valor)
         
-        print "Se utilizara el archivo: " + nombre
-        print "Desea continuar?"
+        print("Se utilizara el archivo: " + nombre)
+        print("Desea continuar?")
         if(validador.ingresarSINO()):
     
             archivo = open(nombre,"w")
@@ -222,12 +222,12 @@ class CreadorNombres(Aplicacion.Aplicacion):
                 
             archivo.close()   
         
-            print "Se cargo la nueva data en: " + os.path.abspath(self.vars["archivoExterno"].valor)
+            print("Se cargo la nueva data en: " + os.path.abspath(self.vars["archivoExterno"].valor))
     
     def calcularDistribucion(self):
         self.espaciador()
         conjunto = self.motor.probabilidades.listarItems()
-        print "Seleccione un archivo para calcular las ocurrencias de letras: \n"
+        print("Seleccione un archivo para calcular las ocurrencias de letras: \n")
         self.motor.probabilidades.calcularDistribucion(conjunto,Generales.seleccionarArchivo(self.vars["filesPath"].valor))
         
         self.logParametrosActuales()
@@ -243,40 +243,40 @@ class CreadorNombres(Aplicacion.Aplicacion):
         self.espaciador()
         ruta = os.path.abspath(self.vars["archivoExclusiones"].valor)
         
-        print "Se utilizara el archivo: " + ruta
+        print("Se utilizara el archivo: " + ruta)
         
-        print "Desea continuar?"
+        print("Desea continuar?")
         if(validador.ingresarSINO()):
             
             archivo = open(ruta, "r")
             
             self.motor.quitarTodasExlcusiones()
-            self.motor.agregarExclusiones(map(lambda x: x[0:-1] if "\n" in x else x, archivo.readlines()))
+            self.motor.agregarExclusiones(list(map(lambda x: x[0:-1] if "\n" in x else x, archivo.readlines())))
                 
-            print self.motor.stringsExcluidos
+            print(self.motor.stringsExcluidos)
             archivo.close()
         
     def quitarTodasExlcusiones(self):
         self.espaciador()
-        print "Se quitaran todas las excepciones, Desea continuar?"
+        print("Se quitaran todas las excepciones, Desea continuar?")
         if(validador.ingresarSINO()):
             self.motor.quitarTodasExlcusiones()
-            print "Se quitaron todas las Exlcusiones."
+            print("Se quitaron todas las Exlcusiones.")
         
     def ayuda(self):
         self.espaciador()
-        print " La parte mas dificil de cualquier proyecto/idea/cosa es ponerle nombre."
-        print " " + self.appNombre + " toma la dificil tarea por vos,"
-        print " y te genera aleatoriamente nombres para que puedas elegir"
-        print " el que mas te guste."
-        print " Configura las reglas que mejor te plazcan, y listo."
+        print(" La parte mas dificil de cualquier proyecto/idea/cosa es ponerle nombre.")
+        print(" " + self.appNombre + " toma la dificil tarea por vos,")
+        print(" y te genera aleatoriamente nombres para que puedas elegir")
+        print(" el que mas te guste.")
+        print(" Configura las reglas que mejor te plazcan, y listo.")
         self.espaciador()
     
     #Texto personalizado de salida. 
     def salirPrint(self):
         self.espaciador()
-        print "Siempre lleva un nombre contigo:"
-        print self.generarNombre(random.randint(self.vars["longitud"].minimo + 3, self.vars["longitud"].maximo))
+        print("Siempre lleva un nombre contigo:")
+        print(self.generarNombre(random.randint(self.vars["longitud"].minimo + 3, self.vars["longitud"].maximo)))
         
 if __name__ == '__main__':
     a = CreadorNombres("GeneradorDeNombres","2.0.0",False)

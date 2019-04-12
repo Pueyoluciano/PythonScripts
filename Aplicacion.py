@@ -1,6 +1,6 @@
 import os
 import threading
-import Queue
+import queue
 import pygame
 from validador import *
 from fractions import gcd
@@ -100,7 +100,7 @@ class Aplicacion:
     
     -7) Para mostrar un mensaje personalizado al salir hay que sobreescribir el metodo salirPrint.
     |
-    |-  self.salirPrint(self): print "texto que se muestra al salir"
+    |-  self.salirPrint(self): print("texto que se muestra al salir")
 
     -8) Para que la aplicacion pueda ser ejecutada:
     |
@@ -254,9 +254,9 @@ class Aplicacion:
         variables = self.obtenerNombreValorVariables()
         
         if(mostrarVolver):
-            lista = map(lambda x: x[0] + ": " + str(x[1]), variables) + ["Volver"]
+            lista = list(map(lambda x: x[0] + ": " + str(x[1]), variables) + ["Volver"])
         else:
-            lista = map(lambda x: x[0] + ": " + str(x[1]), variables)
+            lista = list(map(lambda x: x[0] + ": " + str(x[1]), variables))
             
         Generales.enumerarLista(lista)
         
@@ -270,15 +270,15 @@ class Aplicacion:
         while(not salir):
             self.mostrarVariables(True)
             # for (i,clave) in enumerate(self.vars.keys()):
-                # print str(i+1) + ") " + clave, ":",self.vars[clave].valor 
+                # print(str(i+1) + ") " + clave, ":",self.vars[clave].valor )
             
             # key = validador.ingresar(str,validador.igual,self.vars.keys())
             key = validador.seleccionar(self.obtenerNombreVariables()+["Volver"])
             if(key == "Volver"):
                 salir = True
             else:
-                print key
-                print "valor actual: ", self.vars[key].valor
+                print(key)
+                print("valor actual: ", self.vars[key].valor)
                 self.vars[key].modificador(key)
         self.ejecutarPostFunciones()
 
@@ -294,9 +294,9 @@ class Aplicacion:
             self.vars[key].valor = params[0]
         
     def modifValoresPosibles(self,key):
-        print "valores posibles: "
+        print("valores posibles: ")
         for i in range(0,len(self.vars[key].valoresPosibles)):
-            print str(i+1) + ") " + str(self.vars[key].valoresPosibles[i])  
+            print(str(i+1) + ") " + str(self.vars[key].valoresPosibles[i]))
         
         self.vars[key].valor = validador.seleccionar(self.vars[key].valoresPosibles)
     
@@ -323,28 +323,28 @@ class Aplicacion:
                 salir = True if self.menu.evaluar() == "SALIR" else False
                 
             except Exception as e:
-                print "[ERROR] -", str(e)
+                print("[ERROR] -", str(e))
                 self.log("[ERROR]",str(e))
     
     def ayudaAplicacion(self):
         self.espaciador()
-        print "--- Que es esto? ---"
-        print "Aplicacion: " + self.appNombre
-        print "Version:    " + self.version
+        print("--- Que es esto? ---")
+        print("Aplicacion: " + self.appNombre)
+        print("Version:    " + self.version)
         self.espaciador()
         self.ayuda()
         self.espaciador()
         self.pausa()
     
     def ayuda(self):
-        print "Manual de usuario."
-        print "--------------------------"
-        print "------ FILL ME PLZ -------"
-        print "--------------------------"
+        print("Manual de usuario.")
+        print("--------------------------")
+        print("------ FILL ME PLZ -------")
+        print("--------------------------")
     
     def verArchivo(self):
         self.espaciador()
-        print "Seleccione un archivo para abrir:"
+        print("Seleccione un archivo para abrir:")
         Generales.abrirArchivo(self.vars["filesPath"].valor)
 
     def verLog(self):
@@ -352,7 +352,7 @@ class Aplicacion:
         if(os.path.isfile(fname)):
             os.startfile(fname)
         else:
-            print "Archivo no encontrado"
+            print("Archivo no encontrado")
     
     def generarNombreValido(self,nombre):
         seguir = True
@@ -373,10 +373,10 @@ class Aplicacion:
         return nombre
 
     def pausa(self):
-        raw_input("...")
+        input("...")
         
     def espaciador(self):
-        print self.textoEspaciador
+        print(self.textoEspaciador)
         
     def salir(self):
         self.log("cerrando" + self.appNombre)
@@ -386,7 +386,7 @@ class Aplicacion:
         return "SALIR"
                 
     def salirPrint(self):
-        print "adios"
+        print("adios")
     
     
 if __name__ == '__main__':  

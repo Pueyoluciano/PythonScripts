@@ -1,6 +1,8 @@
 import time
 import random
 import traceback
+import functools
+
 from Generales import Generales
 from validador import *
 
@@ -136,8 +138,8 @@ class Probabilidad:
             hasta = 0.0
             for i,dato in enumerate(self.conjunto):
                 if(restante > 0.0):
-                    print "porcentaje restante: " + str(restante)
-                    print "item: " + str(dato[0])
+                    print("porcentaje restante: " + str(restante))
+                    print("item: " + str(dato[0]))
                     probabilidad = validador.ingresar(float,validador.entre,0.0,restante)
                     
                     if(probabilidad == 0.0):
@@ -146,7 +148,7 @@ class Probabilidad:
                         dato[1] = [desde,probabilidad + desde]
                         
                     restante = round(restante - probabilidad, self.precision)
-                    print restante
+                    print(restante)
                     desde += probabilidad 
                 else:
                     # esto es: si me quede sin porcentaje a repartir y me faltan elementos por asignar
@@ -158,12 +160,12 @@ class Probabilidad:
                 correcto = True
             
             if (restante > 0.0):
-                print "----------------------------------------"
-                print "Error al cargar probabilidades"
-                print "El total debe ser exactamente igual a 1" 
-                print "----------------------------------------"
+                print("----------------------------------------")
+                print("Error al cargar probabilidades")
+                print("El total debe ser exactamente igual a 1")
+                print("----------------------------------------")
                 
-        print self.conjunto
+        print(self.conjunto)
     
     def cargarTodoDesdeArchivo(self,ruta):
         try:
@@ -171,10 +173,10 @@ class Probabilidad:
 
             nuevosItems = [[linea.split(" ")[0], float(linea.split(" ")[1])] for linea in archivo.readlines()]
 
-            print nuevosItems
-            probTotal = reduce(lambda x,y: x+y, [item[1] for item in nuevosItems])
+            print(nuevosItems)
+            probTotal = functools.functools.reduce(lambda x,y: x+y, [item[1] for item in nuevosItems])
             if (probTotal != 1.0):
-                print str(probTotal) + " La probabilidad total difiere de 1.0, la actualizacion es ignorada. \nPor favor revisar el documento."
+                print(str(probTotal) + " La probabilidad total difiere de 1.0, la actualizacion es ignorada. \nPor favor revisar el documento.")
                 
             else:
                 self.cargarTodo(nuevosItems)
@@ -182,7 +184,7 @@ class Probabilidad:
             archivo.close()  
             
         except IOError:
-            print "no pudo abrirse el archivo: " + ruta
+            print("no pudo abrirse el archivo: " + ruta)
         
     def cargarTodo(self,*datos):
         if(self.esLista(datos[0])):
@@ -202,10 +204,10 @@ class Probabilidad:
                     
                 else:
                     if(round(restante - dato[1], self.precision) < 0.0): # Si algun elemento sobrepasa el 1.0, lo trunco.
-                        print "------------------------------------------------------"
-                        print "guarda!, se trunco el elemento: " + str(dato[0]) + " a un valor de " + str(restante)
-                        print "los siguientes elementos tendran probabilidad = 0.0"
-                        print "------------------------------------------------------"
+                        print("------------------------------------------------------")
+                        print("guarda!, se trunco el elemento: " + str(dato[0]) + " a un valor de " + str(restante))
+                        print("los siguientes elementos tendran probabilidad = 0.0")
+                        print("------------------------------------------------------")
                         dato[1] = restante
                         
                     hasta = dato[1] + desde
@@ -237,14 +239,14 @@ class Probabilidad:
             archivo.close()
             
         except IOError:
-            print "no pudo abrirse el archivo: " + ruta
+            print("no pudo abrirse el archivo: " + ruta)
         
         except Exception:
             traceback.print_exc()
         
-        total = reduce(lambda x, y: x + y, [item[1] for item in listado])
-        print "elementos contados: " + str(total)
-        listadoProbs = map(lambda x: [x[0], x[1]/float(total)],listado)
+        total = functools.reduce(lambda x, y: x + y, [item[1] for item in listado])
+        print("elementos contados: " + str(total))
+        listadoProbs = list(map(lambda x: [x[0], x[1]/float(total)],listado))
         
         self.cargarTodo(listadoProbs)
         
@@ -265,13 +267,13 @@ class Probabilidad:
                     
         endTime = time.time()
         elapsedTime = endTime-startTime
-        print "----------------------------------------------------------------"
+        print("----------------------------------------------------------------")
         for dato in listado:
-            print "Elemento: " + str(dato[0]), "Ocurrencias: " + str(dato[1]) , "Porcentaje: " + str(dato[1]/float(vueltas) * 100) + "%"
+            print("Elemento: " + str(dato[0]), "Ocurrencias: " + str(dato[1]) , "Porcentaje: " + str(dato[1]/float(vueltas) * 100) + "%")
             
-        print "casos de prueba: " + str(reduce(lambda x, y: x+y, [cont[1] for cont in listado]))
-        print "Tiempo de generacion: " + str(elapsedTime)
-        print "----------------------------------------------------------------"
+        print("casos de prueba: " + str(functools.reduce(lambda x, y: x+y, [cont[1] for cont in listado])))
+        print("Tiempo de generacion: " + str(elapsedTime))
+        print("----------------------------------------------------------------")
             
     def _agregarItemConDelta(self,dato,desde,hasta):
         self.conjunto.append([dato,[round(desde,self.precision),round(hasta,self.precision)]])
@@ -285,7 +287,7 @@ class Probabilidad:
         valorViejo = self.listarProbabilidades()[indiceValorViejo][1]  # obtengo la probabilidad actual
         probASumar = (valorViejo - item[1]) / (len(self.conjunto) - 1) # calculo el valor a restar a los elementos restantes
         
-        nuevoConjunto = map(lambda x: [x[0], x[1] + probASumar if x[0] != item[0] else item[1]], self.listarProbabilidades())
+        nuevoConjunto = list(map(lambda x: [x[0], x[1] + probASumar if x[0] != item[0] else item[1]], self.listarProbabilidades()))
         
         self.cargarTodo(nuevoConjunto)
     
@@ -308,24 +310,24 @@ class Probabilidad:
         return [[elemento[0], elemento[1][1] - elemento[1][0]] for elemento in self.conjunto]
  
     def mostrarProbabilidades(self):
-        Generales.enumerarLista(map(lambda x: str(x[0]) + " --> " + str(x[1]),self.listarProbabilidades()))
+        Generales.enumerarLista(list(map(lambda x: str(x[0]) + " --> " + str(x[1]),self.listarProbabilidades())))
  
 # a = Probabilidad()
 
 # a.cargarDatos("a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z")
-# print a.conjunto
+# print(a.conjunto)
 
 # a.cargarTodo(["a",0.5],["b",0.0],["c",0.4],["d",0.1],["e",0.5])
-# print a.conjunto
+# print(a.conjunto)
 
 # a.cargarTodo(["a",0.5],["b",0.1],["c",0.4])
-# print a.conjunto
+# print(a.conjunto)
 
 # a.cargarProbabilidades()
 
 # word = ""
 # for i in range(0,7):
     # word += a.generar()
-# print word    
+# print(word)
 
 # a.chequearValores()
