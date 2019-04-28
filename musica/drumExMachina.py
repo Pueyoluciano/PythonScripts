@@ -3,6 +3,19 @@ import itertools
 import pygame.midi
 
 from ritmosEuclideos import *
+
+"""
+    TODOS:
+        1 - enviar Midi a un Midi input - (Fruty loops)
+        2 - interfaz grafica !
+            a - fasade para enviar mensajes y actualizar la configuracion ON THE FLY
+        
+        3 - interfaz por consola:
+            a - mostrar toda la partitura (y tal vez las notas)
+        
+        4 - Mejorar el armado de las partituras, listas de Secciones ?
+"""
+
 midi_instruments = {
     "Piano": [
         "1.Acoustic Piano",
@@ -177,6 +190,56 @@ midi_instruments = {
         "126.Helicopter",
         "127.Applause",
         "128.Gunshot",
+    ],
+    
+    "Drum kit": [
+        '35 Acoustic Bass Drum',
+        '36 Bass Drum 1',
+        '37 Side Stick',
+        '38 Acoustic Snare',
+        '39 Hand Clap',
+        '40 Electric Snare',
+        '41 Low Floor Tom',
+        '42 Closed Hi-Hat',
+        '43 High Floor Tom',
+        '44 Pedal Hi-Hat',
+        '45 Low Tom',
+        '46 Open Hi-Hat',
+        '47 Low-Mid Tom',
+        '48 Hi-Mid Tom',
+        '49 Crash Cymbal 1',
+        '50 High Tom',
+        '51 Ride Cymbal 1',
+        '52 Chinese Cymbal',
+        '53 Ride Bell',
+        '54 Tambourine',
+        '55 Splash Cymbal',
+        '56 Cowbell',
+        '57 Crash Cymbal 2',
+        '58 Vibraslap',
+        '59 Ride Cymbal 2',
+        '60 Hi Bongo',
+        '61 Low Bongo',
+        '62 Mute Hi Conga',
+        '63 Open Hi Conga',
+        '64 Low Conga',
+        '65 High Timbale',
+        '66 Low Timbale',
+        '67 High Agogo',
+        '68 Low Agogo',
+        '69 Cabasa',
+        '70 Maracas',
+        '71 Short Whistle',
+        '72 Long Whistle',
+        '73 Short Guiro',
+        '74 Long Guiro',
+        '75 Claves',
+        '76 Hi Wood Block',
+        '77 Low Wood Block',
+        '78 Mute Cuica',
+        '79 Open Cuica',
+        '80 Mute Triangle',
+        '81 Open Triangle'
     ]
 }
 
@@ -546,7 +609,7 @@ def testeos():
     # Pista(nombre='Pista 4', pulsos=3, ritmo=14, rotacion=0, notes=[72, 74, 75], velocity=127, channel=0, instrument=5),
 
 
-    dem = Matrix(tempo=180, pulso='corchea', volumen=100)
+    dem = Matrix(tempo=80, pulso='corchea', volumen=100)
     """
     dem.agregar_pista(Pista(nombre='Pista 1', pulsos=7, ritmo=7, rotacion=0, notes=[44,44,44,44,44,44,44,46,44,44,44,44,44,44], velocity=127, channel=9, instrument=0))
     dem.agregar_pista(Pista(nombre='Pista 2', pulsos=4, ritmo=7, rotacion=0, notes=[36, 36, 37, 36], velocity=127, channel=9, instrument=0))
@@ -585,46 +648,27 @@ def testeos():
     p3 = Partitura(Seccion(duracion=1, pulsos=1, ritmo=4, rotacion=2, notas=[38]),
                     # Seccion(duracion=4, pulsos=4, ritmo=4, rotacion=0, notas=[48, 45, 43, 41])
                 )            
-    p4 = Partitura(Seccion(duracion=1, pulsos=8, ritmo=8, rotacion=0, notas=[Nota('D2')]),
-                    Seccion(duracion=1, pulsos=8, ritmo=8, rotacion=0, notas=[Nota('E2')]),
-                    Seccion(duracion=1, pulsos=8, ritmo=8, rotacion=0, notas=[Nota('F2')]),
-                    Seccion(duracion=1, pulsos=8, ritmo=8, rotacion=0, notas=[Nota('D2')]),
-                    Seccion(duracion=1, pulsos=8, ritmo=8, rotacion=0, notas=[Nota('E2')]),
-                    Seccion(duracion=1, pulsos=8, ritmo=8, rotacion=0, notas=[Nota('F2')]),
-                    Seccion(duracion=1, pulsos=8, ritmo=8, rotacion=0, notas=[Nota('D2')]),
-                    Seccion(duracion=1, pulsos=8, ritmo=8, rotacion=0, notas=[Nota('E2')]),
-                    Seccion(duracion=1, pulsos=8, ritmo=8, rotacion=0, notas=[Nota('F2')]),
+    p4 = Partitura(Seccion(duracion=1,  pulsos=6, ritmo=8, rotacion=0, notas=[Nota('D2')]),
+                    Seccion(duracion=1, pulsos=6, ritmo=8, rotacion=0, notas=[Nota('E2')]),
+                    Seccion(duracion=2, pulsos=6, ritmo=8, rotacion=0, notas=[Nota('F2')]),
+                    Seccion(duracion=1, pulsos=6, ritmo=8, rotacion=0, notas=[Nota('D2')]),
+                    Seccion(duracion=1, pulsos=6, ritmo=8, rotacion=0, notas=[Nota('E2')]),
+                    Seccion(duracion=2, pulsos=6, ritmo=8, rotacion=0, notas=[Nota('F2')]),
                     
-                    Seccion(duracion=1, pulsos=8, ritmo=8, rotacion=0, notas=[Nota('C2')]),
-                    Seccion(duracion=1, pulsos=8, ritmo=8, rotacion=0, notas=[Nota('D2')]),
-                    Seccion(duracion=1, pulsos=8, ritmo=8, rotacion=0, notas=[Nota('C2')]),
-                    Seccion(duracion=1, pulsos=8, ritmo=8, rotacion=0, notas=[Nota('Bb2')]),
-                    Seccion(duracion=1, pulsos=8, ritmo=8, rotacion=0, notas=[Nota('C2')]),
-                    Seccion(duracion=1, pulsos=8, ritmo=8, rotacion=0, notas=[Nota('D2')]),
-                    Seccion(duracion=1, pulsos=8, ritmo=8, rotacion=0, notas=[Nota('C2')]),
-                    Seccion(duracion=1, pulsos=8, ritmo=8, rotacion=0, notas=[Nota('Bb2')]),
-                    Seccion(duracion=1, pulsos=8, ritmo=8, rotacion=0, notas=[Nota('C2')]),
-                    Seccion(duracion=1, pulsos=8, ritmo=8, rotacion=0, notas=[Nota('D2')]),
-                    Seccion(duracion=1, pulsos=8, ritmo=8, rotacion=0, notas=[Nota('C2')]),
-                    Seccion(duracion=1, pulsos=8, ritmo=8, rotacion=0, notas=[Nota('Bb2')]),
+                    Seccion(duracion=1, pulsos=7, ritmo=8, rotacion=0, notas=[Nota('C2')]),
+                    Seccion(duracion=1, pulsos=7, ritmo=8, rotacion=0, notas=[Nota('D2')]),
+                    Seccion(duracion=1, pulsos=7, ritmo=8, rotacion=0, notas=[Nota('C2')]),
+                    Seccion(duracion=1, pulsos=7, ritmo=8, rotacion=0, notas=[Nota('Bb2')]),
                     
-                    Seccion(duracion=1, pulsos=8, ritmo=8, rotacion=0, notas=[Nota('D2')]),
-                    Seccion(duracion=1, pulsos=8, ritmo=8, rotacion=0, notas=[Nota('F2')]),
-                    Seccion(duracion=1, pulsos=8, ritmo=8, rotacion=0, notas=[Nota('C2')]),
-                    Seccion(duracion=1, pulsos=8, ritmo=8, rotacion=0, notas=[Nota('Bb2')]),
-                    Seccion(duracion=1, pulsos=8, ritmo=8, rotacion=0, notas=[Nota('D2')]),
-                    Seccion(duracion=1, pulsos=8, ritmo=8, rotacion=0, notas=[Nota('F2')]),
-                    Seccion(duracion=1, pulsos=8, ritmo=8, rotacion=0, notas=[Nota('C2')]),
-                    Seccion(duracion=1, pulsos=8, ritmo=8, rotacion=0, notas=[Nota('Bb2')]),
                     Seccion(duracion=1, pulsos=8, ritmo=8, rotacion=0, notas=[Nota('D2')]),
                     Seccion(duracion=1, pulsos=8, ritmo=8, rotacion=0, notas=[Nota('F2')]),
                     Seccion(duracion=1, pulsos=8, ritmo=8, rotacion=0, notas=[Nota('C2')]),
                     Seccion(duracion=1, pulsos=8, ritmo=8, rotacion=0, notas=[Nota('Bb2')]),
                 )
     p5 = Partitura(
-                    Seccion(duracion=9, pulsos=1, ritmo=8, rotacion=0, notas=[Acorde('D3', [1,'3b',5]), Acorde('E3', [1,'3b',5]), Acorde('F3', [1,3,5])]),
-                    Seccion(duracion=12, pulsos=1, ritmo=8, rotacion=0, notas=[Acorde('C3', [1,3,5]), Acorde('D3', [1,'3b',5]), Acorde('C3', [1,3,5]), Acorde('Bb3', [1,3,5])]),
-                    Seccion(duracion=12, pulsos=1, ritmo=8, rotacion=0, notas=[Acorde('D4', [1,'3b',5]), Acorde('F4', [1,3,5]), Acorde('C4', [1,3,5]), Acorde('Bb4', [1,3,5])]),
+                    Seccion(duracion=8, pulsos=1, ritmo=8, rotacion=0, notas=[Acorde('D3', [1,'3b',5]), Acorde('E3', [1,'3b',5]), Acorde('F3', [1,3,5]), Acorde('F3', [1,3,5])]),
+                    Seccion(duracion=4, pulsos=1, ritmo=8, rotacion=0, notas=[Acorde('C3', [1,3,5]), Acorde('D3', [1,'3b',5]), Acorde('C3', [1,3,5]), Acorde('Bb3', [1,3,5])]),
+                    Seccion(duracion=4, pulsos=1, ritmo=8, rotacion=0, notas=[Acorde('D4', [1,'3b',5]), Acorde('F4', [1,3,5]), Acorde('C4', [1,3,5]), Acorde('Bb4', [1,3,5])]),
     )
 
     # PET SEMATARY CHORDS
@@ -633,20 +677,32 @@ def testeos():
     # Dm, F, C, Bb
 
 
-    p1 = Partitura(Seccion(duracion=0, pulsos=6, ritmo=16, rotacion=0, notas=[36,37]),
+    p1 = Partitura(Seccion(duracion=0, pulsos=4, ritmo=10, rotacion=0, notas=[36,37]),
                     # Seccion(duracion=1, pulsos=4, ritmo=4, rotacion=0, notas=[44]),
                 )
-    p2 = Partitura(Seccion(duracion=0, pulsos=4, ritmo=4, rotacion=0, notas=[44]),
+    p2 = Partitura(Seccion(duracion=0, pulsos=2, ritmo=10, rotacion=0, notas=[53]),
+                    # Seccion(duracion=4, pulsos=8, ritmo=8, rotacion=0, notas=[53]),
                     # Seccion(duracion=1, pulsos=2, ritmo=4, rotacion=0, notas=[36,38])
                 )
 
+    # GAME OF TRONES
+    p5 = Partitura(Seccion(duracion=0, pulsos=4, ritmo=10, rotacion=0, notas=[69, 62, 65, 67, 69, 62, 65, 67, 69, 62, 65, 67, 69, 62, 65, 67, 69, 62, 66, 67, 69, 62, 66, 67,]))
+    # p2 = Pista(nombre='Pista 4', pulsos=3, ritmo=14, rotacion=0, notes=[72, 74, 75], velocity=127, channel=0, instrument=5),
+                
 
-    dem.agregar_pista(Pista(nombre='Pista 1', partitura=p1, velocity=100, channel=9, instrument=0))
+    # Simple man
+    p1 = Partitura(Seccion(duracion=0, pulsos=3, ritmo=8, rotacion=0, notas=[36,37]))
+    p2 = Partitura(Seccion(duracion=0, pulsos=2, ritmo=4, rotacion=0, notas=[44]))
+    p5  = Partitura(Seccion(duracion=0, pulsos=1, ritmo=8, rotacion=0, notas=[Acorde('C3', [1,3,5]), Acorde('G3', [1,3,5]), Acorde('A3',[1,'3b',5]), Acorde('A3',[1,'3b',5])]))
+                
+    dem.agregar_pista(Pista(nombre='Pista 1', partitura=p1, velocity=100, channel=9, instrument=40))
     dem.agregar_pista(Pista(nombre='Pista 2', partitura=p2, velocity=100, channel=9, instrument=0))
     # dem.agregar_pista(Pista(nombre='Pista 3', partitura=p3, velocity=127, channel=9, instrument=0))
-    dem.agregar_pista(Pista(nombre='Pista 4', partitura=p4, velocity=127, channel=1, instrument=33))
-    dem.agregar_pista(Pista(nombre='Pista 5', partitura=p5, velocity=50, channel=2, instrument=29, duracion=7))
+    # dem.agregar_pista(Pista(nombre='Pista 4', partitura=p4, velocity=127, channel=1, instrument=33))
+    dem.agregar_pista(Pista(nombre='Pista 5', partitura=p5, velocity=127, channel=2, instrument=32, duracion=8))
     dem.loop()
 
-# if __name__ == "__main__":
-    # testeos()
+if __name__ == "__main__":
+    testeos()
+    
+    

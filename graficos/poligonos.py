@@ -1,65 +1,51 @@
+# -*- coding: utf-8 -*-
+
 import pygame
-import os
-from iniciarpy import *
-ancho = 200
-alto = 200
-fondo = (0,0,0)
-titulo = "Poligonos"
-screen = iniciarpygame(ancho,alto,fondo,titulo)
-
-def interfaz(modo):
-	os.system("clear")
-	print "----------------------------------------------"
-	print "----------------------------------------------"
-	print "----------------- polis V1.0 -----------------"
-	print "\n\n\n\n\n"
-	if (modo == 0):
-		print "(-) Para dibujar clickear la pantalla"
-	
-	if (modo == 1):
-		print "Lados:"
-		lados = raw_input("> ")
-		interfaz(2)
-
-	if (modo == 2):
-		print "Radio: "
-		lados = raw_input("> ")
-		return lados		
-
-class interfaz():
-
-	def __init__(self):
-		pass
-
-	def pantalla_inicial(self):
-		os.system("clear")
-		print "----------------------------------------------"
-		print "----------------------------------------------"
-		print "----------------- polis V1.0 -----------------"
-		print "\n\n\n\n\n"	
-	
-	def radio(self):
-		pass
-	
-	def lados(self):
-		pass
+import random
+import math
 
 
-salir = 0
-#interfaz(0)
-while salir == 0:		
-	for event in pygame.event.get():
-		mouse = pygame.mouse.get_pos()					
-		if event.type == pygame.QUIT:
-			salir = 1
-		
-		if event.type == pygame.MOUSEBUTTONDOWN:
-			mouse = pygame.mouse.get_pos()
-			#interfaz(1)
+class Pantalla:
+    def __init__(self, ancho=800, alto=800):
+        self.alto = alto
+        self.ancho = ancho
+        
+        self.screen = pygame.display.set_mode([self.ancho, self.alto])
+        pygame.display.set_caption("POLI POLIGONOS")
 
-	pygame.draw.cirle()
+    def loop(self):
+        pygame.init()
+        
+        i = 3
+        
+        salir = False
+        while not salir:
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    salir = True
+            
+            
+                self.poligono(self.ancho/2, self.alto/2, 100, i, 0, 255, (i*10) % 255, i % 255)
+            
+                i+=1
+                
+            pygame.display.flip()
+            pygame.time.delay(100)
+            
+            
+    def poligono(self, x, y, amp, lados, des, rojo, verde, azul):   
+        ang = 360/lados   
+        ang2 = 0   
+        for i in range(0,lados):
+            seno = amp*(math.sin(((ang2+des) * math.pi)/180))
+            coseno = amp*(math.cos(((ang2+des)* math.pi)/180))       
+            senosig = amp*(math.sin(((ang2+ang+des) * math.pi)/180))
+            cosenosig = amp*(math.cos(((ang2+ang+des) * math.pi)/180))        
+            pygame.draw.aaline(self.screen, (rojo,verde,azul), (x+coseno,y+seno), (x+cosenosig,y+senosig))       
+            ang2 = ang2 + ang
+            
+            
+            
+pantalla = Pantalla()
 
-
-	pygame.time.wait(5)
-
-
+pantalla.loop()
