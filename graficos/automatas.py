@@ -2,9 +2,9 @@
 import math
 import random
 
-import Pantalla
+import pantalla
 
-class PantallaAutomata(Pantalla.Pantalla):
+class PantallaAutomata(pantalla.Pantalla):
 
     def to_bin(self, decimal, digitos):
         return str(bin(decimal)[2:].zfill(digitos))
@@ -141,8 +141,9 @@ class Automata:
         self.grilla = grilla_sig
         return grilla_sig
         
-p = PantallaAutomata("Automatones Celularoides Xd1!", ancho=150, alto=600, refresco=1, vecindad=[-1,0,1], reglas=160)
+p = PantallaAutomata("Automatones Celularoides Xd1!", ancho=1150, alto=800, refresco=1, vecindad=[-1,0,1], reglas=32130)
 
+# - vecindad=[-2,-1,0,1,2], reglas=32130
 
 # p.auto.grilla[0] = 1
 # p.auto.grilla[1] = 1
