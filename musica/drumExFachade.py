@@ -2,6 +2,58 @@
 import threading
 import drumExMachina
 
+class Fasade:
+    """
+        Matrix
+            -> reproducir()
+            -> pausar()
+            -> salir()
+            -> volumen-general()
+            -> tempo()
+            -> figura()
+        
+        
+            -> agregar-pista()
+            -> quitar-pista()
+            
+            -> activar-pista()
+            -> desactivar-pista()
+            
+        Pista
+            -> nombre()
+            -> setear-instrumento()
+            -> canal-midi()
+            -> volumen()
+            -> duracion()
+            -> activar()
+            -> desactivar()
+            
+            -> editar-partitura()
+                -> agregar-seccion()
+                -> quitar-seccion()
+                -> modificar-seccion()
+                
+                
+        Partitura
+            -> agregar-seccion()
+            -> quitar-seccion()
+            -> modificar-seccion()
+            
+            
+        Seccion
+            -> duracion()
+            -> pulsos()
+            -> ritmo()
+            -> rotacion()
+            -> notas()
+    
+    
+    
+    """
+    def __init__(self):
+        pass
+
+
 class _DXFConsola:
     
     salir_codes = [0, "0", "salir", "exit"]

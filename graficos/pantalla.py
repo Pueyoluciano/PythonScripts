@@ -14,22 +14,26 @@ class Pantalla:
         self.ancho = ancho
         
         self.refresco = refresco
+
+        self.setear_frontera(arriba=100, derecha=100, abajo=-100, izquierda=-100)
         
-        # El ratio es para compensar las dimensiones en pixeles que no sean 1:1
-        ratio = self.ancho / self.alto
-        
-        self.limites = {
-            "arriba": 100,
-            "derecha": 100 * ratio,
-            "abajo": -100,
-            "izquierda": -100 * ratio
-        }
-        
-        self.screen = pygame.display.set_mode([self.ancho, self.alto])
         pygame.display.set_caption(self.nombre)
         
         self.iniciar(*args, **kargs)
 
+    def setear_frontera(self, arriba, derecha, abajo, izquierda):
+        # El ratio es para compensar las dimensiones en pixeles que no sean 1:1
+        ratio = self.ancho / self.alto
+        
+        self.limites = {
+            "arriba": arriba,
+            "derecha": derecha * ratio,
+            "abajo": abajo,
+            "izquierda": izquierda * ratio
+        }
+        
+        self.screen = pygame.display.set_mode([self.ancho, self.alto])
+        
     def iniciar(self, *args, **kargs):
         pass
         
@@ -72,7 +76,6 @@ class Pantalla:
             
         pygame.image.save(self.screen, archivo_salida)
         
-        
     def pintar_pixel(self, p, color):
         pygame.draw.line(self.screen , color, p, p)
         
@@ -88,7 +91,7 @@ class Pantalla:
         c_x = self.limites["izquierda"] + delta_x * p_x
         c_y = delta_y * p_y - self.limites["arriba"]
     
-        return [int(c_x), int(c_y)]
+        return [c_x, c_y]
         
     def mapear_coordenada_a_pixel(self, c_x, c_y):
         """

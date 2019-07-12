@@ -141,7 +141,7 @@ class Automata:
         self.grilla = grilla_sig
         return grilla_sig
         
-p = PantallaAutomata("Automatones Celularoides Xd1!", ancho=150, alto=600, refresco=1, vecindad=[-1,0,1], reglas=160)
+p = PantallaAutomata("Automatones Celularoides Xd1!", ancho=600, alto=900, refresco=1, vecindad=[-1,0,1], reglas=75)
 
 
 # p.auto.grilla[0] = 1
