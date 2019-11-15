@@ -13,5 +13,31 @@
             </form>
         </article>
     </main>
+    
+    <a href="https://www.smashingmagazine.com/2018/03/web-midi-api/" target="_blank">MIDI ARTICLE</a>
+    
+    <script>
+        if (navigator.requestMIDIAccess) {
+            alert('This browser supports WebMIDI!');
+        } else {
+            alert('WebMIDI is not supported in this browser.');
+        }
+        
+        navigator.requestMIDIAccess()
+            .then(onMIDISuccess, onMIDIFailure);
+
+        function onMIDISuccess(midiAccess) {
+            alert(midiAccess.outputs);
+            console.log(midiAccess.outputs);
+
+            var inputs = midiAccess.inputs;
+            var outputs = midiAccess.outputs;
+        }
+
+        function onMIDIFailure() {
+            alert('Could not access your MIDI devices.');
+        }
+    </script>
+    
 </body>
 </html>

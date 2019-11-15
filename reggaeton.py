@@ -19,6 +19,6 @@ while(seguir):
     for parte in cancion:
         frase += random.choice(parte) + " "
 
-    print frase	
-    print "otro reggeton?"
+    print(frase)
+    print("otro reggeton?")
     seguir = validador.ingresarSINO()
