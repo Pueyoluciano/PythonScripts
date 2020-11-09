@@ -1,0 +1,5 @@
+duro
+rapido
+lento
+suave
+fuerte

@@ -4,12 +4,25 @@ import random
 
 import Pantalla
 
+class color_iterador:
+    def __iter__(self):
+        self.color = 0
+        return self
+        
+    def __next__(self):
+        self.color = self.color + 10 if self.color + 10 < 255 else 0
+        
+        return [255, 255, 255]
+
 class PantallaAutomata(Pantalla.Pantalla):
 
     def to_bin(self, decimal, digitos):
         return str(bin(decimal)[2:].zfill(digitos))
         
-    def iniciar(self, *args, **kargs):
+    def __init__(self, *args, **kargs):
+        super(PantallaAutomata, self).__init__(*args, **kargs)
+        
+        self.color_pixel = iter(color_iterador())
 
         self.vecindad = kargs["vecindad"]
         
@@ -90,7 +103,7 @@ class PantallaAutomata(Pantalla.Pantalla):
         for i in range(0, self.auto.dimension):
             
             if self.auto.grilla[i]:
-                self.pintar_pixel([i, self.auto.pasos], [255,255,255])
+                self.pintar_pixel([i, self.auto.pasos], next(self.color_pixel))
     
         if self.auto.pasos < self.alto:
             self.auto.iterar()
@@ -141,7 +154,16 @@ class Automata:
         self.grilla = grilla_sig
         return grilla_sig
         
-p = PantallaAutomata("Automatones Celularoides Xd1!", ancho=1150, alto=800, refresco=1, vecindad=[-1,0,1], reglas=32130)
+p = PantallaAutomata(
+        # "Automatones Celularoides Xd1!",
+        'Automatas celulares',
+        ancho=1150,
+        alto=800,
+        refresco=1,
+        usar_grilla=False,
+        vecindad=[-1,0,1],
+        reglas=150
+    )
 
 # - vecindad=[-2,-1,0,1,2], reglas=32130
 

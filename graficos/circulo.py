@@ -21,5 +21,5 @@ class PantallaCirculo(Pantalla.Pantalla):
         self.ang += 1
         
 
-pantalla = PantallaCirculo(600, 600, refresco=1)
+pantalla = PantallaCirculo(ancho=600, alto=600, refresco=1)
 pantalla.loop()

@@ -418,8 +418,7 @@ def testeos():
 
     #Bleed
     dem = Matrix(tempo=220, pulso='semicorchea', volumen=100)
-    
-    # dem = Matrix(tempo=140, pulso='semicorchea', volumen=100)
+    dem = Matrix(tempo=140, pulso='corchea', volumen=100)
     
     """
     dem.agregar_pista(Pista(nombre='Pista 1', pulsos=7, ritmo=7, rotacion=0, notes=[44,44,44,44,44,44,44,46,44,44,44,44,44,44], velocity=127, channel=9, instrument=0))
@@ -489,81 +488,83 @@ def testeos():
     # Dm, F, C, Bb
 
 
-    p1 = Partitura(Seccion(duracion=0, pulsos=4, ritmo=10, rotacion=0, notas=[36,37]),
+    # p1 = Partitura(Seccion(duracion=0, pulsos=4, ritmo=10, rotacion=0, notas=[36,37]),
                     # Seccion(duracion=1, pulsos=4, ritmo=4, rotacion=0, notas=[44]),
-                )
-    p2 = Partitura(Seccion(duracion=0, pulsos=2, ritmo=10, rotacion=0, notas=[53]),
+                # )
+    # p2 = Partitura(Seccion(duracion=0, pulsos=2, ritmo=10, rotacion=0, notas=[53]),
                     # Seccion(duracion=4, pulsos=8, ritmo=8, rotacion=0, notas=[53]),
                     # Seccion(duracion=1, pulsos=2, ritmo=4, rotacion=0, notas=[36,38])
-                )
+                # )
 
     # GAME OF TRONES
     # p5 = Partitura(Seccion(duracion=0, pulsos=4, ritmo=10, rotacion=0, notas=[69, 62, 65, 67, 69, 62, 65, 67, 69, 62, 65, 67, 69, 62, 65, 67, 69, 62, 66, 67, 69, 62, 66, 67,]))
-    # p2 = Pista(nombre='Pista 4', pulsos=3, ritmo=14, rotacion=0, notes=[72, 74, 75], velocity=127, channel=0, instrument=5),
+    # p2 = Pista(nombre='Pista 4', pulsos=3, ritmo=14, rotacion=0, notes=[72, 74, 75], velocity=127, channel=0, instrument=5)
                 
 
     # BLEED
-    p1 = Partitura(Seccion(duracion=0, pulsos=3, ritmo=8, rotacion=0, notas=[36,36,37]))
-    p2 = Partitura(Seccion(duracion=0, pulsos=2, ritmo=4, rotacion=0, notas=[44]))
+    # p1 = Partitura(Seccion(duracion=0, pulsos=3, ritmo=8, rotacion=0, notas=[36,36,37]))
+    # p2 = Partitura(Seccion(duracion=0, pulsos=2, ritmo=4, rotacion=0, notas=[44]))
     
-    p1 = Partitura(Seccion(duracion=0, pulsos=4, ritmo=6, rotacion=2, notas=[36]))
-    p2 = Partitura(Seccion(duracion=0, pulsos=1, ritmo=4, rotacion=0, notas=[44]))
+    # p1 = Partitura(Seccion(duracion=0, pulsos=4, ritmo=6, rotacion=2, notas=[36]))
+    # p2 = Partitura(Seccion(duracion=0, pulsos=1, ritmo=4, rotacion=0, notas=[44]))
     
-    p3 = Partitura(Seccion(duracion=0, pulsos=1, ritmo=24, rotacion=16, notas=[38]))
+    # p3 = Partitura(Seccion(duracion=0, pulsos=1, ritmo=24, rotacion=16, notas=[38]))
     
-    p4 = Partitura(Seccion(duracion=8, pulsos=4, ritmo=6, rotacion=2, notas=[Nota('D#2')]),
-                Seccion(duracion=4, pulsos=4, ritmo=6, rotacion=2, notas=[Nota('E2')]),
-                Seccion(duracion=8, pulsos=4, ritmo=6, rotacion=2, notas=[Nota('D#2')]),
-                Seccion(duracion=4, pulsos=4, ritmo=6, rotacion=2, notas=[Nota('E2')]),
-                Seccion(duracion=8, pulsos=4, ritmo=6, rotacion=2, notas=[Nota('D#2')]),
+    # p4 = Partitura(Seccion(duracion=8, pulsos=4, ritmo=6, rotacion=2, notas=[Nota('D#2')]),
+                # Seccion(duracion=4, pulsos=4, ritmo=6, rotacion=2, notas=[Nota('E2')]),
+                # Seccion(duracion=8, pulsos=4, ritmo=6, rotacion=2, notas=[Nota('D#2')]),
+                # Seccion(duracion=4, pulsos=4, ritmo=6, rotacion=2, notas=[Nota('E2')]),
+                # Seccion(duracion=8, pulsos=4, ritmo=6, rotacion=2, notas=[Nota('D#2')]),
                 
-                Seccion(duracion=4, pulsos=4, ritmo=6, rotacion=2, notas=[Nota('F#1')]),
-                Seccion(duracion=1, pulsos=4, ritmo=6, rotacion=2, notas=[Nota('G1')]),
-                Seccion(duracion=1, pulsos=4, ritmo=6, rotacion=2, notas=[Nota('A2')]),
-                Seccion(duracion=1, pulsos=4, ritmo=6, rotacion=2, notas=[Nota('E2')]),
-                Seccion(duracion=1, pulsos=4, ritmo=6, rotacion=2, notas=[Nota('C#3')]),
-                Seccion(duracion=1, pulsos=4, ritmo=6, rotacion=2, notas=[Nota('G2')]),
-                Seccion(duracion=1, pulsos=4, ritmo=6, rotacion=2, notas=[Nota('C#2')]),
-                Seccion(duracion=1, pulsos=4, ritmo=6, rotacion=2, notas=[Nota('D#2')]),
-                Seccion(duracion=8, pulsos=4, ritmo=6, rotacion=2, notas=[Nota('D#2')]),
+                # Seccion(duracion=4, pulsos=4, ritmo=6, rotacion=2, notas=[Nota('F#1')]),
+                # Seccion(duracion=1, pulsos=4, ritmo=6, rotacion=2, notas=[Nota('G1')]),
+                # Seccion(duracion=1, pulsos=4, ritmo=6, rotacion=2, notas=[Nota('A2')]),
+                # Seccion(duracion=1, pulsos=4, ritmo=6, rotacion=2, notas=[Nota('E2')]),
+                # Seccion(duracion=1, pulsos=4, ritmo=6, rotacion=2, notas=[Nota('C#3')]),
+                # Seccion(duracion=1, pulsos=4, ritmo=6, rotacion=2, notas=[Nota('G2')]),
+                # Seccion(duracion=1, pulsos=4, ritmo=6, rotacion=2, notas=[Nota('C#2')]),
+                # Seccion(duracion=1, pulsos=4, ritmo=6, rotacion=2, notas=[Nota('D#2')]),
+                # Seccion(duracion=8, pulsos=4, ritmo=6, rotacion=2, notas=[Nota('D#2')]),
                 
-                Seccion(duracion=4, pulsos=4, ritmo=6, rotacion=2, notas=[Nota('F#1')]),
-                Seccion(duracion=1, pulsos=4, ritmo=6, rotacion=2, notas=[Nota('G1')]),
-                Seccion(duracion=1, pulsos=4, ritmo=6, rotacion=2, notas=[Nota('A2')]),
-                Seccion(duracion=1, pulsos=4, ritmo=6, rotacion=2, notas=[Nota('E2')]),
-                Seccion(duracion=1, pulsos=4, ritmo=6, rotacion=2, notas=[Nota('C#3')]),
-                Seccion(duracion=1, pulsos=4, ritmo=6, rotacion=2, notas=[Nota('G2')]),
-                Seccion(duracion=1, pulsos=4, ritmo=6, rotacion=2, notas=[Nota('C#2')]),
-                Seccion(duracion=1, pulsos=4, ritmo=6, rotacion=2, notas=[Nota('D#2')]),
-                Seccion(duracion=8, pulsos=4, ritmo=6, rotacion=2, notas=[Nota('D#2')]),
-    )
+                # Seccion(duracion=4, pulsos=4, ritmo=6, rotacion=2, notas=[Nota('F#1')]),
+                # Seccion(duracion=1, pulsos=4, ritmo=6, rotacion=2, notas=[Nota('G1')]),
+                # Seccion(duracion=1, pulsos=4, ritmo=6, rotacion=2, notas=[Nota('A2')]),
+                # Seccion(duracion=1, pulsos=4, ritmo=6, rotacion=2, notas=[Nota('E2')]),
+                # Seccion(duracion=1, pulsos=4, ritmo=6, rotacion=2, notas=[Nota('C#3')]),
+                # Seccion(duracion=1, pulsos=4, ritmo=6, rotacion=2, notas=[Nota('G2')]),
+                # Seccion(duracion=1, pulsos=4, ritmo=6, rotacion=2, notas=[Nota('C#2')]),
+                # Seccion(duracion=1, pulsos=4, ritmo=6, rotacion=2, notas=[Nota('D#2')]),
+                # Seccion(duracion=8, pulsos=4, ritmo=6, rotacion=2, notas=[Nota('D#2')]),
+    # )
     
-    p5 = Partitura(Seccion(duracion=8, pulsos=4, ritmo=6, rotacion=2, notas=[Nota('D#1')]),
-                Seccion(duracion=4, pulsos=4, ritmo=6, rotacion=2, notas=[Nota('E1')]),
-                Seccion(duracion=8, pulsos=4, ritmo=6, rotacion=2, notas=[Nota('D#1')]),
-                Seccion(duracion=4, pulsos=4, ritmo=6, rotacion=2, notas=[Nota('E1')]),
-                Seccion(duracion=8, pulsos=4, ritmo=6, rotacion=2, notas=[Nota('D#1')]),
+    # p5 = Partitura(Seccion(duracion=8, pulsos=4, ritmo=6, rotacion=2, notas=[Nota('D#1')]),
+                # Seccion(duracion=4, pulsos=4, ritmo=6, rotacion=2, notas=[Nota('E1')]),
+                # Seccion(duracion=8, pulsos=4, ritmo=6, rotacion=2, notas=[Nota('D#1')]),
+                # Seccion(duracion=4, pulsos=4, ritmo=6, rotacion=2, notas=[Nota('E1')]),
+                # Seccion(duracion=8, pulsos=4, ritmo=6, rotacion=2, notas=[Nota('D#1')]),
                 
-                Seccion(duracion=4, pulsos=4, ritmo=6, rotacion=2, notas=[Nota('F#0')]),
-                Seccion(duracion=1, pulsos=4, ritmo=6, rotacion=2, notas=[Nota('G0')]),
-                Seccion(duracion=1, pulsos=4, ritmo=6, rotacion=2, notas=[Nota('A1')]),
-                Seccion(duracion=1, pulsos=4, ritmo=6, rotacion=2, notas=[Nota('E1')]),
-                Seccion(duracion=1, pulsos=4, ritmo=6, rotacion=2, notas=[Nota('C#2')]),
-                Seccion(duracion=1, pulsos=4, ritmo=6, rotacion=2, notas=[Nota('G1')]),
-                Seccion(duracion=1, pulsos=4, ritmo=6, rotacion=2, notas=[Nota('C#1')]),
-                Seccion(duracion=1, pulsos=4, ritmo=6, rotacion=2, notas=[Nota('D#1')]),
-                Seccion(duracion=8, pulsos=4, ritmo=6, rotacion=2, notas=[Nota('D#1')]),
+                # Seccion(duracion=4, pulsos=4, ritmo=6, rotacion=2, notas=[Nota('F#0')]),
+                # Seccion(duracion=1, pulsos=4, ritmo=6, rotacion=2, notas=[Nota('G0')]),
+                # Seccion(duracion=1, pulsos=4, ritmo=6, rotacion=2, notas=[Nota('A1')]),
+                # Seccion(duracion=1, pulsos=4, ritmo=6, rotacion=2, notas=[Nota('E1')]),
+                # Seccion(duracion=1, pulsos=4, ritmo=6, rotacion=2, notas=[Nota('C#2')]),
+                # Seccion(duracion=1, pulsos=4, ritmo=6, rotacion=2, notas=[Nota('G1')]),
+                # Seccion(duracion=1, pulsos=4, ritmo=6, rotacion=2, notas=[Nota('C#1')]),
+                # Seccion(duracion=1, pulsos=4, ritmo=6, rotacion=2, notas=[Nota('D#1')]),
+                # Seccion(duracion=8, pulsos=4, ritmo=6, rotacion=2, notas=[Nota('D#1')]),
                 
-                Seccion(duracion=4, pulsos=4, ritmo=6, rotacion=2, notas=[Nota('F#0')]),
-                Seccion(duracion=1, pulsos=4, ritmo=6, rotacion=2, notas=[Nota('G0')]),
-                Seccion(duracion=1, pulsos=4, ritmo=6, rotacion=2, notas=[Nota('A1')]),
-                Seccion(duracion=1, pulsos=4, ritmo=6, rotacion=2, notas=[Nota('E1')]),
-                Seccion(duracion=1, pulsos=4, ritmo=6, rotacion=2, notas=[Nota('C#2')]),
-                Seccion(duracion=1, pulsos=4, ritmo=6, rotacion=2, notas=[Nota('G1')]),
-                Seccion(duracion=1, pulsos=4, ritmo=6, rotacion=2, notas=[Nota('C#1')]),
-                Seccion(duracion=1, pulsos=4, ritmo=6, rotacion=2, notas=[Nota('D#1')]),
-                Seccion(duracion=8, pulsos=4, ritmo=6, rotacion=2, notas=[Nota('D#1')]),
-    )
+                # Seccion(duracion=4, pulsos=4, ritmo=6, rotacion=2, notas=[Nota('F#0')]),
+                # Seccion(duracion=1, pulsos=4, ritmo=6, rotacion=2, notas=[Nota('G0')]),
+                # Seccion(duracion=1, pulsos=4, ritmo=6, rotacion=2, notas=[Nota('A1')]),
+                # Seccion(duracion=1, pulsos=4, ritmo=6, rotacion=2, notas=[Nota('E1')]),
+                # Seccion(duracion=1, pulsos=4, ritmo=6, rotacion=2, notas=[Nota('C#2')]),
+                # Seccion(duracion=1, pulsos=4, ritmo=6, rotacion=2, notas=[Nota('G1')]),
+                # Seccion(duracion=1, pulsos=4, ritmo=6, rotacion=2, notas=[Nota('C#1')]),
+                # Seccion(duracion=1, pulsos=4, ritmo=6, rotacion=2, notas=[Nota('D#1')]),
+                # Seccion(duracion=8, pulsos=4, ritmo=6, rotacion=2, notas=[Nota('D#1')]),
+    # )
+    
+    
     """
     Bleed notes
     F#
@@ -575,6 +576,7 @@ def testeos():
     C#
     D#
     """
+    
     # p4 = Partitura(Seccion(duracion=4, pulsos=3, ritmo=7, rotacion=0, notas=['G1']),
                 # Seccion(duracion=2, pulsos=3, ritmo=7, rotacion=0, notas=['G1']),
                 # Seccion(duracion=2, pulsos=3, ritmo=7, rotacion=0, notas=['F1']),
@@ -588,16 +590,77 @@ def testeos():
                 # Seccion(duracion=1, pulsos=1, ritmo=14, rotacion=0, notas=[Acorde('F2', 'mayor')]),
     # )
     
+    # Rock
+    p1 = Partitura(Seccion(duracion=0, pulsos=2, ritmo=4, rotacion=0, notas=[36, 38]))
+    p2 = Partitura(Seccion(duracion=0, pulsos=1, ritmo=1, rotacion=0, notas=[42]))
+    # p5 = Partitura(Seccion(duracion=3, pulsos=4, ritmo=4, rotacion=0, notas=[Nota('A2')]),
+    #                Seccion(duracion=1, pulsos=2, ritmo=2, rotacion=0, notas=[Nota('E2')]),
+    #                Seccion(duracion=1, pulsos=2, ritmo=2, rotacion=0, notas=[Nota('G2')]))
+    
+    
+    # Power metal 1
+    # p1 = Partitura(Seccion(duracion=0, pulsos=16, ritmo=16, rotacion=0, notas=[36]))
+    # p2 = Partitura(Seccion(duracion=0, pulsos=8, ritmo=16, rotacion=0, notas=[42]))
+    # p3 = Partitura(Seccion(duracion=0, pulsos=4, ritmo=16, rotacion=2, notas=[38]))
+    # p5 = Partitura(Seccion(duracion=1, pulsos=8, ritmo=16, rotacion=0, notas=[Nota('G#2')]),
+                    # Seccion(duracion=1, pulsos=8, ritmo=16, rotacion=0, notas=[Nota('D#3')]),
+                    # Seccion(duracion=1, pulsos=8, ritmo=16, rotacion=0, notas=[Nota('A#2')]),
+                    # Seccion(duracion=1, pulsos=8, ritmo=16, rotacion=0, notas=[Nota('F3')]))
+    
+    
+    # Power metal 2
+    # p1 = Partitura(Seccion(duracion=0, pulsos=7, ritmo=16, rotacion=0, notas=[36]))
+    # p2 = Partitura(Seccion(duracion=0, pulsos=8, ritmo=16, rotacion=0, notas=[42]))
+    # p3 = Partitura(Seccion(duracion=0, pulsos=4, ritmo=16, rotacion=0, notas=[38]))
+    # p5 = Partitura(Seccion(duracion=4, pulsos=4, ritmo=4, rotacion=0, notas=[Nota('C3')]),
+                    # Seccion(duracion=4, pulsos=4, ritmo=4, rotacion=0, notas=[Nota('E3')]))
+    
+
+    
+    # Power metal 3
+    # p1 = Partitura(Seccion(duracion=0, pulsos=16, ritmo=16, rotacion=0, notas=[36]))
+    # p2 = Partitura(Seccion(duracion=0, pulsos=8, ritmo=16, rotacion=0, notas=[42]))
+    # p3 = Partitura(Seccion(duracion=0, pulsos=4, ritmo=16, rotacion=0, notas=[38]))
+    # p5 = Partitura(Seccion(duracion=4, pulsos=4, ritmo=4, rotacion=0, notas=[Nota('C3')]),
+                    # Seccion(duracion=4, pulsos=4, ritmo=4, rotacion=0, notas=[Nota('E3')]))
+    
+
+    # BLUES
+    # 1 1 1 (Aca esta la jodita)
+    # 1 0 0
+    # p1 = Partitura(Seccion(duracion=0, pulsos=1, ritmo=6, rotacion=0, notas=[36]))
+    # p2 = Partitura(Seccion(duracion=0, pulsos=3, ritmo=3, rotacion=0, notas=[44]))
+    # p3 = Partitura(Seccion(duracion=0, pulsos=1, ritmo=6, rotacion=3, notas=[38]))
+    # p5 = Partitura(Seccion(duracion=4, pulsos=2, ritmo=3, rotacion=0, notas=[Nota('A1')]),
+                    # Seccion(duracion=4, pulsos=2, ritmo=3, rotacion=0, notas=[Nota('D2')]),
+                    # Seccion(duracion=4, pulsos=2, ritmo=3, rotacion=0, notas=[Nota('A1')]),
+                    # Seccion(duracion=4, pulsos=2, ritmo=3, rotacion=0, notas=[Nota('D2')]),
+                    # Seccion(duracion=4, pulsos=2, ritmo=3, rotacion=0, notas=[Nota('E2')]),
+                    # Seccion(duracion=4, pulsos=2, ritmo=3, rotacion=0, notas=[Nota('D2')]),)
+
+    # PROGROCKS
+    # p1 = Partitura(Seccion(duracion=0, pulsos=3, ritmo=7, rotacion=0, notas=[36,36,38]))
+    # p2 = Partitura(Seccion(duracion=0, pulsos=7, ritmo=7, rotacion=0, notas=[44]))
+    # p3 = Partitura(Seccion(duracion=0, pulsos=1, ritmo=7, rotacion=0, notas=[38]))
+    # p5 = Partitura(Seccion(duracion=4, pulsos=2, ritmo=3, rotacion=0, notas=[Nota('A1')]),
+                    # Seccion(duracion=4, pulsos=2, ritmo=3, rotacion=0, notas=[Nota('D2')]),
+                    # Seccion(duracion=4, pulsos=2, ritmo=3, rotacion=0, notas=[Nota('A1')]),
+                    # Seccion(duracion=4, pulsos=2, ritmo=3, rotacion=0, notas=[Nota('D2')]),
+                    # Seccion(duracion=4, pulsos=2, ritmo=3, rotacion=0, notas=[Nota('E2')]),
+                    # Seccion(duracion=4, pulsos=2, ritmo=3, rotacion=0, notas=[Nota('D2')]),)
+    
     dem.agregar_pista(Pista(nombre='Pista 1', partitura=p1, velocity=100, channel=9, instrument=0))
     dem.agregar_pista(Pista(nombre='Pista 2', partitura=p2, velocity=100, channel=9, instrument=0))
-    dem.agregar_pista(Pista(nombre='Pista 3', partitura=p3, velocity=100, channel=9, instrument=0))
-    dem.agregar_pista(Pista(nombre='Pista 4', partitura=p4, velocity=100, channel=2, instrument=30, duracion=6))
-    dem.agregar_pista(Pista(nombre='Pista 5', partitura=p5, velocity=127, channel=3, instrument=33, duracion=6))
+    # dem.agregar_pista(Pista(nombre='Pista 3', partitura=p3, velocity=100, channel=9, instrument=0))
+    # dem.agregar_pista(Pista(nombre='Pista 4', partitura=p4, velocity=100, channel=2, instrument=30, duracion=6))
+    # dem.agregar_pista(Pista(nombre='Pista 5', partitura=p5, velocity=127, channel=3, instrument=33, duracion=6))
     dem.loop()
 
 if __name__ == "__main__":
     testeos()
     
+
+
     
 # Acciones - interfaz
 

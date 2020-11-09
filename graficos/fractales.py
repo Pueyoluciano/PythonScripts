@@ -5,22 +5,26 @@ import random
 import Pantalla
 
 class Fractales(Pantalla.Pantalla):
-    def iniciar(self, *args, **kargs):
+    def __init__(self, *args, **kargs):
+        super(Fractales, self).__init__(*args, **kargs)
+        
         self.setear_frontera(3,3,-3,-3)
 
-    def pre_loop(self):
+    def pre_loop(self, *args, **kargs):
         self.x = 0
         self.y = 0
         
-        self.frac = Fractal(Mandelbrot, 35, 10)
+        self.frac = Fractal(Mandelbrot, self.kargs['resolucion'], self.kargs['limite_divergencia'])
         
-    def accion_loop(self):
+    def accion_loop(self, *args, **kargs):
         punto = self.mapear_pixel_a_coordenada(self.x, self.y)
         c = complex(*punto)
         
         resultado = self.frac.evaluar(c)
         
-        color = [(255 / 35) * resultado, (255 / 35) * resultado, (255 / 35) * resultado]
+        clr = 255 / self.kargs['resolucion']
+        
+        color = [ clr * resultado, clr * resultado, clr * resultado]
     
         self.pintar_pixel([self.x, self.y], color)
         
@@ -54,6 +58,6 @@ class Fractal:
                 
         return i
     
-f = Fractales(alto=400, ancho=400,refresco=1)
+f = Fractales(alto=400, ancho=400,refresco=1, resolucion=35, limite_divergencia=10)
 
 f.loop()
