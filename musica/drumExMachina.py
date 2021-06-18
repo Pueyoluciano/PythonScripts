@@ -418,7 +418,8 @@ def testeos():
 
     #Bleed
     dem = Matrix(tempo=220, pulso='semicorchea', volumen=100)
-    dem = Matrix(tempo=140, pulso='corchea', volumen=100)
+    dem = Matrix(tempo=140, pulso='semicorchea', volumen=100)
+    dem = Matrix(tempo=62, pulso='corchea', volumen=100)
     
     """
     dem.agregar_pista(Pista(nombre='Pista 1', pulsos=7, ritmo=7, rotacion=0, notes=[44,44,44,44,44,44,44,46,44,44,44,44,44,44], velocity=127, channel=9, instrument=0))
@@ -591,8 +592,8 @@ def testeos():
     # )
     
     # Rock
-    p1 = Partitura(Seccion(duracion=0, pulsos=2, ritmo=4, rotacion=0, notas=[36, 38]))
-    p2 = Partitura(Seccion(duracion=0, pulsos=1, ritmo=1, rotacion=0, notas=[42]))
+    # p1 = Partitura(Seccion(duracion=0, pulsos=2, ritmo=4, rotacion=0, notas=[36, 38]))
+    # p2 = Partitura(Seccion(duracion=0, pulsos=1, ritmo=1, rotacion=0, notas=[42]))
     # p5 = Partitura(Seccion(duracion=3, pulsos=4, ritmo=4, rotacion=0, notas=[Nota('A2')]),
     #                Seccion(duracion=1, pulsos=2, ritmo=2, rotacion=0, notas=[Nota('E2')]),
     #                Seccion(duracion=1, pulsos=2, ritmo=2, rotacion=0, notas=[Nota('G2')]))
@@ -609,11 +610,11 @@ def testeos():
     
     
     # Power metal 2
-    # p1 = Partitura(Seccion(duracion=0, pulsos=7, ritmo=16, rotacion=0, notas=[36]))
-    # p2 = Partitura(Seccion(duracion=0, pulsos=8, ritmo=16, rotacion=0, notas=[42]))
-    # p3 = Partitura(Seccion(duracion=0, pulsos=4, ritmo=16, rotacion=0, notas=[38]))
-    # p5 = Partitura(Seccion(duracion=4, pulsos=4, ritmo=4, rotacion=0, notas=[Nota('C3')]),
-                    # Seccion(duracion=4, pulsos=4, ritmo=4, rotacion=0, notas=[Nota('E3')]))
+    p1 = Partitura(Seccion(duracion=0, pulsos=7, ritmo=16, rotacion=0, notas=[36]))
+    p2 = Partitura(Seccion(duracion=0, pulsos=8, ritmo=16, rotacion=0, notas=[42]))
+    p3 = Partitura(Seccion(duracion=0, pulsos=4, ritmo=16, rotacion=0, notas=[38]))
+    p5 = Partitura(Seccion(duracion=4, pulsos=4, ritmo=4, rotacion=0, notas=[Nota('C3')]),
+                    Seccion(duracion=4, pulsos=4, ritmo=4, rotacion=0, notas=[Nota('E3')]))
     
 
     
@@ -649,10 +650,33 @@ def testeos():
                     # Seccion(duracion=4, pulsos=2, ritmo=3, rotacion=0, notas=[Nota('E2')]),
                     # Seccion(duracion=4, pulsos=2, ritmo=3, rotacion=0, notas=[Nota('D2')]),)
     
+    
+    # Redemption song HAY QUE TERMINARLA
+    # p1 = Partitura(Seccion(duracion=0, pulsos=2, ritmo=4, rotacion=0, notas=[36, 38]))
+    # p2 = Partitura(Seccion(duracion=0, pulsos=1, ritmo=1, rotacion=0, notas=[42]))
+    # p5 = Partitura(Seccion(duracion=2, pulsos=4, ritmo=4, rotacion=0, notas=[Nota('G2')]),
+                   # Seccion(duracion=2, pulsos=4, ritmo=4, rotacion=0, notas=[Nota('E2')]),
+                   # Seccion(duracion=1, pulsos=2, ritmo=3, rotacion=0, notas=[Nota('C3')]),
+                   # Seccion(duracion=1, pulsos=2, ritmo=3, rotacion=0, notas=[Nota('B2')]),
+                   # Seccion(duracion=1, pulsos=4, ritmo=4, rotacion=0, notas=[Nota('A2')]))
+    
+    # WISH YOU WERE HERE
+    # C, D, Am, G, D, C, Am, G
+    p4 = Partitura(Seccion(duracion=1,  pulsos=5, ritmo=8, rotacion=0, notas=[Acorde('C3', 'mayor')]),
+                    Seccion(duracion=1, pulsos=5, ritmo=8, rotacion=0, notas=[Acorde('D3', 'mayor')]),
+                    Seccion(duracion=1, pulsos=5, ritmo=8, rotacion=0, notas=[Acorde('A2', 'menor')]),
+                    Seccion(duracion=1, pulsos=5, ritmo=8, rotacion=0, notas=[Acorde('G2', 'mayor')]),
+                    Seccion(duracion=1, pulsos=5, ritmo=8, rotacion=0, notas=[Acorde('D3', 'mayor')]),
+                    Seccion(duracion=1, pulsos=5, ritmo=8, rotacion=0, notas=[Acorde('C3', 'mayor')]),
+                    Seccion(duracion=1, pulsos=5, ritmo=8, rotacion=0, notas=[Acorde('A2', 'menor')]),
+                    Seccion(duracion=1, pulsos=5, ritmo=8, rotacion=0, notas=[Acorde('G3', 'mayor')]),
+        )
+    
+    
     dem.agregar_pista(Pista(nombre='Pista 1', partitura=p1, velocity=100, channel=9, instrument=0))
     dem.agregar_pista(Pista(nombre='Pista 2', partitura=p2, velocity=100, channel=9, instrument=0))
     # dem.agregar_pista(Pista(nombre='Pista 3', partitura=p3, velocity=100, channel=9, instrument=0))
-    # dem.agregar_pista(Pista(nombre='Pista 4', partitura=p4, velocity=100, channel=2, instrument=30, duracion=6))
+    dem.agregar_pista(Pista(nombre='Pista 4', partitura=p4, velocity=100, channel=2, instrument=32, duracion=6))
     # dem.agregar_pista(Pista(nombre='Pista 5', partitura=p5, velocity=127, channel=3, instrument=33, duracion=6))
     dem.loop()
 

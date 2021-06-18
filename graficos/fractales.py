@@ -58,6 +58,6 @@ class Fractal:
                 
         return i
     
-f = Fractales(alto=400, ancho=400,refresco=1, resolucion=35, limite_divergencia=10)
+f = Fractales(alto=400, ancho=400,refresco=0, resolucion=35, limite_divergencia=10)
 
 f.loop()
