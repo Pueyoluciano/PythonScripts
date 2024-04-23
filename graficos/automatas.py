@@ -2,7 +2,7 @@
 import math
 import random
 
-import Pantalla
+import pantalla
 
 class color_iterador:
     def __iter__(self):
@@ -14,7 +14,7 @@ class color_iterador:
         
         return [255, 255, 255]
 
-class PantallaAutomata(Pantalla.Pantalla):
+class PantallaAutomata(pantalla.Pantalla):
 
     def to_bin(self, decimal, digitos):
         return str(bin(decimal)[2:].zfill(digitos))
@@ -126,6 +126,7 @@ class Automata:
         
         self.grilla = [0 for _ in range(0, self.dimension)]
 
+        # Seteo un 1 en el medio de la grilla
         self.grilla[int(self.dimension / 2)] = 1
 
     def iterar(self):

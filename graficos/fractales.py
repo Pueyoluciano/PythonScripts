@@ -2,25 +2,37 @@
 import math
 import random
 
-import Pantalla
+import pantalla
 
-class Fractales(Pantalla.Pantalla):
+class Fractales(pantalla.Pantalla):
     def __init__(self, *args, **kargs):
         super(Fractales, self).__init__(*args, **kargs)
         
-        self.setear_frontera(3,3,-3,-3)
+        self.zoom = 1.5
+        self.offset = (0,0)
+        # Extremos en los ejes cartesianos
+        self.setear_frontera(
+            1 * self.zoom + self.offset[0],
+            1 * self.zoom  + self.offset[0],
+            -1 * self.zoom  + self.offset[1],
+            -1 * self.zoom  + self.offset[1]
+        )
+        
+        self.singularidad = 0.285-0.01j
+        # self.funcion = Mandelbrot 
+        self.funcion = Julia
 
     def pre_loop(self, *args, **kargs):
         self.x = 0
         self.y = 0
         
-        self.frac = Fractal(Mandelbrot, self.kargs['resolucion'], self.kargs['limite_divergencia'])
+        self.frac = Fractal(self.funcion, self.kargs['resolucion'], self.kargs['limite_divergencia'])
         
     def accion_loop(self, *args, **kargs):
         punto = self.mapear_pixel_a_coordenada(self.x, self.y)
         c = complex(*punto)
         
-        resultado = self.frac.evaluar(c)
+        resultado = self.frac.evaluar(c, valor=self.singularidad)
         
         clr = 255 / self.kargs['resolucion']
         
@@ -39,7 +51,11 @@ class Fractales(Pantalla.Pantalla):
     
 def Mandelbrot(zn, c, **kargs):
     return zn**2 + c
-    
+
+def Julia(zn, c, **kargs):
+    return zn**2 + kargs["valor"]
+
+  
 class Fractal:
     def __init__(self, funcion, resolucion, limite_divergencia):
         self.funcion = funcion
@@ -48,7 +64,7 @@ class Fractal:
     
     
     def evaluar(self, c, **kargs):
-        zn = 0
+        zn = c
     
         for i in range(0, self.resolucion):
             zn = self.funcion(zn, c, **kargs)
@@ -58,6 +74,6 @@ class Fractal:
                 
         return i
     
-f = Fractales(alto=400, ancho=400,refresco=0, resolucion=35, limite_divergencia=10)
+f = Fractales(alto=400, ancho=400,refresco=0, resolucion=75, limite_divergencia=10)
 
 f.loop()
